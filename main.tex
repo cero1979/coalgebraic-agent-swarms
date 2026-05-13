@@ -1,17 +1,19 @@
-\documentclass[11pt]{article}
-\usepackage[margin=1in]{geometry}
+%% Journal of Logical and Algebraic Methods in Programming
+%% Elsevier CAS single-column template
+\documentclass[a4paper,fleqn]{cas-sc}
+
 \usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
 \usepackage[english]{babel}
+\usepackage[numbers,sort&compress]{natbib}
 \usepackage{amsmath,amssymb,amsthm}
 \usepackage{booktabs}
 \usepackage{array}
 \usepackage{enumitem}
 \usepackage{tikz-cd}
-\usepackage[hidelinks]{hyperref}
 
-\setlength{\parindent}{0pt}
-\setlength{\parskip}{0.72\baselineskip}
+%% Suppress coloured links for print-ready submission
+\hypersetup{allcolors=black,colorlinks=true}
+
 \setlist[itemize]{topsep=2pt,itemsep=2pt}
 \setlist[enumerate]{topsep=2pt,itemsep=2pt}
 \sloppy
@@ -53,18 +55,72 @@
 \newcommand{\Accept}{\mathsf{Accept}}
 \newcommand{\TraceCheck}{\mathsf{TraceCheck}}
 
-\title{A Coalgebraic and Resource-Sensitive Semantics\\for Tool-Augmented Agent Swarms}
-\author{Author omitted for review}
-\date{Draft of May 12, 2026}
+\title[mode=title]{A Coalgebraic and Resource-Sensitive Semantics\\for Tool-Augmented Agent Swarms}
+
+\shorttitle{Coalgebraic Semantics for Tool-Augmented Agent Swarms}
+\shortauthors{C.R. Ovalle}
+
+\author[1]{Carlos Ram\'irez Ovalle}
+\cormark[1]
+\ead{carlosovalle@javerianacali.edu.co}
+\credit{Conceptualization, Methodology, Formal analysis, Software, Writing -- original draft, Writing -- review and editing}
+
+\affiliation[1]{organization={Departamento de Ciencias Naturales y Matem\'aticas,
+                Pontificia Universidad Javeriana-Cali},
+            city={Cali},
+            country={Colombia}}
+
+\cortext[1]{Corresponding author}
 
 \begin{document}
-\maketitle
+\let\WriteBookmarks\relax
+\def\floatpagepagefraction{1}
+\def\textpagefraction{.001}
 
 \begin{abstract}
-Large language model agents are increasingly organised as systems of specialised components that use tools, maintain memory, delegate control, and interact through shared traces. Current engineering frameworks provide useful primitives such as tools, handoffs, guardrails, and tracing, but the semantic status of these primitives remains comparatively underdeveloped. This paper proposes a formal framework for tool-augmented agent swarms based on two ingredients: coalgebra, used to model state-based observable dynamics, and Subexponential Linear Logic (SELL), used to discipline resources, permissions, memory, budgets, and traces. We model an individual agent as a coalgebra whose observations trigger actions, tool calls, messages, handoffs, and state updates. A swarm is then represented as a coalgebra indexed by an interaction graph and equipped with provenance-carrying shared memory, an environment, and a resource ledger. The central semantic distinction is between raw executions, which a system may emit, and certified executions, which discharge labelled obligations for graph admissibility, tool permission, budget consumption, provenance, audit evidence, and answer support. SELL subexponentials and an explicit certification calculus provide a proof-theoretic layer for distinguishing persistent, shared, local, consumable, and auditable resources. The proposed semantics supports behavioural equivalence, compositional reasoning about handoffs, a certified-transition-system view, and resource-preservation properties for certified executions. An accompanying prototype trace checker validates JSON executions against the finite implemented fragment; for that fragment, accepted traces correspond to derivations in the certification calculus and generate reproducible artefacts for the paper. The complete prototype, conformance traces, and generated results are publicly archived at \url{https://github.com/cero1979/coalgebraic-agent-swarms}~\cite{artifact2026}. The contribution is not the claim that agents are merely automata, but rather a compositional account of contemporary agentic systems as observable, resource-governed, coalgebraic processes.
+Large language model agents are increasingly deployed as interacting systems
+of specialised components that use tools, maintain memory, delegate control,
+and share execution traces. Current engineering frameworks provide primitives
+for multi-agent conversation, tool use, handoffs, and tracing, but the
+semantic status of these primitives remains underdeveloped. This paper
+proposes a formal framework for tool-augmented agent swarms combining two
+ingredients: coalgebra, to model state-based observable dynamics, and
+Subexponential Linear Logic (SELL), to discipline resources, permissions,
+budgets, and traces. An agent is modelled as a coalgebra whose observations
+trigger actions, tool calls, messages, handoffs, and state updates. A swarm
+is a coalgebra indexed by an interaction graph and equipped with
+provenance-carrying shared memory and a resource ledger. The central
+distinction is between raw executions, which a system may emit, and certified
+executions, which discharge labelled obligations for graph admissibility, tool
+permission, budget consumption, provenance, audit evidence, and answer
+support. SELL subexponentials and a certification calculus provide a
+proof-theoretic layer distinguishing persistent, shared, local, consumable,
+and auditable resources. The resulting semantics supports behavioural
+equivalence, compositional handoff reasoning, and resource-preservation
+theorems for certified executions. A prototype trace checker validates JSON
+executions against the implemented fragment; accepted traces correspond to
+certification-calculus derivations and generate reproducible artefacts. The
+prototype, conformance suite, and all generated results are archived at
+\url{https://github.com/cero1979/coalgebraic-agent-swarms}~\cite{artifact2026}.
+The contribution is a compositional account of contemporary agentic systems
+as observable, resource-governed, coalgebraic processes.
 \end{abstract}
 
-\noindent\textbf{Keywords:} coalgebra; agent swarms; multi-agent systems; tool-augmented agents; Subexponential Linear Logic; resource-aware reasoning; behavioural equivalence; verification.
+\begin{highlights}
+\item Coalgebraic and SELL-based formal semantics for tool-augmented multi-agent swarms.
+\item Resource-preservation theorem for certified executions under budget and permission constraints.
+\item Prototype trace checker with 18-trace conformance suite covering all certification obligations.
+\item Compositional handoff and bisimulation theory for agent swarm coalgebras.
+\item Publicly archived artefact enabling full reproducibility of all prototype results.
+\end{highlights}
+
+\begin{keywords}
+coalgebra \sep multi-agent systems \sep Subexponential Linear Logic \sep
+resource-sensitive semantics \sep behavioural equivalence \sep
+trace verification \sep tool-augmented agents
+\end{keywords}
+
+\maketitle
 
 \section{Introduction}
 
@@ -1219,6 +1275,37 @@ The resulting framework offers a path toward formal reasoning about agentic AI s
 
 The aim is not to replace existing agentic frameworks or empirical evaluations of them. It is to provide a compositional, resource-sensitive semantic layer on which framework traces can be interpreted, certified, and checked against explicit obligations for permissions, budgets, provenance, audit evidence, and answer support.
 
+%% ---- Back matter (required by JLAMP / Elsevier) ----
+
+\section*{CRediT authorship contribution statement}
+\textbf{Carlos Ram\'irez Ovalle:} Conceptualization, Methodology,
+Formal analysis, Software, Writing~-- original draft,
+Writing~-- review and editing.
+
+\printcredits
+
+\section*{Declaration of competing interests}
+The author declares that there are no competing interests.
+
+\section*{Funding}
+This research did not receive any specific grant from funding agencies
+in the public, commercial, or not-for-profit sectors.
+
+\section*{Declaration of generative AI and AI-assisted technologies
+  in the manuscript preparation process}
+During the preparation of this work the author used GitHub Copilot
+(powered by Claude Sonnet) in order to assist with \LaTeX{} formatting,
+code debugging, and language editing. After using this tool, the author
+reviewed and edited the content as needed and takes full responsibility
+for the content of the published article.
+
+\section*{Data availability}
+The prototype trace checker, conformance suite, and all generated
+results are publicly available at
+\url{https://github.com/cero1979/coalgebraic-agent-swarms}~\cite{artifact2026}.
+
+%% ---- References ----
+
 \begin{thebibliography}{99}
 \raggedright
 
@@ -1480,11 +1567,11 @@ Bowen Alpern and Fred B. Schneider.
 \newblock DOI: \href{https://doi.org/10.1007/BF01782772}{10.1007/BF01782772}.
 
 \bibitem{artifact2026}
-Author omitted for review.
-\newblock Coalgebraic agent swarms: Prototype trace checker and conformance suite [software artefact].
-\newblock Repository: \url{https://github.com/cero1979/coalgebraic-agent-swarms}, 2026.
-% NOTE for blind submission: this URL reveals author identity and should be
-% replaced with an anonymised link (e.g.\ a Zenodo DOI) before submission.
+Carlos Ram\'irez Ovalle.
+\newblock Coalgebraic agent swarms: Prototype trace checker and conformance
+  suite [software].
+\newblock Pontificia Universidad Javeriana-Cali,
+  \url{https://github.com/cero1979/coalgebraic-agent-swarms}, 2026.
 
 \end{thebibliography}
 
