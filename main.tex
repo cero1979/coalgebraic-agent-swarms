@@ -1048,7 +1048,7 @@ Fourth, if the event certifies a claim, the certification clause verifies that t
 The abstract checker records a diagnostic whenever one of these obligations fails. Therefore an accepted trace has no failed local-soundness obligation. Reading each accepted event as the corresponding certified transition yields the required finite certified execution.
 \end{proof}
 
-The following two tables are produced by running \texttt{checker.py} from the repository~\cite{artifact2026} against the full conformance suite. They are included verbatim as generated \LaTeX{} fragments; the generating command and SHA-256 checksums are given in Section~\ref{sec:reproducibility}.
+The following two tables are produced by running \texttt{checker.py} from the repository~\cite{artifact2026} against the full conformance suite. They are included verbatim as generated \LaTeX{} fragments; the generating command is given in Section~\ref{sec:reproducibility}.
 
 \input{prototype/results/results_table.tex}
 
@@ -1177,19 +1177,7 @@ The expected conformance summary is:
   \item 5 accepted traces: \path{valid_research_swarm.json}, \path{valid_two_source_research_swarm.json}, \path{valid_memory_update_reuse_trace.json}, \path{valid_claim_reuse_trace.json}, and \path{valid_langgraph_like_trace.json};
   \item 13 rejected negative controls.
 \end{itemize}
-The command writes \path{results.json}, \path{results.csv}, \path{results_table.tex}, \path{coverage_summary.json}, \path{coverage_table.tex}, and \path{MANIFEST.json} under \path{prototype/results/}. For the version archived in the repository~\cite{artifact2026}, the SHA-256 checksums are:
-\begin{center}
-\footnotesize
-\begin{tabular}{>{\raggedright\arraybackslash}p{0.30\linewidth}>{\raggedright\arraybackslash}p{0.58\linewidth}}
-\toprule
-File & SHA-256 \\
-\midrule
-\path{results.json} & \begin{tabular}{@{}l@{}}\texttt{1d3da093af3bdae68a8ff549978f9e00}\\\texttt{b96a8e547fa4f7629d75f3e5d57d9d42}\end{tabular} \\
-\path{coverage_summary.json} & \begin{tabular}{@{}l@{}}\texttt{3a989449eb320c771f498be7fc21416c}\\\texttt{cebdd0a9669c53ee62c34ad66821f3d1}\end{tabular} \\
-\path{MANIFEST.json} & \begin{tabular}{@{}l@{}}\texttt{768593b44bb8134e085090af077830a2}\\\texttt{30d6a17c60d89427310e487f35e91936}\end{tabular} \\
-\bottomrule
-\end{tabular}
-\end{center}
+The command writes \path{results.json}, \path{results.csv}, \path{results_table.tex}, \path{coverage_summary.json}, \path{coverage_table.tex}, and \path{MANIFEST.json} under \path{prototype/results/}. SHA-256 checksums for the archived version are recorded in \path{prototype/results/MANIFEST.json} in the repository~\cite{artifact2026}.
 The generated LaTeX files \path{prototype/results/results_table.tex} and \path{prototype/results/coverage_table.tex} are included as Tables~\ref{tab:prototype-results} and~\ref{tab:prototype-coverage}.
 
 The accepted traces exercise minimal certified research-assistant conformance scenarios, including separate shared-memory update, reusable certified-claim evidence, and LangGraph-like trace-normalisation metadata. The rejected traces exercise budget overuse, illegal handoff, missing audit evidence, duplicate trace identifiers, unsupported certificates, shared-memory overwrite, unauthorised tool use, and uncertified answers.
