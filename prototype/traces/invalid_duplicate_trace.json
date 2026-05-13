@@ -1,0 +1,18 @@
+[
+  {
+    "step": 1,
+    "event": "handoff",
+    "from": "Planner",
+    "to": "Retriever",
+    "payload": "first use of trace",
+    "trace": "tr-dup"
+  },
+  {
+    "step": 2,
+    "event": "message",
+    "from": "Retriever",
+    "to": "Verifier",
+    "payload": "duplicate trace id",
+    "trace": "tr-dup"
+  }
+]

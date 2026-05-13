@@ -1,0 +1,17 @@
+[
+  {
+    "step": 1,
+    "event": "tool_call",
+    "agent": "Planner",
+    "tool": "BibliographicSearch",
+    "query": "planner should not call retriever tool",
+    "trace": "tr-p1",
+    "writes": [
+      {
+        "scope": "shared",
+        "key": "src_bad_permission",
+        "value": "unauthorised source"
+      }
+    ]
+  }
+]

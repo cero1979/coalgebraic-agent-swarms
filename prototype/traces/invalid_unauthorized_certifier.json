@@ -1,0 +1,25 @@
+[
+  {
+    "step": 1,
+    "event": "tool_call",
+    "agent": "Retriever",
+    "tool": "BibliographicSearch",
+    "query": "source for unauthorized certifier test",
+    "trace": "tr-unauth-src",
+    "writes": [
+      {
+        "scope": "shared",
+        "key": "src_for_unauth",
+        "value": "source for unauthorized certifier test"
+      }
+    ]
+  },
+  {
+    "step": 2,
+    "event": "certify",
+    "agent": "Planner",
+    "claim": "planner_certified_claim",
+    "source": "src_for_unauth",
+    "trace": "tr-unauth-cert"
+  }
+]

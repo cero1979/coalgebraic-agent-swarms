@@ -1,0 +1,732 @@
+[
+  {
+    "accepted": false,
+    "errors": [
+      "step 1: unsupported memory scope 'global'"
+    ],
+    "final_budgets": {
+      "Planner": 3,
+      "Retriever": 5,
+      "Verifier": 2
+    },
+    "shared_memory": [],
+    "shared_provenance": {},
+    "certified_claims": [],
+    "certified_claim_sources": [],
+    "counters": {
+      "events": 1,
+      "tool_calls": 0,
+      "handoffs": 0,
+      "messages": 0,
+      "memory_writes": 0,
+      "certificates": 0,
+      "answers": 0,
+      "trace_items": 1,
+      "budget_consumed": 0
+    },
+    "trace": "invalid_bad_memory_scope.json",
+    "event_types": [
+      "shared_memory_update"
+    ],
+    "framework_styles": []
+  },
+  {
+    "accepted": false,
+    "errors": [
+      "step 3: insufficient budget for 'Retriever': required 2, available 1"
+    ],
+    "final_budgets": {
+      "Planner": 3,
+      "Retriever": 1,
+      "Verifier": 2
+    },
+    "shared_memory": [
+      "src_a",
+      "src_b",
+      "src_c"
+    ],
+    "shared_provenance": {
+      "src_a": {
+        "event": "tool_call",
+        "step": 1,
+        "trace": "tr-b1",
+        "value": "source A"
+      },
+      "src_b": {
+        "event": "tool_call",
+        "step": 2,
+        "trace": "tr-b2",
+        "value": "source B"
+      },
+      "src_c": {
+        "event": "tool_call",
+        "step": 3,
+        "trace": "tr-b3",
+        "value": "source C"
+      }
+    },
+    "certified_claims": [],
+    "certified_claim_sources": [],
+    "counters": {
+      "events": 3,
+      "tool_calls": 3,
+      "handoffs": 0,
+      "messages": 0,
+      "memory_writes": 3,
+      "certificates": 0,
+      "answers": 0,
+      "trace_items": 3,
+      "budget_consumed": 4
+    },
+    "trace": "invalid_budget_violation.json",
+    "event_types": [
+      "tool_call"
+    ],
+    "framework_styles": []
+  },
+  {
+    "accepted": false,
+    "errors": [
+      "step 1: certificate source 'src_missing' not found in shared memory"
+    ],
+    "final_budgets": {
+      "Planner": 3,
+      "Retriever": 5,
+      "Verifier": 2
+    },
+    "shared_memory": [],
+    "shared_provenance": {},
+    "certified_claims": [],
+    "certified_claim_sources": [],
+    "counters": {
+      "events": 1,
+      "tool_calls": 0,
+      "handoffs": 0,
+      "messages": 0,
+      "memory_writes": 0,
+      "certificates": 0,
+      "answers": 0,
+      "trace_items": 1,
+      "budget_consumed": 0
+    },
+    "trace": "invalid_certificate_source.json",
+    "event_types": [
+      "certify"
+    ],
+    "framework_styles": []
+  },
+  {
+    "accepted": false,
+    "errors": [
+      "step 2: duplicate trace id 'tr-dup'"
+    ],
+    "final_budgets": {
+      "Planner": 3,
+      "Retriever": 5,
+      "Verifier": 2
+    },
+    "shared_memory": [],
+    "shared_provenance": {},
+    "certified_claims": [],
+    "certified_claim_sources": [],
+    "counters": {
+      "events": 2,
+      "tool_calls": 0,
+      "handoffs": 1,
+      "messages": 1,
+      "memory_writes": 0,
+      "certificates": 0,
+      "answers": 0,
+      "trace_items": 1,
+      "budget_consumed": 0
+    },
+    "trace": "invalid_duplicate_trace.json",
+    "event_types": [
+      "handoff",
+      "message"
+    ],
+    "framework_styles": []
+  },
+  {
+    "accepted": false,
+    "errors": [
+      "step 1: handoff edge 'Planner -> Verifier' is not allowed"
+    ],
+    "final_budgets": {
+      "Planner": 3,
+      "Retriever": 5,
+      "Verifier": 2
+    },
+    "shared_memory": [],
+    "shared_provenance": {},
+    "certified_claims": [],
+    "certified_claim_sources": [],
+    "counters": {
+      "events": 1,
+      "tool_calls": 0,
+      "handoffs": 1,
+      "messages": 0,
+      "memory_writes": 0,
+      "certificates": 0,
+      "answers": 0,
+      "trace_items": 1,
+      "budget_consumed": 0
+    },
+    "trace": "invalid_handoff_violation.json",
+    "event_types": [
+      "handoff"
+    ],
+    "framework_styles": []
+  },
+  {
+    "accepted": false,
+    "errors": [
+      "step 1: message edge 'Planner -> Verifier' is not allowed"
+    ],
+    "final_budgets": {
+      "Planner": 3,
+      "Retriever": 5,
+      "Verifier": 2
+    },
+    "shared_memory": [],
+    "shared_provenance": {},
+    "certified_claims": [],
+    "certified_claim_sources": [],
+    "counters": {
+      "events": 1,
+      "tool_calls": 0,
+      "handoffs": 0,
+      "messages": 1,
+      "memory_writes": 0,
+      "certificates": 0,
+      "answers": 0,
+      "trace_items": 1,
+      "budget_consumed": 0
+    },
+    "trace": "invalid_message_violation.json",
+    "event_types": [
+      "message"
+    ],
+    "framework_styles": []
+  },
+  {
+    "accepted": false,
+    "errors": [
+      "step 1: event 'tool_call' lacks required audit trace"
+    ],
+    "final_budgets": {
+      "Planner": 3,
+      "Retriever": 3,
+      "Verifier": 2
+    },
+    "shared_memory": [
+      "src_untraced"
+    ],
+    "shared_provenance": {
+      "src_untraced": {
+        "event": "tool_call",
+        "step": 1,
+        "trace": null,
+        "value": "untraced source"
+      }
+    },
+    "certified_claims": [],
+    "certified_claim_sources": [],
+    "counters": {
+      "events": 1,
+      "tool_calls": 1,
+      "handoffs": 0,
+      "messages": 0,
+      "memory_writes": 1,
+      "certificates": 0,
+      "answers": 0,
+      "trace_items": 0,
+      "budget_consumed": 2
+    },
+    "trace": "invalid_missing_trace.json",
+    "event_types": [
+      "tool_call"
+    ],
+    "framework_styles": []
+  },
+  {
+    "accepted": false,
+    "errors": [
+      "step 2: shared memory key 'src_same' already exists"
+    ],
+    "final_budgets": {
+      "Planner": 3,
+      "Retriever": 1,
+      "Verifier": 2
+    },
+    "shared_memory": [
+      "src_same"
+    ],
+    "shared_provenance": {
+      "src_same": {
+        "event": "tool_call",
+        "step": 1,
+        "trace": "tr-o1",
+        "value": "first value"
+      }
+    },
+    "certified_claims": [],
+    "certified_claim_sources": [],
+    "counters": {
+      "events": 2,
+      "tool_calls": 2,
+      "handoffs": 0,
+      "messages": 0,
+      "memory_writes": 1,
+      "certificates": 0,
+      "answers": 0,
+      "trace_items": 2,
+      "budget_consumed": 4
+    },
+    "trace": "invalid_shared_memory_overwrite.json",
+    "event_types": [
+      "tool_call"
+    ],
+    "framework_styles": []
+  },
+  {
+    "accepted": false,
+    "errors": [
+      "step 1: agent 'Planner' lacks permission for tool 'BibliographicSearch'"
+    ],
+    "final_budgets": {
+      "Planner": 1,
+      "Retriever": 5,
+      "Verifier": 2
+    },
+    "shared_memory": [
+      "src_bad_permission"
+    ],
+    "shared_provenance": {
+      "src_bad_permission": {
+        "event": "tool_call",
+        "step": 1,
+        "trace": "tr-p1",
+        "value": "unauthorised source"
+      }
+    },
+    "certified_claims": [],
+    "certified_claim_sources": [],
+    "counters": {
+      "events": 1,
+      "tool_calls": 1,
+      "handoffs": 0,
+      "messages": 0,
+      "memory_writes": 1,
+      "certificates": 0,
+      "answers": 0,
+      "trace_items": 1,
+      "budget_consumed": 2
+    },
+    "trace": "invalid_tool_permission.json",
+    "event_types": [
+      "tool_call"
+    ],
+    "framework_styles": []
+  },
+  {
+    "accepted": false,
+    "errors": [
+      "step 2: agent 'Planner' is not authorised to certify claims"
+    ],
+    "final_budgets": {
+      "Planner": 3,
+      "Retriever": 3,
+      "Verifier": 2
+    },
+    "shared_memory": [
+      "src_for_unauth"
+    ],
+    "shared_provenance": {
+      "src_for_unauth": {
+        "event": "tool_call",
+        "step": 1,
+        "trace": "tr-unauth-src",
+        "value": "source for unauthorized certifier test"
+      }
+    },
+    "certified_claims": [
+      "planner_certified_claim"
+    ],
+    "certified_claim_sources": [
+      {
+        "claim": "planner_certified_claim",
+        "source": "src_for_unauth"
+      }
+    ],
+    "counters": {
+      "events": 2,
+      "tool_calls": 1,
+      "handoffs": 0,
+      "messages": 0,
+      "memory_writes": 1,
+      "certificates": 1,
+      "answers": 0,
+      "trace_items": 2,
+      "budget_consumed": 2
+    },
+    "trace": "invalid_unauthorized_certifier.json",
+    "event_types": [
+      "certify",
+      "tool_call"
+    ],
+    "framework_styles": []
+  },
+  {
+    "accepted": false,
+    "errors": [
+      "step 1: answer uses uncertified claim 'unsupported_claim'"
+    ],
+    "final_budgets": {
+      "Planner": 3,
+      "Retriever": 5,
+      "Verifier": 2
+    },
+    "shared_memory": [],
+    "shared_provenance": {},
+    "certified_claims": [],
+    "certified_claim_sources": [],
+    "counters": {
+      "events": 1,
+      "tool_calls": 0,
+      "handoffs": 0,
+      "messages": 0,
+      "memory_writes": 0,
+      "certificates": 0,
+      "answers": 1,
+      "trace_items": 1,
+      "budget_consumed": 0
+    },
+    "trace": "invalid_uncertified_answer.json",
+    "event_types": [
+      "answer"
+    ],
+    "framework_styles": []
+  },
+  {
+    "accepted": false,
+    "errors": [
+      "step 1: unknown source agent 'Ghost'"
+    ],
+    "final_budgets": {
+      "Planner": 3,
+      "Retriever": 5,
+      "Verifier": 2
+    },
+    "shared_memory": [],
+    "shared_provenance": {},
+    "certified_claims": [],
+    "certified_claim_sources": [],
+    "counters": {
+      "events": 1,
+      "tool_calls": 0,
+      "handoffs": 1,
+      "messages": 0,
+      "memory_writes": 0,
+      "certificates": 0,
+      "answers": 0,
+      "trace_items": 1,
+      "budget_consumed": 0
+    },
+    "trace": "invalid_unknown_agent.json",
+    "event_types": [
+      "handoff"
+    ],
+    "framework_styles": []
+  },
+  {
+    "accepted": false,
+    "errors": [
+      "step 1: unknown tool 'NonexistentTool'"
+    ],
+    "final_budgets": {
+      "Planner": 3,
+      "Retriever": 5,
+      "Verifier": 2
+    },
+    "shared_memory": [],
+    "shared_provenance": {},
+    "certified_claims": [],
+    "certified_claim_sources": [],
+    "counters": {
+      "events": 1,
+      "tool_calls": 1,
+      "handoffs": 0,
+      "messages": 0,
+      "memory_writes": 0,
+      "certificates": 0,
+      "answers": 0,
+      "trace_items": 1,
+      "budget_consumed": 0
+    },
+    "trace": "invalid_unknown_tool.json",
+    "event_types": [
+      "tool_call"
+    ],
+    "framework_styles": []
+  },
+  {
+    "accepted": true,
+    "errors": [],
+    "final_budgets": {
+      "Planner": 3,
+      "Retriever": 3,
+      "Verifier": 2
+    },
+    "shared_memory": [
+      "src_bisimulation"
+    ],
+    "shared_provenance": {
+      "src_bisimulation": {
+        "event": "tool_call",
+        "step": 2,
+        "trace": "tr-reuse-002",
+        "value": "Bisimulation reference for process equivalence"
+      }
+    },
+    "certified_claims": [
+      "bisimulation_supports_equivalence"
+    ],
+    "certified_claim_sources": [
+      {
+        "claim": "bisimulation_supports_equivalence",
+        "source": "src_bisimulation"
+      }
+    ],
+    "counters": {
+      "events": 7,
+      "tool_calls": 1,
+      "handoffs": 2,
+      "messages": 1,
+      "memory_writes": 1,
+      "certificates": 1,
+      "answers": 2,
+      "trace_items": 7,
+      "budget_consumed": 2
+    },
+    "trace": "valid_claim_reuse_trace.json",
+    "event_types": [
+      "answer",
+      "certify",
+      "handoff",
+      "message",
+      "tool_call"
+    ],
+    "framework_styles": []
+  },
+  {
+    "accepted": true,
+    "errors": [],
+    "final_budgets": {
+      "Planner": 3,
+      "Retriever": 3,
+      "Verifier": 1
+    },
+    "shared_memory": [
+      "src_handoff_docs"
+    ],
+    "shared_provenance": {
+      "src_handoff_docs": {
+        "event": "tool_call",
+        "step": 2,
+        "trace": "tr-lg-002",
+        "value": "Framework documentation describing handoffs"
+      }
+    },
+    "certified_claims": [
+      "framework_handoffs_as_graph_events"
+    ],
+    "certified_claim_sources": [
+      {
+        "claim": "framework_handoffs_as_graph_events",
+        "source": "src_handoff_docs"
+      }
+    ],
+    "counters": {
+      "events": 7,
+      "tool_calls": 2,
+      "handoffs": 2,
+      "messages": 1,
+      "memory_writes": 1,
+      "certificates": 1,
+      "answers": 1,
+      "trace_items": 7,
+      "budget_consumed": 3
+    },
+    "trace": "valid_langgraph_like_trace.json",
+    "event_types": [
+      "answer",
+      "certify",
+      "handoff",
+      "message",
+      "tool_call"
+    ],
+    "framework_styles": [
+      "langgraph-like"
+    ]
+  },
+  {
+    "accepted": true,
+    "errors": [],
+    "final_budgets": {
+      "Planner": 3,
+      "Retriever": 5,
+      "Verifier": 2
+    },
+    "shared_memory": [
+      "src_prov_dm"
+    ],
+    "shared_provenance": {
+      "src_prov_dm": {
+        "event": "shared_memory_update",
+        "step": 2,
+        "trace": "tr-mem-002",
+        "value": "PROV-DM W3C recommendation"
+      }
+    },
+    "certified_claims": [
+      "provenance_records_support_audit"
+    ],
+    "certified_claim_sources": [
+      {
+        "claim": "provenance_records_support_audit",
+        "source": "src_prov_dm"
+      }
+    ],
+    "counters": {
+      "events": 6,
+      "tool_calls": 0,
+      "handoffs": 2,
+      "messages": 1,
+      "memory_writes": 1,
+      "certificates": 1,
+      "answers": 1,
+      "trace_items": 6,
+      "budget_consumed": 0
+    },
+    "trace": "valid_memory_update_reuse_trace.json",
+    "event_types": [
+      "answer",
+      "certify",
+      "handoff",
+      "message",
+      "shared_memory_update"
+    ],
+    "framework_styles": []
+  },
+  {
+    "accepted": true,
+    "errors": [],
+    "final_budgets": {
+      "Planner": 3,
+      "Retriever": 3,
+      "Verifier": 1
+    },
+    "shared_memory": [
+      "src_rutten2000"
+    ],
+    "shared_provenance": {
+      "src_rutten2000": {
+        "event": "tool_call",
+        "step": 2,
+        "trace": "tr-002",
+        "value": "Rutten 2000 universal coalgebra"
+      }
+    },
+    "certified_claims": [
+      "coalgebra_behavioural_equivalence"
+    ],
+    "certified_claim_sources": [
+      {
+        "claim": "coalgebra_behavioural_equivalence",
+        "source": "src_rutten2000"
+      }
+    ],
+    "counters": {
+      "events": 7,
+      "tool_calls": 2,
+      "handoffs": 2,
+      "messages": 1,
+      "memory_writes": 1,
+      "certificates": 1,
+      "answers": 1,
+      "trace_items": 7,
+      "budget_consumed": 3
+    },
+    "trace": "valid_research_swarm.json",
+    "event_types": [
+      "answer",
+      "certify",
+      "handoff",
+      "message",
+      "tool_call"
+    ],
+    "framework_styles": []
+  },
+  {
+    "accepted": true,
+    "errors": [],
+    "final_budgets": {
+      "Planner": 3,
+      "Retriever": 1,
+      "Verifier": 1
+    },
+    "shared_memory": [
+      "src_coalgebra",
+      "src_sell"
+    ],
+    "shared_provenance": {
+      "src_coalgebra": {
+        "event": "tool_call",
+        "step": 2,
+        "trace": "tr-v2-002",
+        "value": "Rutten 2000 universal coalgebra"
+      },
+      "src_sell": {
+        "event": "tool_call",
+        "step": 3,
+        "trace": "tr-v2-003",
+        "value": "Nigam and Miller 2009 subexponentials"
+      }
+    },
+    "certified_claims": [
+      "coalgebra_for_behaviour",
+      "sell_for_resources"
+    ],
+    "certified_claim_sources": [
+      {
+        "claim": "coalgebra_for_behaviour",
+        "source": "src_coalgebra"
+      },
+      {
+        "claim": "sell_for_resources",
+        "source": "src_sell"
+      }
+    ],
+    "counters": {
+      "events": 9,
+      "tool_calls": 3,
+      "handoffs": 2,
+      "messages": 1,
+      "memory_writes": 2,
+      "certificates": 2,
+      "answers": 1,
+      "trace_items": 9,
+      "budget_consumed": 5
+    },
+    "trace": "valid_two_source_research_swarm.json",
+    "event_types": [
+      "answer",
+      "certify",
+      "handoff",
+      "message",
+      "tool_call"
+    ],
+    "framework_styles": []
+  }
+]

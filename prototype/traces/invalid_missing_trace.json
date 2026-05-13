@@ -1,0 +1,16 @@
+[
+  {
+    "step": 1,
+    "event": "tool_call",
+    "agent": "Retriever",
+    "tool": "BibliographicSearch",
+    "query": "untraced search",
+    "writes": [
+      {
+        "scope": "shared",
+        "key": "src_untraced",
+        "value": "untraced source"
+      }
+    ]
+  }
+]

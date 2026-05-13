@@ -1,0 +1,99 @@
+{
+  "accepted_count": 5,
+  "accepted_event_types": [
+    "answer",
+    "certify",
+    "handoff",
+    "message",
+    "shared_memory_update",
+    "tool_call"
+  ],
+  "accepted_framework_styles": [
+    "langgraph-like"
+  ],
+  "accepted_traces": [
+    "valid_claim_reuse_trace.json",
+    "valid_langgraph_like_trace.json",
+    "valid_memory_update_reuse_trace.json",
+    "valid_research_swarm.json",
+    "valid_two_source_research_swarm.json"
+  ],
+  "aggregate_counters_accepted": {
+    "answers": 6,
+    "budget_consumed": 13,
+    "certificates": 6,
+    "events": 36,
+    "handoffs": 10,
+    "memory_writes": 6,
+    "messages": 5,
+    "tool_calls": 8,
+    "trace_items": 36
+  },
+  "aggregate_counters_all": {
+    "answers": 7,
+    "budget_consumed": 27,
+    "certificates": 7,
+    "events": 54,
+    "handoffs": 13,
+    "memory_writes": 13,
+    "messages": 7,
+    "tool_calls": 17,
+    "trace_items": 52
+  },
+  "obligation_coverage": {
+    "answer_cites_certified_claims": {
+      "negative": true,
+      "positive": true
+    },
+    "append_only_shared_memory": {
+      "negative": true,
+      "positive": true
+    },
+    "claim_source_certification": {
+      "negative": true,
+      "positive": true
+    },
+    "framework_style_normalisation": {
+      "negative": false,
+      "positive": true
+    },
+    "fresh_audit_evidence": {
+      "negative": true,
+      "positive": true
+    },
+    "graph_edges_for_handoffs_messages": {
+      "negative": true,
+      "positive": true
+    },
+    "known_participating_agents": {
+      "negative": true,
+      "positive": true
+    },
+    "linear_budget_consumption": {
+      "negative": true,
+      "positive": true
+    },
+    "tool_permission_and_known_tools": {
+      "negative": true,
+      "positive": true
+    }
+  },
+  "python_version": "3.13.12",
+  "rejected_count": 13,
+  "rejected_traces": [
+    "invalid_bad_memory_scope.json",
+    "invalid_budget_violation.json",
+    "invalid_certificate_source.json",
+    "invalid_duplicate_trace.json",
+    "invalid_handoff_violation.json",
+    "invalid_message_violation.json",
+    "invalid_missing_trace.json",
+    "invalid_shared_memory_overwrite.json",
+    "invalid_tool_permission.json",
+    "invalid_unauthorized_certifier.json",
+    "invalid_uncertified_answer.json",
+    "invalid_unknown_agent.json",
+    "invalid_unknown_tool.json"
+  ],
+  "trace_count": 18
+}

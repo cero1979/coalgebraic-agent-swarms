@@ -1,0 +1,10 @@
+[
+  {
+    "step": 1,
+    "event": "certify",
+    "agent": "Verifier",
+    "claim": "claim_without_source",
+    "source": "src_missing",
+    "trace": "tr-c1"
+  }
+]

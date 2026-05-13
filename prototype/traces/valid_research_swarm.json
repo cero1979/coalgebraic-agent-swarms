@@ -1,0 +1,64 @@
+[
+  {
+    "step": 1,
+    "event": "handoff",
+    "from": "Planner",
+    "to": "Retriever",
+    "payload": "literature search request",
+    "trace": "tr-001"
+  },
+  {
+    "step": 2,
+    "event": "tool_call",
+    "agent": "Retriever",
+    "tool": "BibliographicSearch",
+    "query": "coalgebraic semantics agents",
+    "trace": "tr-002",
+    "writes": [
+      {
+        "scope": "shared",
+        "key": "src_rutten2000",
+        "value": "Rutten 2000 universal coalgebra"
+      }
+    ]
+  },
+  {
+    "step": 3,
+    "event": "message",
+    "from": "Retriever",
+    "to": "Verifier",
+    "payload": "source candidate src_rutten2000",
+    "trace": "tr-003"
+  },
+  {
+    "step": 4,
+    "event": "tool_call",
+    "agent": "Verifier",
+    "tool": "ClaimCheck",
+    "claim": "Coalgebra supports behavioural equivalence",
+    "trace": "tr-004"
+  },
+  {
+    "step": 5,
+    "event": "certify",
+    "agent": "Verifier",
+    "claim": "coalgebra_behavioural_equivalence",
+    "source": "src_rutten2000",
+    "trace": "tr-005"
+  },
+  {
+    "step": 6,
+    "event": "handoff",
+    "from": "Verifier",
+    "to": "Planner",
+    "payload": "certified claim",
+    "trace": "tr-006"
+  },
+  {
+    "step": 7,
+    "event": "answer",
+    "agent": "Planner",
+    "claims": ["coalgebra_behavioural_equivalence"],
+    "trace": "tr-007"
+  }
+]

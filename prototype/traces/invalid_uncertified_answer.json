@@ -1,0 +1,9 @@
+[
+  {
+    "step": 1,
+    "event": "answer",
+    "agent": "Planner",
+    "claims": ["unsupported_claim"],
+    "trace": "tr-u1"
+  }
+]

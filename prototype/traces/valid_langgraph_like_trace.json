@@ -1,0 +1,97 @@
+[
+  {
+    "step": 1,
+    "event": "handoff",
+    "from": "Planner",
+    "to": "Retriever",
+    "payload": "LangGraph-style route to retrieval node",
+    "trace": "tr-lg-001",
+    "framework": {
+      "style": "langgraph-like",
+      "node": "planner",
+      "edge": "planner_to_retriever"
+    }
+  },
+  {
+    "step": 2,
+    "event": "tool_call",
+    "agent": "Retriever",
+    "tool": "BibliographicSearch",
+    "query": "agent handoff semantics",
+    "trace": "tr-lg-002",
+    "framework": {
+      "style": "langgraph-like",
+      "node": "retriever",
+      "span": "tool:BibSearch"
+    },
+    "writes": [
+      {
+        "scope": "shared",
+        "key": "src_handoff_docs",
+        "value": "Framework documentation describing handoffs"
+      }
+    ]
+  },
+  {
+    "step": 3,
+    "event": "message",
+    "from": "Retriever",
+    "to": "Verifier",
+    "payload": "normalised framework message with src_handoff_docs",
+    "trace": "tr-lg-003",
+    "framework": {
+      "style": "langgraph-like",
+      "node": "retriever",
+      "edge": "retriever_to_verifier"
+    }
+  },
+  {
+    "step": 4,
+    "event": "tool_call",
+    "agent": "Verifier",
+    "tool": "ClaimCheck",
+    "claim": "Framework handoffs can be represented as graph-constrained events",
+    "trace": "tr-lg-004",
+    "framework": {
+      "style": "langgraph-like",
+      "node": "verifier",
+      "span": "tool:ClaimCheck"
+    }
+  },
+  {
+    "step": 5,
+    "event": "certify",
+    "agent": "Verifier",
+    "claim": "framework_handoffs_as_graph_events",
+    "source": "src_handoff_docs",
+    "trace": "tr-lg-005",
+    "framework": {
+      "style": "langgraph-like",
+      "node": "verifier"
+    }
+  },
+  {
+    "step": 6,
+    "event": "handoff",
+    "from": "Verifier",
+    "to": "Planner",
+    "payload": "normalised certified framework claim",
+    "trace": "tr-lg-006",
+    "framework": {
+      "style": "langgraph-like",
+      "edge": "verifier_to_planner"
+    }
+  },
+  {
+    "step": 7,
+    "event": "answer",
+    "agent": "Planner",
+    "claims": ["framework_handoffs_as_graph_events"],
+    "trace": "tr-lg-007",
+    "framework": {
+      "style": "langgraph-like",
+      "node": "planner",
+      "span": "final"
+    }
+  }
+]

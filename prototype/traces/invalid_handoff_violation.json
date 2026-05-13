@@ -1,0 +1,10 @@
+[
+  {
+    "step": 1,
+    "event": "handoff",
+    "from": "Planner",
+    "to": "Verifier",
+    "payload": "skip retrieval and verify directly",
+    "trace": "tr-h1"
+  }
+]

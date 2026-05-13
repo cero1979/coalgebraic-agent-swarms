@@ -1,0 +1,63 @@
+[
+  {
+    "step": 1,
+    "event": "handoff",
+    "from": "Planner",
+    "to": "Retriever",
+    "payload": "retrieve one reusable source",
+    "trace": "tr-reuse-001"
+  },
+  {
+    "step": 2,
+    "event": "tool_call",
+    "agent": "Retriever",
+    "tool": "BibliographicSearch",
+    "query": "coalgebra bisimulation reference",
+    "trace": "tr-reuse-002",
+    "writes": [
+      {
+        "scope": "shared",
+        "key": "src_bisimulation",
+        "value": "Bisimulation reference for process equivalence"
+      }
+    ]
+  },
+  {
+    "step": 3,
+    "event": "message",
+    "from": "Retriever",
+    "to": "Verifier",
+    "payload": "source candidate src_bisimulation",
+    "trace": "tr-reuse-003"
+  },
+  {
+    "step": 4,
+    "event": "certify",
+    "agent": "Verifier",
+    "claim": "bisimulation_supports_equivalence",
+    "source": "src_bisimulation",
+    "trace": "tr-reuse-004"
+  },
+  {
+    "step": 5,
+    "event": "handoff",
+    "from": "Verifier",
+    "to": "Planner",
+    "payload": "certified reusable claim",
+    "trace": "tr-reuse-005"
+  },
+  {
+    "step": 6,
+    "event": "answer",
+    "agent": "Planner",
+    "claims": ["bisimulation_supports_equivalence"],
+    "trace": "tr-reuse-006"
+  },
+  {
+    "step": 7,
+    "event": "answer",
+    "agent": "Planner",
+    "claims": ["bisimulation_supports_equivalence"],
+    "trace": "tr-reuse-007"
+  }
+]

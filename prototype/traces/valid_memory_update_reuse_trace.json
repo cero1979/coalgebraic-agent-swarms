@@ -1,0 +1,54 @@
+[
+  {
+    "step": 1,
+    "event": "handoff",
+    "from": "Planner",
+    "to": "Retriever",
+    "payload": "record a known source without a tool call",
+    "trace": "tr-mem-001"
+  },
+  {
+    "step": 2,
+    "event": "shared_memory_update",
+    "agent": "Retriever",
+    "trace": "tr-mem-002",
+    "writes": [
+      {
+        "scope": "shared",
+        "key": "src_prov_dm",
+        "value": "PROV-DM W3C recommendation"
+      }
+    ]
+  },
+  {
+    "step": 3,
+    "event": "message",
+    "from": "Retriever",
+    "to": "Verifier",
+    "payload": "source key src_prov_dm is ready",
+    "trace": "tr-mem-003"
+  },
+  {
+    "step": 4,
+    "event": "certify",
+    "agent": "Verifier",
+    "claim": "provenance_records_support_audit",
+    "source": "src_prov_dm",
+    "trace": "tr-mem-004"
+  },
+  {
+    "step": 5,
+    "event": "handoff",
+    "from": "Verifier",
+    "to": "Planner",
+    "payload": "certified provenance claim",
+    "trace": "tr-mem-005"
+  },
+  {
+    "step": 6,
+    "event": "answer",
+    "agent": "Planner",
+    "claims": ["provenance_records_support_audit"],
+    "trace": "tr-mem-006"
+  }
+]

@@ -1,0 +1,26 @@
+[
+  {
+    "step": 1,
+    "event": "tool_call",
+    "agent": "Retriever",
+    "tool": "BibliographicSearch",
+    "trace": "tr-b1",
+    "writes": [{"scope": "shared", "key": "src_a", "value": "source A"}]
+  },
+  {
+    "step": 2,
+    "event": "tool_call",
+    "agent": "Retriever",
+    "tool": "BibliographicSearch",
+    "trace": "tr-b2",
+    "writes": [{"scope": "shared", "key": "src_b", "value": "source B"}]
+  },
+  {
+    "step": 3,
+    "event": "tool_call",
+    "agent": "Retriever",
+    "tool": "BibliographicSearch",
+    "trace": "tr-b3",
+    "writes": [{"scope": "shared", "key": "src_c", "value": "source C"}]
+  }
+]

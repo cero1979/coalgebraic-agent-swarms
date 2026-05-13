@@ -1,0 +1,9 @@
+[
+  {
+    "step": 1,
+    "event": "tool_call",
+    "agent": "Retriever",
+    "tool": "NonexistentTool",
+    "trace": "tr-tool-unknown"
+  }
+]

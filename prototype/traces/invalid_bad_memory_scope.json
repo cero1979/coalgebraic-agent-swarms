@@ -1,0 +1,15 @@
+[
+  {
+    "step": 1,
+    "event": "shared_memory_update",
+    "agent": "Retriever",
+    "trace": "tr-bad-scope",
+    "writes": [
+      {
+        "scope": "global",
+        "key": "src_bad_scope",
+        "value": "bad scope value"
+      }
+    ]
+  }
+]

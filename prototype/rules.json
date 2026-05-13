@@ -1,0 +1,32 @@
+{
+  "agents": ["Planner", "Retriever", "Verifier"],
+  "interaction_graph": {
+    "Planner": ["Retriever"],
+    "Retriever": ["Verifier"],
+    "Verifier": ["Planner"]
+  },
+  "initial_budgets": {
+    "Planner": 3,
+    "Retriever": 5,
+    "Verifier": 2
+  },
+  "tools": {
+    "BibliographicSearch": {
+      "allowed_agents": ["Retriever"],
+      "cost": 2
+    },
+    "ClaimCheck": {
+      "allowed_agents": ["Verifier"],
+      "cost": 1
+    }
+  },
+  "certifiers": ["Verifier"],
+  "trace_required_for": [
+    "tool_call",
+    "handoff",
+    "message",
+    "shared_memory_update",
+    "certify",
+    "answer"
+  ]
+}

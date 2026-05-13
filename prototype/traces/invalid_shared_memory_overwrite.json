@@ -1,0 +1,32 @@
+[
+  {
+    "step": 1,
+    "event": "tool_call",
+    "agent": "Retriever",
+    "tool": "BibliographicSearch",
+    "query": "first source",
+    "trace": "tr-o1",
+    "writes": [
+      {
+        "scope": "shared",
+        "key": "src_same",
+        "value": "first value"
+      }
+    ]
+  },
+  {
+    "step": 2,
+    "event": "tool_call",
+    "agent": "Retriever",
+    "tool": "BibliographicSearch",
+    "query": "overwrite source",
+    "trace": "tr-o2",
+    "writes": [
+      {
+        "scope": "shared",
+        "key": "src_same",
+        "value": "second value"
+      }
+    ]
+  }
+]

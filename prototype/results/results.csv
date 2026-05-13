@@ -1,0 +1,19 @@
+trace,status,events,budget_consumed,trace_items,diagnostic
+invalid_bad_memory_scope.json,rejected,1,0,1,step 1: unsupported memory scope 'global'
+invalid_budget_violation.json,rejected,3,4,3,"step 3: insufficient budget for 'Retriever': required 2, available 1"
+invalid_certificate_source.json,rejected,1,0,1,step 1: certificate source 'src_missing' not found in shared memory
+invalid_duplicate_trace.json,rejected,2,0,1,step 2: duplicate trace id 'tr-dup'
+invalid_handoff_violation.json,rejected,1,0,1,step 1: handoff edge 'Planner -> Verifier' is not allowed
+invalid_message_violation.json,rejected,1,0,1,step 1: message edge 'Planner -> Verifier' is not allowed
+invalid_missing_trace.json,rejected,1,2,0,step 1: event 'tool_call' lacks required audit trace
+invalid_shared_memory_overwrite.json,rejected,2,4,2,step 2: shared memory key 'src_same' already exists
+invalid_tool_permission.json,rejected,1,2,1,step 1: agent 'Planner' lacks permission for tool 'BibliographicSearch'
+invalid_unauthorized_certifier.json,rejected,2,2,2,step 2: agent 'Planner' is not authorised to certify claims
+invalid_uncertified_answer.json,rejected,1,0,1,step 1: answer uses uncertified claim 'unsupported_claim'
+invalid_unknown_agent.json,rejected,1,0,1,step 1: unknown source agent 'Ghost'
+invalid_unknown_tool.json,rejected,1,0,1,step 1: unknown tool 'NonexistentTool'
+valid_claim_reuse_trace.json,accepted,7,2,7,OK
+valid_langgraph_like_trace.json,accepted,7,3,7,OK
+valid_memory_update_reuse_trace.json,accepted,6,0,6,OK
+valid_research_swarm.json,accepted,7,3,7,OK
+valid_two_source_research_swarm.json,accepted,9,5,9,OK

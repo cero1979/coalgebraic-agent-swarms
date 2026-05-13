@@ -1,0 +1,87 @@
+[
+  {
+    "step": 1,
+    "event": "handoff",
+    "from": "Planner",
+    "to": "Retriever",
+    "payload": "collect coalgebra and SELL sources",
+    "trace": "tr-v2-001"
+  },
+  {
+    "step": 2,
+    "event": "tool_call",
+    "agent": "Retriever",
+    "tool": "BibliographicSearch",
+    "query": "universal coalgebra",
+    "trace": "tr-v2-002",
+    "writes": [
+      {
+        "scope": "shared",
+        "key": "src_coalgebra",
+        "value": "Rutten 2000 universal coalgebra"
+      }
+    ]
+  },
+  {
+    "step": 3,
+    "event": "tool_call",
+    "agent": "Retriever",
+    "tool": "BibliographicSearch",
+    "query": "subexponential linear logic",
+    "trace": "tr-v2-003",
+    "writes": [
+      {
+        "scope": "shared",
+        "key": "src_sell",
+        "value": "Nigam and Miller 2009 subexponentials"
+      }
+    ]
+  },
+  {
+    "step": 4,
+    "event": "message",
+    "from": "Retriever",
+    "to": "Verifier",
+    "payload": "sources src_coalgebra and src_sell",
+    "trace": "tr-v2-004"
+  },
+  {
+    "step": 5,
+    "event": "tool_call",
+    "agent": "Verifier",
+    "tool": "ClaimCheck",
+    "claim": "Coalgebra and SELL support distinct parts of the semantics",
+    "trace": "tr-v2-005"
+  },
+  {
+    "step": 6,
+    "event": "certify",
+    "agent": "Verifier",
+    "claim": "coalgebra_for_behaviour",
+    "source": "src_coalgebra",
+    "trace": "tr-v2-006"
+  },
+  {
+    "step": 7,
+    "event": "certify",
+    "agent": "Verifier",
+    "claim": "sell_for_resources",
+    "source": "src_sell",
+    "trace": "tr-v2-007"
+  },
+  {
+    "step": 8,
+    "event": "handoff",
+    "from": "Verifier",
+    "to": "Planner",
+    "payload": "two certified claims",
+    "trace": "tr-v2-008"
+  },
+  {
+    "step": 9,
+    "event": "answer",
+    "agent": "Planner",
+    "claims": ["coalgebra_for_behaviour", "sell_for_resources"],
+    "trace": "tr-v2-009"
+  }
+]
