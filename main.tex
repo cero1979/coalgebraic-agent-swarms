@@ -10,6 +10,8 @@
 \usepackage{array}
 \usepackage{enumitem}
 \usepackage{tikz-cd}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
 
 %% Suppress coloured links for print-ready submission
 \hypersetup{allcolors=black,colorlinks=true}
@@ -840,6 +842,40 @@ The six schemas have a uniform SELL-labelled resource-transformer reading. In th
 \]
 The cut between the certification conclusion and an answer premise is harmless because certified-claim facts live in the reusable shared zone. By contrast, each audit obligation remains linear, so the same audit item cannot discharge two auditable steps. This is the concrete proof-theoretic reason why certified claims may be cited repeatedly, but trace obligations must be fresh at every auditable step.
 
+\subsection{Status of the SELL fragment}\label{subsec:sell-status}
+
+The relationship between the present calculus and the full SELL proof theory is governed by three explicit claims.
+
+\begin{enumerate}
+\item \textbf{No complete proof-search.}
+  The six schemas do not implement a complete proof-search procedure for SELL.
+  There is no focusing strategy, no backtracking, and no general sequent-theorem prover for arbitrary SELL formulae.
+  Each schema is a fixed rule template whose premises are directly checkable against the current runtime ledger.
+
+\item \textbf{Finite SELL-labelled operational fragment.}
+  Each rule instance is a valid SELL derivation step: its resource-transformer reading places reusable assumptions
+  (tool permissions, source facts, certified claims, trace evidence) under labels in \(U_{\Gamma}\), and linear
+  consumables (budget tokens, audit obligations) in the ordinary linear context \(\Delta\).
+  The conclusion transforms the ledger exactly as the SELL structural rules permit.
+  The fragment is \emph{finite} in the sense that the set of possible rule instances for a given specification
+  \(\mathcal{S}\) is determined entirely by the finite sets of agents, tools, graph edges, certifiers, and
+  budget constants in \(\mathcal{S}\).
+
+\item \textbf{Decidability.}
+  Because each premise reduces to a membership or freshness test over sets derived from the finite
+  specification \(\mathcal{S}\), the fragment is decidable.
+  The decision procedure is the abstract checker \(\TraceCheck_{\mathcal{S}}\) defined in
+  Section~\ref{sec:prototype} (Definition~\ref{def:tracecheck} and Algorithm~\ref{alg:tracecheck}):
+  it processes a finite event sequence from left to right in a single pass, performing only
+  finite membership and freshness tests at each step.
+\end{enumerate}
+
+These three claims jointly support the adequacy result
+(Proposition~\ref{prop:checker-adequacy}):
+the accepted traces of \(\TraceCheck_{\mathcal{S}}\) are exactly the traces derivable in the fragment.
+This statement is non-trivial precisely because the fragment is formally defined as the set of rule
+instances satisfying the six schemas, not as an informal approximation of SELL.
+
 \begin{definition}[Local soundness of certificates]\label{def:local-soundness}
 A family of SELL transition rules is locally sound for \(\Gamma\) if each certified step
 \[
@@ -1066,7 +1102,7 @@ Step & Event & Certificate premise & Ledger effect \\
 
 In the coalgebraic semantics, the seven rows form a path in the global raw swarm coalgebra. In the certified LTS, the same path exists only because every row has a matching SELL-labelled rule instance. The contrast with the negative traces is direct: if the planner attempts to call \(\mathsf{BibliographicSearch}\), the reusable permission premise is absent; if the verifier certifies a missing key, the shared-source premise is absent; if an answer cites an uncertified claim, the answer premise is absent. This is the intended division of labour: coalgebra describes the observable execution path, while SELL specifies which resources justify each step.
 
-\section{Prototype Trace Checker}
+\section{Prototype Trace Checker}\label{sec:prototype}
 
 To make the proposed discipline executable, we implemented a lightweight trace checker. The checker is located at \texttt{prototype/checker.py} in the accompanying repository~\cite{artifact2026}; it reads the finite swarm specification, validates the JSON traces, and writes the reproducible summaries used in this section. The generated artefacts are the JSON summary, the CSV summary, the LaTeX table input, a coverage summary, a coverage table, and a checksum manifest.
 
@@ -1092,6 +1128,53 @@ For a finite swarm specification \(\mathcal{S}\) with agents, graph edges, tools
 \]
 The function processes a finite event list \(T=e_1\cdots e_n\) from left to right. Its state is \((\beta,M,\kappa,\tau,D)\), consisting of the current budgets, shared memory, certified claim-source pairs, trace identifiers, and diagnostics. It starts from \((\beta_0,\varnothing,\varnothing,\varnothing,\varnothing)\). At step \(r\), it applies the corresponding one of the six certificate clauses: tool calls require a known agent, known tool, permission, sufficient budget, fresh audit item, exact budget decrement, and append-only writes; shared-memory updates require a known writer, fresh shared keys, admissible scope, provenance, and fresh audit item; handoffs and messages require known endpoints, a graph edge, policy admissibility, and fresh audit item; certifications require an authorised certifier, a pre-existing source key, and fresh audit item before adding \((a,k)\) to \(\kappa\); answers require every cited claim \(a\) to have some \((a,k)\in\kappa\) and a fresh audit item. Any failed premise appends a diagnostic to \(D\). The result is \(\Accept\) with the final state iff \(D\) is empty, and \(\mathsf{Reject}\) with diagnostics otherwise.
 \end{definition}
+
+\begin{algorithm}[t]
+\caption{$\TraceCheck_{\mathcal{S}}(T)$: abstract finite trace checker}\label{alg:tracecheck}
+\begin{algorithmic}[1]
+\Require finite event sequence $T = e_1 \cdots e_n$; finite swarm specification $\mathcal{S}$
+\Ensure $(\Accept, (\beta,M,\kappa,\tau))$ or $(\mathsf{Reject}, D)$
+\State $(\beta, M, \kappa, \tau, D) \gets (\beta_0, \varnothing, \varnothing, \varnothing, \varnothing)$
+\For{$r \gets 1$ \textbf{to} $n$}
+  \If{$e_r = \mathsf{call}(i, t, q)$}
+    \If{$i \notin \mathsf{Agents}(\mathcal{S})$ \textbf{or} $t \notin \mathsf{Tools}(\mathcal{S})$ \textbf{or} $(i,t)\notin\pi$ \textbf{or} $\beta(i) < \cost(t)$ \textbf{or} $q \in \tau$}
+      \State $D \gets D \cup \{\mathsf{diag}(r,e_r)\}$
+    \Else
+      \State $\beta \gets \beta[i \mapsto \beta(i) - \cost(t)]$;\enspace $\tau \gets \tau \cup \{q\}$
+    \EndIf
+  \ElsIf{$e_r = \mathsf{writeShared}(i, k, v, p, q)$}
+    \If{$i \notin \mathsf{Agents}(\mathcal{S})$ \textbf{or} $k \in \operatorname{dom}(M)$ \textbf{or} $\mathsf{scope}(k) \notin \mathsf{Scopes}(\mathcal{S})$ \textbf{or} $q \in \tau$}
+      \State $D \gets D \cup \{\mathsf{diag}(r,e_r)\}$
+    \Else
+      \State $M \gets M[k \mapsto (v, p)]$;\enspace $\tau \gets \tau \cup \{q\}$
+    \EndIf
+  \ElsIf{$e_r = \mathsf{handoff}_{ij}(p,q)$ \textbf{or} $e_r = \mathsf{message}_{ij}(m,q)$}
+    \If{$(i,j) \notin E_{\Gamma}$ \textbf{or} payload policy not satisfied \textbf{or} $q \in \tau$}
+      \State $D \gets D \cup \{\mathsf{diag}(r,e_r)\}$
+    \Else
+      \State $\tau \gets \tau \cup \{q\}$
+    \EndIf
+  \ElsIf{$e_r = \mathsf{certify}(i, a, k, q)$}
+    \If{$i \notin \mathsf{Certifiers}(\mathcal{S})$ \textbf{or} $k \notin \operatorname{dom}(M)$ \textbf{or} $q \in \tau$}
+      \State $D \gets D \cup \{\mathsf{diag}(r,e_r)\}$
+    \Else
+      \State $\kappa \gets \kappa \cup \{(a, k)\}$;\enspace $\tau \gets \tau \cup \{q\}$
+    \EndIf
+  \ElsIf{$e_r = \mathsf{answer}(i, A, q)$}
+    \If{$(\exists a \in A.\; \nexists k.\; (a,k) \in \kappa)$ \textbf{or} $q \in \tau$}
+      \State $D \gets D \cup \{\mathsf{diag}(r,e_r)\}$
+    \Else
+      \State $\tau \gets \tau \cup \{q\}$
+    \EndIf
+  \EndIf
+\EndFor
+\If{$D = \varnothing$}
+  \State \Return $(\Accept,\;(\beta,M,\kappa,\tau))$
+\Else
+  \State \Return $(\mathsf{Reject},\; D)$
+\EndIf
+\end{algorithmic}
+\end{algorithm}
 
 We write \(\TraceCheck_{\mathcal{S}}(T)=\Accept\) as shorthand for saying that the first component of the result is \(\Accept\).
 
