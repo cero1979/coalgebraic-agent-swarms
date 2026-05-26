@@ -152,8 +152,8 @@ The paper makes five conceptual and technical contributions.
 \begin{enumerate}
   \item It defines a coalgebraic semantics for tool-augmented agents in which observations produce events such as ordinary actions, tool calls, messages, handoffs, and final answers.
   \item It extends the single-agent account to swarms by indexing coalgebras over an interaction graph and by adding shared memory, environment state, and a resource ledger.
-  \item It proposes a SELL-labelled subexponential signature and a concrete certification calculus for agentic resources, distinguishing persistent, shared, local, consumable, provenance-carrying, and trace-like assumptions.
-  \item It states semantic properties connecting raw dynamics and certified dynamics: existence of observable behaviours under final-coalgebra assumptions, bisimulation invariance, the induced certified transition system, and resource preservation for certified executions.
+  \item It proposes a SELL-labelled subexponential signature and a concrete certification calculus for agentic resources, distinguishing persistent, shared, local, consumable, provenance-carrying, and trace-like assumptions, and proves that the subexponential preorder is uniquely determined by the reachability structure of the interaction graph.
+  \item It states semantic properties connecting raw dynamics and certified dynamics: existence of observable behaviours under final-coalgebra assumptions, bisimulation invariance, the induced certified transition system, resource preservation for certified executions, and compositionality of certification: the class of locally sound certified swarms is closed under disjoint composition, with resource preservation lifting to the combined ledger (Theorem~\ref{thm:swarm-compositionality}).
   \item It provides a lightweight executable trace checker, an expanded suite of positive and negative traces, a checker--calculus adequacy result for the implemented fragment, and a minimal reproducible conformance scenario whose generated outputs are included as article artefacts and publicly archived at~\cite{artifact2026}.
 \end{enumerate}
 
@@ -162,10 +162,13 @@ Subexponential Linear Logic to the correctness and resource governance of a
 class of contemporary computing systems. The central logical-algebraic results
 are the certified safety sublanguage characterisation
 (Proposition~\ref{prop:certified-safety-sublanguage}), the resource-preservation
-theorem (Theorem~\ref{thm:resource-preservation}), and the derivation
+theorem (Theorem~\ref{thm:resource-preservation}), the derivation
 correspondence between the executable checker and the finite SELL calculus
-(Proposition~\ref{prop:checker-adequacy}); the prototype operationalises
-and evidence these results.
+(Proposition~\ref{prop:checker-adequacy}), the graph-dependent characterisation
+of the subexponential preorder (Proposition~\ref{prop:graph-dependent-preorder}),
+and the compositionality of certification under disjoint swarm composition
+(Theorem~\ref{thm:swarm-compositionality}); the prototype operationalises
+and evidences these results.
 
 The final-coalgebra constructions used below are standard in spirit, and are not presented as new theorems of universal coalgebra. They are included to make explicit which observable behaviour is being compared. The novelty is the instantiation and coupling: contemporary agent operations are represented as observable coalgebraic events, while a SELL-labelled certification calculus separates raw executions from certified executions that preserve permissions, budgets, provenance, and audit evidence. The preservation theorem is therefore a local-to-global result: once each transition rule discharges local proof obligations, arbitrary finite certified compositions inherit global resource invariants. This gives more than a post-hoc log check: it identifies the obligations that a transition must satisfy before its effects may be treated as certified evidence.
 
@@ -444,7 +447,7 @@ It is useful to name the certified subdynamics. For a raw swarm coalgebra \(C\),
 \[
   (y,R)\overset{e,o}{\Longrightarrow}_{\cert}(y',R')
 \]
-iff \(C(y,R)(o)=(e,(y',R'))\) and there is a derivation of \(\Delta;\Theta\vdash_{\Sigma_{\Gamma}}e:(y,R)\leadsto(y',R')\). Thus certification turns the total raw coalgebra into a labelled transition system restricted to derivable steps. If every raw transition is certified, this restricted system is again total and can be regarded as a subcoalgebra on the same carrier. In the more realistic case, where some raw implementation steps are rejected, the certified behaviour is a partial LTS whose finite paths are precisely the executions used in the preservation theorem.
+iff \(C(y,R)(o)=(e,(y',R'))\) and there is a derivation of \(\Delta;\Theta\vdash_{\Sigma_{\Gamma}}e:(y,R)\leadsto(y',R')\). Thus certification turns the total raw coalgebra into a labelled transition system restricted to derivable steps. If every raw transition is certified, this restricted system is again total; Proposition~\ref{prop:certified-subcoalgebra} below proves that certifiable states form a proper \(S_{\Gamma}\)-subcoalgebra when closed under certified successors, and that the inclusion into the raw system is a coalgebra morphism. In the more realistic case, where some raw implementation steps are rejected, the certified behaviour is a partial LTS whose finite paths are precisely the executions used in the preservation theorem.
 
 \begin{proposition}[Final semantics for deterministic swarms]\label{prop:final-swarm-semantics}
 Let
@@ -586,7 +589,77 @@ By the induction hypothesis applied to \((x',y')\in R\) and the shorter word \(w
 Therefore \(\sem{x}_{\Gamma}(ow)=\sem{y}_{\Gamma}(ow)\). Since this holds for every non-empty observation word, the two functions \(\sem{x}_{\Gamma}\) and \(\sem{y}_{\Gamma}\) are equal.
 \end{proof}
 
-For certified systems, the same definition applies directly to total coalgebras whose transitions are all certified. If certification restricts a raw coalgebra to a partial subtransition relation, the corresponding labelled-transition-system notion of bisimulation should be used instead. This is the formal basis for comparing different prompt decompositions, tool routings, or handoff policies by observable behaviour.
+\subsection{Certified Subcoalgebra and Certified Bisimulation}
+
+The two notions of certified dynamics and bisimulation can now be made precise at the coalgebraic level.
+
+\begin{proposition}[Certified states form a subcoalgebra]\label{prop:certified-subcoalgebra}
+Let \(C:X_{\Gamma}\to S_{\Gamma}(X_{\Gamma})\) be a raw swarm coalgebra. Call a state \(x\in X_{\Gamma}\) \emph{certifiable} if every raw transition from \(x\) admits a certificate derivation:
+\[
+  X_{\cert}=\bigl\{x\in X_{\Gamma}\mid\forall o\in\Obs_{\Gamma},\;
+  C(x)(o)=(e,x')
+  \Rightarrow
+  \exists\,\Delta;\Theta.\;\Delta;\Theta\vdash_{\Sigma_{\Gamma}}e:x\leadsto x'
+  \bigr\}.
+\]
+If \(X_{\cert}\) is closed under certified successor states, that is, whenever \(x\in X_{\cert}\) and \(x\overset{e,o}{\Longrightarrow}_{\cert}x'\) then \(x'\in X_{\cert}\), then:
+\begin{enumerate}
+  \item The restriction \(C_{\cert}:=C|_{X_{\cert}}:X_{\cert}\to S_{\Gamma}(X_{\cert})\) is a well-defined \(S_{\Gamma}\)-coalgebra.
+  \item The inclusion \(\iota:X_{\cert}\hookrightarrow X_{\Gamma}\) is a coalgebra morphism from \((X_{\cert},C_{\cert})\) to \((X_{\Gamma},C)\).
+  \item For every \(x\in X_{\cert}\), the unique behaviour maps satisfy \(\sem{x}_{C_{\cert}}=\sem{\iota(x)}_{\Gamma}\); certified states have identical observable behaviours whether viewed inside the subcoalgebra or inside the raw system.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+For~(1), let \(x\in X_{\cert}\) and \(o\in\Obs_{\Gamma}\), and write \(C(x)(o)=(e,x')\). By definition of \(X_{\cert}\) the transition has a certificate derivation, and by the closure hypothesis \(x'\in X_{\cert}\). Hence \((e,x')\in\RawEv_{\Gamma}\times X_{\cert}\), so the map \(C_{\cert}(x)(o):=(e,x')\) lands in \(S_{\Gamma}(X_{\cert})\).
+
+For~(2), let \(x\in X_{\cert}\) and \(o\in\Obs_{\Gamma}\), and write \(C_{\cert}(x)(o)=(e,x')\) with \(x'\in X_{\cert}\). The functor \(S_{\Gamma}\) acts on morphisms by post-composition on the state component:
+\[
+  \bigl(S_{\Gamma}(\iota)\circ C_{\cert}\bigr)(x)(o)
+  =(e,\iota(x'))
+  =(e,x')
+  =C(x)(o)
+  =(C\circ\iota)(x)(o).
+\]
+Since this holds for every \(x\in X_{\cert}\) and \(o\in\Obs_{\Gamma}\), the diagram \(S_{\Gamma}(\iota)\circ C_{\cert}=C\circ\iota\) commutes, so \(\iota\) is a coalgebra morphism.
+
+For~(3), by Proposition~\ref{prop:final-swarm-semantics}, the unique behaviour map \(\sem{-}_{\Gamma}\) is the unique morphism to the final \(S_{\Gamma}\)-coalgebra \((B_{\Gamma},\zeta)\). Since \(\iota\) is a coalgebra morphism from \((X_{\cert},C_{\cert})\) to \((X_{\Gamma},C)\), the composition \(\sem{-}_{\Gamma}\circ\iota:X_{\cert}\to B_{\Gamma}\) is a coalgebra morphism from \((X_{\cert},C_{\cert})\) to \((B_{\Gamma},\zeta)\). By finality this equals \(\sem{-}_{C_{\cert}}\), giving \(\sem{x}_{C_{\cert}}=\sem{\iota(x)}_{\Gamma}\) for every \(x\in X_{\cert}\).
+\end{proof}
+
+Proposition~\ref{prop:certified-subcoalgebra} makes the informal remark earlier in this section precise: certification is not merely an external filter on an existing LTS, but carves out a genuine coalgebraic substructure embedded by a morphism. Two different resource policies for the same raw system yield two different subcoalgebras, whose inclusion morphisms into the raw system allow their observable behaviours to be compared via the final coalgebra.
+
+The notion of bisimulation extends naturally to certified dynamics. Rather than requiring the relation to be preserved under all raw transitions, a certified bisimulation requires only that derivable transitions be matched by derivable transitions.
+
+\begin{definition}[Certified bisimulation]\label{def:certified-bisimulation}
+Let \((X_{\Gamma},C)\) be a raw swarm coalgebra and \(\Sigma_{\Gamma}\) a SELL signature. A relation \(R\subseteq X_{\Gamma}\times X_{\Gamma}\) is a \emph{certified bisimulation} if whenever \((x,y)\in R\) and \(x\overset{e,o}{\Longrightarrow}_{\cert}x'\), there exists \(y'\in X_{\Gamma}\) such that
+\[
+  y\overset{e,o}{\Longrightarrow}_{\cert}y'
+  \qquad\text{and}\qquad
+  (x',y')\in R.
+\]
+Two states \(x,y\in X_{\Gamma}\) are \emph{certified bisimilar}, written \(x\sim_{\cert}y\), if there exists a certified bisimulation \(R\) with \((x,y)\in R\).
+\end{definition}
+
+\begin{theorem}[Largest certified bisimulation]\label{thm:largest-certified-bisimulation}
+The relation \(\sim_{\cert}\) is itself a certified bisimulation and is the largest such relation. Moreover:
+\begin{enumerate}
+  \item If \(x\sim_{\cert}y\), then \(\sem{x}_{\Gamma}=\sem{y}_{\Gamma}\).
+  \item \(\sim_{\cert}\) is an equivalence relation on \(X_{\Gamma}\).
+  \item Every raw bisimulation between states in \(X_{\cert}\) is a certified bisimulation.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+Let \(\mathcal{B}\) be the family of all certified bisimulations and let \(\sim_{\cert}=\bigcup_{R\in\mathcal{B}}R\). If \((x,y)\in\sim_{\cert}\), then \((x,y)\in R\) for some \(R\in\mathcal{B}\). Given \(x\overset{e,o}{\Longrightarrow}_{\cert}x'\), the relation \(R\) produces \(y\overset{e,o}{\Longrightarrow}_{\cert}y'\) with \((x',y')\in R\subseteq\sim_{\cert}\). Hence \(\sim_{\cert}\in\mathcal{B}\) and maximality is immediate.
+
+For~(1), suppose \((x,y)\in R\) for a certified bisimulation \(R\). We prove by induction on the length of \(u\in\Obs_{\Gamma}^{+}\) that \(\sem{x}_{\Gamma}(u)=\sem{y}_{\Gamma}(u)\). For \(u=o\), the transition \(x\overset{e,o}{\Longrightarrow}_{\cert}x'\) (which exists whenever \(x\in X_{\cert}\)) gives \(y\overset{e,o}{\Longrightarrow}_{\cert}y'\) with the same event \(e\). By the definition of the final behaviour map, \(\sem{x}_{\Gamma}(o)=e=\sem{y}_{\Gamma}(o)\). For \(u=ow\), both certified steps emit \(e\) and yield \((x',y')\in R\); the induction hypothesis for \(w\) gives \(\sem{x'}_{\Gamma}(w)=\sem{y'}_{\Gamma}(w)\), hence \(\sem{x}_{\Gamma}(ow)=\sem{y}_{\Gamma}(ow)\).
+
+For~(2), reflexivity: \(\{(x,x)\mid x\in X_{\Gamma}\}\) is a certified bisimulation because any certified step \(x\overset{e,o}{\Longrightarrow}_{\cert}x'\) witnesses itself. Symmetry: if \(R\) is a certified bisimulation, so is \(R^{-1}\) by swapping the roles of \(x\) and \(y\). Transitivity: if \((x,z)\in R\circ S\), then \((x,y)\in R\) and \((y,z)\in S\) for some \(y\); given \(x\overset{e,o}{\Longrightarrow}_{\cert}x'\), relation \(R\) produces \(y\overset{e,o}{\Longrightarrow}_{\cert}y'\) with \((x',y')\in R\), and then \(S\) produces \(z\overset{e,o}{\Longrightarrow}_{\cert}z'\) with \((y',z')\in S\), hence \((x',z')\in R\circ S\).
+
+For~(3), let \(R\) be a raw bisimulation with \(R\subseteq X_{\cert}\times X_{\cert}\). If \((x,y)\in R\) and \(x\overset{e,o}{\Longrightarrow}_{\cert}x'\), then in particular \(C(x)(o)=(e,x')\). Since \(R\) is a raw bisimulation, \(C(y)(o)=(e,y')\) for some \(y'\) with \((x',y')\in R\). Since \(y\in X_{\cert}\), the raw transition from \(y\) carries a certificate, giving \(y\overset{e,o}{\Longrightarrow}_{\cert}y'\). Hence \(R\) is a certified bisimulation.
+\end{proof}
+
+This is the formal basis for comparing different prompt decompositions, tool routings, or handoff policies by observable behaviour: two swarm configurations are certified bisimilar if and only if no certified interaction can distinguish them.
 
 \section{A SELL Layer for Agentic Resources}
 
@@ -639,9 +712,37 @@ For the deterministic core, the preorder \(\preceq_{\Gamma}\) is the smallest re
   \ell\preceq_{\Gamma}\mathsf{agent}_i
   \quad\text{for each }\ell\in
   \{\mathsf{shared},\mathsf{mem},\mathsf{trace},\mathsf{lin},
-  \mathsf{obl},\mathsf{tool}_i,\mathsf{budget}_i\}.
+  \mathsf{obl},\mathsf{tool}_i,\mathsf{budget}_i\},
 \]
-We read \(\ell\preceq_{\Gamma}m\) as saying that resources stored at label \(\ell\) may be inspected by a rule focused at label \(m\), subject to the structural status of \(\ell\). No relation \(\mathsf{agent}_j\preceq_{\Gamma}\mathsf{agent}_i\) is generated for \(i\ne j\). Thus a rule for agent \(i\) may use shared facts, memory facts, trace evidence, its own tool permissions, and its own budget tokens, but it may not inspect another agent's private context unless the information has first been moved into a shared or trace label by an explicit event.
+and, for every directed edge \((i,j)\in E_{\Gamma}\),
+\[
+  \mathsf{agent}_i\preceq_{\Gamma}\mathsf{agent}_j.
+\]
+We read \(\ell\preceq_{\Gamma}m\) as saying that resources stored at label \(\ell\) may be inspected by a rule focused at label \(m\), subject to the structural status of \(\ell\). Thus a rule for agent \(j\) may use shared facts, memory facts, trace evidence, its own tool permissions, and its own budget tokens, and additionally the local context of any agent \(i\) from which there is a directed path to \(j\) in \(E_{\Gamma}\). Agents not reachable into \(j\) have their private context inaccessible at the level of the SELL signature, independently of any runtime side condition. Proposition~\ref{prop:graph-dependent-preorder} below makes this precise.
+
+\begin{proposition}[Graph-dependent structure of \(\Sigma_{\Gamma}\)]\label{prop:graph-dependent-preorder}
+Let \(E_{\Gamma}^{+}\) denote the positive transitive closure of \(E_{\Gamma}\): the set of pairs \((i,j)\) with \(i\ne j\) for which there exists a directed path of at least one edge from \(i\) to \(j\) in \(E_{\Gamma}\). Then:
+\begin{enumerate}
+  \item For distinct \(i,j\in V\), \(\mathsf{agent}_i\preceq_{\Gamma}\mathsf{agent}_j\) if and only if \((i,j)\in E_{\Gamma}^{+}\).
+  \item Two interaction graphs \(\Gamma=(V,E_{\Gamma})\) and \(\Gamma'=(V,E')\) with the same agent set satisfy \(\preceq_{\Gamma}=\preceq_{\Gamma'}\) if and only if \(E_{\Gamma}^{+}=E_{\Gamma'}^{+}\): the SELL preorder is uniquely determined by the reachability structure of \(\Gamma\), not by its individual edges.
+  \item If \(E_{\Gamma'}^{+}\subsetneq E_{\Gamma}^{+}\), then \(\preceq_{\Gamma'}\subsetneq\preceq_{\Gamma}\): strictly fewer reachable agent pairs correspond to strictly reduced cross-agent context accessibility in the SELL signature.
+  \item A SELL derivation that accesses \(\mathsf{agent}_i\)'s local context at a rule focused on \(\mathsf{agent}_j\) \((i\ne j)\) is well-typed in \(\Sigma_{\Gamma}\) if and only if \((i,j)\in E_{\Gamma}^{+}\).
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+For~(1), the agent--agent generating pairs of \(\preceq_{\Gamma}\) are exactly \(\{(\mathsf{agent}_i,\mathsf{agent}_j)\mid(i,j)\in E_{\Gamma}\}\). Since \(\preceq_{\Gamma}\) is the smallest reflexive and transitive closure of these pairs together with the base--agent pairs, transitivity adds \((\mathsf{agent}_i,\mathsf{agent}_k)\) whenever there is a sequence of edges \((i,j_1),(j_1,j_2),\ldots,(j_m,k)\) in \(E_{\Gamma}\). By the definition of \(E_{\Gamma}^{+}\), this holds if and only if \((i,k)\in E_{\Gamma}^{+}\). The base labels satisfy \(\ell\preceq_{\Gamma}\mathsf{agent}_i\) for all \(i\in V\) independently of the graph, and no agent label precedes a base label, so the agent--agent pairs are exactly as stated.
+
+For~(2), by~(1) the agent--agent part of \(\preceq_{\Gamma}\) is determined entirely by \(E_{\Gamma}^{+}\), and the base--agent part is graph-independent. Hence \(\preceq_{\Gamma}=\preceq_{\Gamma'}\) iff the agent--agent parts agree, which by~(1) holds iff \(E_{\Gamma}^{+}=E_{\Gamma'}^{+}\).
+
+For~(3), if \(E_{\Gamma'}^{+}\subsetneq E_{\Gamma}^{+}\), there exists \((i,j)\in E_{\Gamma}^{+}\setminus E_{\Gamma'}^{+}\). By~(1), \(\mathsf{agent}_i\preceq_{\Gamma}\mathsf{agent}_j\) but \(\mathsf{agent}_i\not\preceq_{\Gamma'}\mathsf{agent}_j\), giving \(\preceq_{\Gamma'}\subsetneq\preceq_{\Gamma}\).
+
+For~(4), in the SELL proof system with signature \(\Sigma_{\Gamma}\), using a formula at label \(\ell\) in a rule focused at label \(m\) requires \(\ell\preceq_{\Gamma}m\). Setting \(\ell=\mathsf{agent}_i\) and \(m=\mathsf{agent}_j\) with \(i\ne j\), the condition is exactly \(\mathsf{agent}_i\preceq_{\Gamma}\mathsf{agent}_j\), which by~(1) holds iff \((i,j)\in E_{\Gamma}^{+}\).
+\end{proof}
+
+\begin{remark}
+Proposition~\ref{prop:graph-dependent-preorder} establishes that the interaction topology is intrinsic to the SELL signature rather than merely an operational side condition. The handoff and message rules enforce graph admissibility both through the explicit graph premise \((i,j)\in E_{\Gamma}\) and through the preorder: any SELL proof that accesses \(\mathsf{agent}_i\)'s local context at a position focused on \(\mathsf{agent}_j\) without a directed path from \(i\) to \(j\) is ill-typed in \(\Sigma_{\Gamma}\). The two enforcement layers are consistent and mutually reinforcing: the operational side condition ensures the correct ledger update, while the SELL preorder enforces the information-flow constraint at the proof-structural level.
+\end{remark}
 
 \subsection{From SELL Sequents to Executable Certificates}\label{subsec:sell-sequents-certificates}
 
@@ -1028,6 +1129,64 @@ The theorem is conditional on explicit local soundness assumptions. This is the 
 Proposition~\ref{prop:certified-safety-sublanguage} may appear to follow from definitions, but it records three properties that are jointly non-trivial. First, the certified sublanguage is \emph{prefix-closed}: any truncation of a certified word remains certified, so a monitor may stop at any step and still hold a valid certificate. Second, certified paths \emph{compose}: if the terminal ledger of one certified segment equals the initial ledger of the next, their concatenation is certified, supporting modular certification of sequential sub-tasks. Third, taken together these properties make the certified sublanguage a \emph{safety language} in the classical sense of Alpern and Schneider~\cite{alpern1987safety}: it is characterised by a prefix-closed bad-prefix condition, and violation can always be detected at a finite prefix. This structural fact is what makes the certification discipline compatible with incremental monitoring: a runtime checker can inspect each arriving finite prefix independently without access to future transitions. Corollary~\ref{cor:prefix-safety} makes this operationally precise for infinite executions. The certified sublanguage is therefore a first-class mathematical object---characterised by proof-theoretic derivability in the SELL calculus---rather than an ad hoc operational restriction on the raw coalgebra.
 \end{remark}
 
+\subsection{Swarm Composition and Compositionality of Certification}
+
+The resource-preservation theorem (Theorem~\ref{thm:resource-preservation}) is proved for a fixed interaction graph~\(\Gamma\). We now prove that certification is \emph{compositional}: two certified swarms with disjoint agent sets can be combined into a larger certified swarm, and resource preservation lifts to the composition.
+
+\begin{definition}[Disjoint swarm composition]\label{def:swarm-composition}
+Let \(\Gamma_i=(V_i,E_i)\) for \(i=1,2\) be interaction graphs with \(V_1\cap V_2=\emptyset\).
+\begin{enumerate}
+  \item The \emph{disjoint composition} is \(\Gamma_1\oplus\Gamma_2=(V_1\cup V_2,\,E_1\cup E_2)\).
+  \item The \emph{combined ledger} of \(R_i=(\beta_i,\pi_i,\tau_i,\kappa_i)\) is
+  \[
+    R_1\oplus R_2
+    =\bigl(\beta_1\sqcup\beta_2,\;\pi_1\cup\pi_2,\;\tau_1\cup\tau_2,\;\kappa_1\cup\kappa_2\bigr),
+  \]
+  where \(\beta_1\sqcup\beta_2:V_1\cup V_2\to\Nat\) restricts to \(\beta_i\) on \(V_i\).
+  \item Given raw swarm coalgebras \(C_i:X_{\Gamma_i}\to S_{\Gamma_i}(X_{\Gamma_i})\) sharing the same \(\Mem\) and \(\Env\) components, the \emph{composed coalgebra} \(C_1\otimes C_2\) is defined on
+  \[
+    X_{\Gamma_1\oplus\Gamma_2}
+    =\Bigl(\prod_{i\in V_1}X_i\Bigr)
+    \times\Bigl(\prod_{j\in V_2}X_j\Bigr)
+    \times\Mem\times\Env\times\Res
+  \]
+  with observations \(\Obs_{\Gamma_1\oplus\Gamma_2}=\Obs_{\Gamma_1}+\Obs_{\Gamma_2}\) (disjoint sum). For an observation \(o\in\Obs_{\Gamma_k}\), the composed coalgebra applies \(C_k\) to the \(V_k\)-component with the current shared \(\Mem\) and \(\Env\), propagating all updates; the \(V_{3-k}\)-local states are unchanged.
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[Compositionality of certification]\label{thm:swarm-compositionality}
+Let \((\Gamma_i,C_i,{\vdash}_{\Sigma_{\Gamma_i}})\) for \(i=1,2\) be certified swarms with \(V_1\cap V_2=\emptyset\), each satisfying the local-soundness conditions of Theorem~\ref{thm:resource-preservation}. Then every finite certified run of the composed swarm \((C_1\otimes C_2,\,{\vdash}_{\Sigma_{\Gamma_1\oplus\Gamma_2}})\) from initial ledger \(R_{0,1}\oplus R_{0,2}\) satisfies resource preservation for the combined ledger:
+\begin{enumerate}
+  \item \emph{Budget preservation}: for each agent \(i\in V_1\cup V_2\), no certified transition exceeds the budget \((\beta_1\sqcup\beta_2)(i)\), and each tool call decrements the budget by exactly one token.
+  \item \emph{Permission and provenance preservation}: permissions \(\pi_1\cup\pi_2\), provenance records, and shared memory \(M\) are preserved componentwise; \(M\) remains append-only throughout.
+  \item \emph{Audit and certification preservation}: trace \(\tau_1\cup\tau_2\) and certified-claim set \(\kappa_1\cup\kappa_2\) grow monotonically and satisfy the certification conditions of Theorem~\ref{thm:resource-preservation} for the combined ledger.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+\textit{Step~1 (SELL sub-signature restriction).}
+Since \(V_1\cap V_2=\emptyset\), the positive transitive closure \(E_{\Gamma_1\oplus\Gamma_2}^+\) restricted to \(V_k\times V_k\) equals \(E_{\Gamma_k}^+\): no path in \(E_1\cup E_2\) crosses from \(V_1\) to \(V_2\). By Proposition~\ref{prop:graph-dependent-preorder}(2), the preorder \(\preceq_{\Gamma_1\oplus\Gamma_2}\) restricted to \(V_k\)-labels is exactly \(\preceq_{\Gamma_k}\). Hence \(\Sigma_{\Gamma_k}\) embeds as a sub-signature of \(\Sigma_{\Gamma_1\oplus\Gamma_2}\).
+
+\textit{Step~2 (Local certified transitions are sub-signature derivations).}
+A certified step of \(C_1\otimes C_2\) is triggered by \(o\in\Obs_{\Gamma_k}\) and emits an event \(e\in\RawEv_{\Gamma_k}\). Such a step uses only \(V_k\)-labelled contexts: by Step~1, no \(V_{3-k}\)-label is accessible at a \(V_k\)-focused rule in \(\Sigma_{\Gamma_1\oplus\Gamma_2}\). By Proposition~\ref{prop:graph-dependent-preorder}(4), cross-swarm context access would require a directed path between \(V_1\) and \(V_2\), which does not exist in \(E_1\cup E_2\). Therefore the derivation \({\vdash}_{\Sigma_{\Gamma_1\oplus\Gamma_2}}\) for such a step is also a valid derivation in \(\Sigma_{\Gamma_k}\), certifying it in \((C_k,{\vdash}_{\Sigma_{\Gamma_k}})\).
+
+\textit{Step~3 (Component-wise resource preservation).}
+By Step~2, every certified step of the composed run is a \(V_k\)-local step certified in \(\Sigma_{\Gamma_k}\). Applying Theorem~\ref{thm:resource-preservation} to each \(C_k\) independently, the \(V_k\)-budget \(\beta_k\) decrements only on locally sound tool calls, permissions \(\pi_k\) are respected, provenance is recorded, and the \(V_k\)-portion of the trace and claim set satisfy the stated conditions.
+
+\textit{Step~4 (Shared memory and global ledger).}
+Both \(C_1\) and \(C_2\) operate under the append-only shared memory discipline: every certified writeShared event satisfies \(M\sqsubseteq M'\). Writes from either component extend the same \(\Mem\) pool without overwriting existing bindings. The trace \(\tau_1\cup\tau_2\) and claim set \(\kappa_1\cup\kappa_2\) grow monotonically as contributions from each component are additive.
+
+Combining Steps~1--4, the composed certified run satisfies all resource-preservation conditions for \(R_{0,1}\oplus R_{0,2}\).
+\end{proof}
+
+\begin{corollary}[Closure under disjoint composition]\label{cor:composition-closure}
+The class of locally sound certified swarms is closed under disjoint composition: if \((\Gamma_i,C_i,{\vdash}_{\Sigma_{\Gamma_i}})\) are locally sound for \(i=1,2\) and \(V_1\cap V_2=\emptyset\), then \((C_1\otimes C_2,{\vdash}_{\Sigma_{\Gamma_1\oplus\Gamma_2}})\) is locally sound with combined ledger \(R_{0,1}\oplus R_{0,2}\).
+\end{corollary}
+
+\begin{remark}
+Theorem~\ref{thm:swarm-compositionality} establishes that certified swarms compose without requiring any global re-verification of the combined system: each component's local-soundness certificates are sufficient. When interface edges \(E_{12}\subseteq V_1\times V_2\) are added to form \(\Gamma_1\oplus_{E_{12}}\Gamma_2=(V_1\cup V_2,\,E_1\cup E_2\cup E_{12})\), new cross-swarm accessibility arises: by Proposition~\ref{prop:graph-dependent-preorder}(1), \(\mathsf{agent}_i\preceq_{\Gamma}\mathsf{agent}_j\) for every \((i,j)\in E_{12}^{+}\). Handoff and message events crossing from \(V_1\) to \(V_2\) then become certifiable, but each such step must discharge the corresponding certificate in \(\Sigma_{\Gamma_1\oplus_{E_{12}}\Gamma_2}\). The compositionality result thereby identifies precisely the boundary at which cross-swarm interaction introduces new proof obligations, making plug-compatible swarm extension a formally tractable operation.
+\end{remark}
+
 \section{Running Example}
 
 The definitions above are parameterised by the agent set \(V\) and the interaction graph \(\Gamma\). The following three-agent system is a finite running instance, not the definition of a swarm. It is used as a concrete witness for the coalgebraic events, SELL-labelled resources, and checker artefacts.
@@ -1241,6 +1400,16 @@ For the forward direction, read the accepted trace from left to right. Propositi
 For the converse direction, assume that a trace is generated by a sequence of implemented certificate-rule instances. Each rule premise is one of the predicates checked by the corresponding clause of Definition~\ref{def:tracecheck}. Since the rule instance is valid, \(\TraceCheck_{\mathcal{S}}\) finds the required graph edge, permission, budget, source key, certified claim, or fresh trace identifier condition satisfied. The rule conclusion and \(\TraceCheck\) update agree on budgets, shared-memory extension, certified-claim insertion, and trace insertion. Induction over the sequence length therefore shows that no diagnostic is produced and that the maintained abstract state coincides with the ledger obtained from the derivation. Hence \(\TraceCheck_{\mathcal{S}}\) accepts the trace.
 \end{proof}
 
+\begin{proposition}[Complexity of the checker]\label{prop:checker-complexity}
+Let \(\mathcal{S}\) be a finite swarm specification with \(|V|\) agents, \(|\Tool|\) tools, \(|E_{\Gamma}|\) graph edges, and \(|\mathsf{Cert}|\) authorised certifiers. For a trace of length \(n\), \(\TraceCheck_{\mathcal{S}}\) runs in expected time \(O(n\cdot(|V|+|\Tool|+|E_{\Gamma}|+|\mathsf{Cert}|))\) and space \(O(|V|+n)\). In particular, the implemented fragment is decidable in linear time in the trace length.
+
+By contrast, propositional multiplicative-exponential linear logic is \(\mathsf{PSPACE}\)-complete~\cite{lincoln1992}, and general SELL proof search for unrestricted subexponential signatures becomes \(\mathsf{EXPTIME}\)-hard once focusing and formula complexity are included~\cite{nigam2009}. The linear-time decision procedure for the six-rule fragment is therefore a direct consequence of restricting derivability to locally checkable premises: membership and freshness tests over finite sets, each performable in \(O(1)\) expected time with hash sets.
+\end{proposition}
+
+\begin{proof}
+Each of the six rule clauses in Algorithm~\ref{alg:tracecheck} performs a bounded number of membership or freshness tests per event step. Specifically: testing \((i,t)\in\pi\) is one hash-set lookup; testing \(\beta(i)\ge\cost(t)\) is one integer comparison; testing \(q\notin\tau\) is one hash-set membership test; testing \(k\notin\operatorname{dom}(M)\) is one hash-set test; testing \((i,j)\in E_{\Gamma}\) is one adjacency lookup; testing \(i\in\mathsf{Cert}\) is one set lookup; and testing \(\forall a\in A.\,(a,k_a)\in\kappa\) costs \(O(|A|)\) lookups, where \(|A|\) is bounded by the specification. The for-loop processes \(n\) events, giving expected time \(O(n\cdot(|V|+|\Tool|+|E_{\Gamma}|+|\mathsf{Cert}|))\). The space bound follows from the maintained state \((\beta,M,\kappa,\tau,D)\): \(\beta\) uses \(O(|V|)\) space, and \(M\), \(\kappa\), \(\tau\), \(D\) each grow by at most one entry per event, giving \(O(n)\) additional space.
+\end{proof}
+
 \begin{remark}
 Proposition~\ref{prop:checker-adequacy} provides the logical justification for
 treating the checker as more than a software tool: accepted traces are exactly
@@ -1250,6 +1419,10 @@ Proposition~\ref{prop:certified-safety-sublanguage}, this characterises the
 certified sublanguage proof-theoretically: it is the intersection of the raw
 coalgebraic language with the set of certificate-derivable words, and therefore
 forms a safety sublanguage in the sense of Alpern and Schneider~\cite{alpern1987safety}.
+Proposition~\ref{prop:checker-complexity} additionally shows that this decision
+procedure is optimal in a precise sense: the fragment admits linear-time checking
+precisely because its premises reduce to finite membership tests, whereas extending
+to full SELL proof search would incur \(\mathsf{PSPACE}\) or higher complexity.
 This is a logical-algebraic result, not only a software-engineering claim.
 \end{remark}
 
@@ -1315,11 +1488,11 @@ The preservation theorem is intentionally not a deep theorem about all of SELL. 
 This local-to-global form is useful because raw coalgebraic behaviour and certified behaviour are intentionally different. The coalgebra describes what an implementation may emit; the certification layer identifies which emitted transitions are acceptable under the resource policy. The theorem states that the certified sub-behaviour has stable global invariants, even though the raw coalgebra may contain unauthorised, unaffordable, or unaudited transitions.
 
 \begin{proposition}[Deterministic core under the stated assumptions]\label{prop:formal-closure}
-Under Assumptions 1--5, every raw deterministic swarm coalgebra has a unique observable behaviour map, bisimilar states have identical observable behaviours, certified paths form a prefix-closed safety sublanguage of raw behaviours, every locally sound certified finite run satisfies resource and provenance preservation, every certified long-running execution is prefix-safe, every accepted prototype trace instantiates the local-soundness conditions for the finite conformance scenario, and accepted traces in the implemented fragment correspond to SELL-labelled certificate derivations.
+Under Assumptions 1--5, every raw deterministic swarm coalgebra has a unique observable behaviour map; bisimilar states have identical observable behaviours; the SELL subexponential preorder is uniquely determined by the reachability structure of the interaction graph, so that cross-agent context accessibility is a function of interaction topology; certifiable states form a proper \(S_{\Gamma}\)-subcoalgebra, and the largest certified bisimulation is an equivalence relation whose classes have identical observable behaviours; certified paths form a prefix-closed safety sublanguage of raw behaviours; every locally sound certified finite run satisfies resource and provenance preservation; every certified long-running execution is prefix-safe; the class of locally sound certified swarms is closed under disjoint composition, with resource preservation lifting to the combined ledger; every accepted prototype trace instantiates the local-soundness conditions for the finite conformance scenario; accepted traces in the implemented fragment correspond to SELL-labelled certificate derivations; and trace checking for the implemented fragment runs in linear time in the trace length.
 \end{proposition}
 
 \begin{proof}
-The first claim follows from Proposition~\ref{prop:final-swarm-semantics}. The second claim follows from Proposition~\ref{prop:behavioural-invariance}. The safety-sublanguage claim follows from Proposition~\ref{prop:certified-safety-sublanguage}. Resource preservation is Theorem~\ref{thm:resource-preservation}. Prefix safety follows from Corollary~\ref{cor:prefix-safety}. The prototype local-soundness claim follows from Proposition~\ref{prop:prototype-soundness}, and the derivation correspondence follows from Proposition~\ref{prop:checker-adequacy}. These results cover the semantic, behavioural, resource, and executable layers of the deterministic framework.
+The existence of a unique behaviour map follows from Proposition~\ref{prop:final-swarm-semantics}. Behavioural invariance of bisimilar states follows from Proposition~\ref{prop:behavioural-invariance}. The graph-dependent preorder claim follows from Proposition~\ref{prop:graph-dependent-preorder}. The subcoalgebra claim follows from Proposition~\ref{prop:certified-subcoalgebra}, and the largest certified bisimulation claim follows from Theorem~\ref{thm:largest-certified-bisimulation}. The safety-sublanguage claim follows from Proposition~\ref{prop:certified-safety-sublanguage}. Resource preservation is Theorem~\ref{thm:resource-preservation}. Prefix safety follows from Corollary~\ref{cor:prefix-safety}. Compositionality of certification follows from Theorem~\ref{thm:swarm-compositionality} and Corollary~\ref{cor:composition-closure}. The prototype local-soundness claim follows from Proposition~\ref{prop:prototype-soundness}, the derivation correspondence follows from Proposition~\ref{prop:checker-adequacy}, and the linear-time bound follows from Proposition~\ref{prop:checker-complexity}. These results cover the semantic, coalgebraic, SELL-structural, resource, compositional, and executable layers of the deterministic framework.
 \end{proof}
 
 \subsection{Reproducibility artefact}
@@ -1690,6 +1863,12 @@ Carlos Ram\'irez Ovalle.
   suite [software].
 \newblock Pontificia Universidad Javeriana-Cali,
   \url{https://github.com/cero1979/coalgebraic-agent-swarms}, 2026.
+
+\bibitem{lincoln1992}
+Patrick Lincoln, John Mitchell, Andre Scedrov, and Natarajan Shankar.
+\newblock Decision problems for propositional linear logic.
+\newblock \emph{Annals of Pure and Applied Logic}, 56(1--3):239--311, 1992.
+\newblock DOI: \href{https://doi.org/10.1016/0168-0072(92)90075-B}{10.1016/0168-0072(92)90075-B}.
 
 \end{thebibliography}
 
