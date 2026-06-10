@@ -15,9 +15,11 @@
 
 # LaTeX source and compiled paper (kept local only, not in remote)
 main.tex
+main.abs
 main.pdf
 cas-sc.cls
 cas-common.sty
+els-cas-templates.zip
 
 # Python
 __pycache__/
