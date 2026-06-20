@@ -10,10 +10,10 @@ shared-memory provenance, certification, and audit-trace obligations.
 from __future__ import annotations
 
 import argparse
+import copy
 import csv
 import hashlib
 import json
-import platform
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
@@ -76,6 +76,16 @@ def allowed_edge(rules: dict[str, Any], source: str, target: str) -> bool:
     return target in rules.get("interaction_graph", {}).get(source, [])
 
 
+def payload_allowed(rules: dict[str, Any], event_type: str, event: dict[str, Any]) -> bool:
+    mode = rules.get("payload_policies", {}).get(event_type, "allow_all")
+    if mode == "allow_all":
+        return True
+    if mode == "nonempty_string":
+        payload = event.get("payload")
+        return isinstance(payload, str) and bool(payload.strip())
+    raise ValueError(f"unsupported payload policy '{mode}' for '{event_type}'")
+
+
 def record_writes(state: TraceState, step: Any, event: dict[str, Any]) -> None:
     trace_id = event.get("trace")
     for write in event.get("writes", []):
@@ -90,6 +100,8 @@ def record_writes(state: TraceState, step: Any, event: dict[str, Any]) -> None:
                 continue
             state.shared_memory[key] = {
                 "event": event.get("event"),
+                "agent": event.get("agent"),
+                "tool": event.get("tool"),
                 "step": step,
                 "trace": trace_id,
                 "value": write.get("value"),
@@ -132,6 +144,8 @@ def check_handoff(state: TraceState, step: Any, event: dict[str, Any], rules: di
     ok_target = require_known_agent(state, step, target, agents, "target")
     if ok_source and ok_target and not allowed_edge(rules, source, target):
         add_error(state, step, f"handoff edge '{source} -> {target}' is not allowed")
+    if not payload_allowed(rules, "handoff", event):
+        add_error(state, step, "handoff payload violates configured policy")
 
 
 def check_message(state: TraceState, step: Any, event: dict[str, Any], rules: dict[str, Any], agents: set[str]) -> None:
@@ -142,6 +156,8 @@ def check_message(state: TraceState, step: Any, event: dict[str, Any], rules: di
     ok_target = require_known_agent(state, step, target, agents, "target")
     if ok_source and ok_target and not allowed_edge(rules, source, target):
         add_error(state, step, f"message edge '{source} -> {target}' is not allowed")
+    if not payload_allowed(rules, "message", event):
+        add_error(state, step, "message payload violates configured policy")
 
 
 def check_certify(state: TraceState, step: Any, event: dict[str, Any], rules: dict[str, Any], agents: set[str]) -> None:
@@ -188,6 +204,12 @@ def check_trace(trace: list[dict[str, Any]], rules: dict[str, Any]) -> dict[str,
     for index, event in enumerate(trace, start=1):
         step = event.get("step", index)
         state.counters["events"] += 1
+        budgets_before = dict(state.budgets)
+        memory_before = copy.deepcopy(state.shared_memory)
+        claims_before = set(state.certified_claims)
+        traces_before = set(state.traces)
+        counters_before = dict(state.counters)
+        error_count_before = len(state.errors)
         if step != index:
             add_error(state, step, f"non-sequential step number, expected {index}")
         event_type = event.get("event")
@@ -207,6 +229,13 @@ def check_trace(trace: list[dict[str, Any]], rules: dict[str, Any]) -> dict[str,
             check_memory_update(state, step, event, agents)
         else:
             add_error(state, step, f"unknown event type '{event_type}'")
+
+        if len(state.errors) > error_count_before:
+            state.budgets = budgets_before
+            state.shared_memory = memory_before
+            state.certified_claims = claims_before
+            state.traces = traces_before
+            state.counters = counters_before
 
     return {
         "accepted": not state.errors,
@@ -293,6 +322,10 @@ def build_coverage_summary(results: list[dict[str, Any]]) -> dict[str, Any]:
             "positive": any({"handoff", "message"} & set(result.get("event_types", [])) for result in accepted),
             "negative": "edge" in rejected_diagnostics,
         },
+        "handoff_message_payload_policy": {
+            "positive": any({"handoff", "message"} & set(result.get("event_types", [])) for result in accepted),
+            "negative": "payload violates" in rejected_diagnostics,
+        },
         "tool_permission_and_known_tools": {
             "positive": "tool_call" in accepted_event_types,
             "negative": "lacks permission" in rejected_diagnostics or "unknown tool" in rejected_diagnostics,
@@ -324,7 +357,6 @@ def build_coverage_summary(results: list[dict[str, Any]]) -> dict[str, Any]:
     }
 
     return {
-        "python_version": platform.python_version(),
         "trace_count": len(results),
         "accepted_count": len(accepted),
         "rejected_count": len(rejected),
@@ -368,7 +400,6 @@ def write_coverage_table(path: Path, summary: dict[str, Any]) -> None:
 
 def write_manifest(path: Path, files: list[Path]) -> None:
     manifest = {
-        "python_version": platform.python_version(),
         "sha256": {str(file): sha256_file(file) for file in sorted(files, key=lambda item: str(item)) if file.exists()},
     }
     with path.open("w", encoding="utf-8") as handle:
@@ -402,6 +433,7 @@ def main() -> int:
     json_path = args.out_dir / "results.json"
     with json_path.open("w", encoding="utf-8") as handle:
         json.dump(results, handle, indent=2, ensure_ascii=False)
+        handle.write("\n")
 
     csv_path = args.out_dir / "results.csv"
     with csv_path.open("w", encoding="utf-8", newline="") as handle:
@@ -459,7 +491,13 @@ def main() -> int:
 
     manifest_path = args.out_dir / "MANIFEST.json"
     manifest_files = [
+        Path("HIGHLIGHTS.md"),
+        Path("cas-common.sty"),
+        Path("cas-sc.cls"),
+        Path("main.tex"),
         Path("prototype/checker.py"),
+        Path("prototype/test_checker.py"),
+        Path("prototype/verify_manifest.py"),
         args.rules,
         *sorted(args.traces),
         json_path,

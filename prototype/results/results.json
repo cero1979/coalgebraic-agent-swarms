@@ -21,7 +21,7 @@
       "memory_writes": 0,
       "certificates": 0,
       "answers": 0,
-      "trace_items": 1,
+      "trace_items": 0,
       "budget_consumed": 0
     },
     "trace": "invalid_bad_memory_scope.json",
@@ -42,40 +42,37 @@
     },
     "shared_memory": [
       "src_a",
-      "src_b",
-      "src_c"
+      "src_b"
     ],
     "shared_provenance": {
       "src_a": {
         "event": "tool_call",
+        "agent": "Retriever",
+        "tool": "BibliographicSearch",
         "step": 1,
         "trace": "tr-b1",
         "value": "source A"
       },
       "src_b": {
         "event": "tool_call",
+        "agent": "Retriever",
+        "tool": "BibliographicSearch",
         "step": 2,
         "trace": "tr-b2",
         "value": "source B"
-      },
-      "src_c": {
-        "event": "tool_call",
-        "step": 3,
-        "trace": "tr-b3",
-        "value": "source C"
       }
     },
     "certified_claims": [],
     "certified_claim_sources": [],
     "counters": {
       "events": 3,
-      "tool_calls": 3,
+      "tool_calls": 2,
       "handoffs": 0,
       "messages": 0,
-      "memory_writes": 3,
+      "memory_writes": 2,
       "certificates": 0,
       "answers": 0,
-      "trace_items": 3,
+      "trace_items": 2,
       "budget_consumed": 4
     },
     "trace": "invalid_budget_violation.json",
@@ -106,7 +103,7 @@
       "memory_writes": 0,
       "certificates": 0,
       "answers": 0,
-      "trace_items": 1,
+      "trace_items": 0,
       "budget_consumed": 0
     },
     "trace": "invalid_certificate_source.json",
@@ -133,7 +130,7 @@
       "events": 2,
       "tool_calls": 0,
       "handoffs": 1,
-      "messages": 1,
+      "messages": 0,
       "memory_writes": 0,
       "certificates": 0,
       "answers": 0,
@@ -164,12 +161,12 @@
     "counters": {
       "events": 1,
       "tool_calls": 0,
-      "handoffs": 1,
+      "handoffs": 0,
       "messages": 0,
       "memory_writes": 0,
       "certificates": 0,
       "answers": 0,
-      "trace_items": 1,
+      "trace_items": 0,
       "budget_consumed": 0
     },
     "trace": "invalid_handoff_violation.json",
@@ -196,11 +193,11 @@
       "events": 1,
       "tool_calls": 0,
       "handoffs": 0,
-      "messages": 1,
+      "messages": 0,
       "memory_writes": 0,
       "certificates": 0,
       "answers": 0,
-      "trace_items": 1,
+      "trace_items": 0,
       "budget_consumed": 0
     },
     "trace": "invalid_message_violation.json",
@@ -216,32 +213,23 @@
     ],
     "final_budgets": {
       "Planner": 3,
-      "Retriever": 3,
+      "Retriever": 5,
       "Verifier": 2
     },
-    "shared_memory": [
-      "src_untraced"
-    ],
-    "shared_provenance": {
-      "src_untraced": {
-        "event": "tool_call",
-        "step": 1,
-        "trace": null,
-        "value": "untraced source"
-      }
-    },
+    "shared_memory": [],
+    "shared_provenance": {},
     "certified_claims": [],
     "certified_claim_sources": [],
     "counters": {
       "events": 1,
-      "tool_calls": 1,
+      "tool_calls": 0,
       "handoffs": 0,
       "messages": 0,
-      "memory_writes": 1,
+      "memory_writes": 0,
       "certificates": 0,
       "answers": 0,
       "trace_items": 0,
-      "budget_consumed": 2
+      "budget_consumed": 0
     },
     "trace": "invalid_missing_trace.json",
     "event_types": [
@@ -252,11 +240,42 @@
   {
     "accepted": false,
     "errors": [
+      "step 1: handoff payload violates configured policy"
+    ],
+    "final_budgets": {
+      "Planner": 3,
+      "Retriever": 5,
+      "Verifier": 2
+    },
+    "shared_memory": [],
+    "shared_provenance": {},
+    "certified_claims": [],
+    "certified_claim_sources": [],
+    "counters": {
+      "events": 1,
+      "tool_calls": 0,
+      "handoffs": 0,
+      "messages": 0,
+      "memory_writes": 0,
+      "certificates": 0,
+      "answers": 0,
+      "trace_items": 0,
+      "budget_consumed": 0
+    },
+    "trace": "invalid_payload_policy.json",
+    "event_types": [
+      "handoff"
+    ],
+    "framework_styles": []
+  },
+  {
+    "accepted": false,
+    "errors": [
       "step 2: shared memory key 'src_same' already exists"
     ],
     "final_budgets": {
       "Planner": 3,
-      "Retriever": 1,
+      "Retriever": 3,
       "Verifier": 2
     },
     "shared_memory": [
@@ -265,6 +284,8 @@
     "shared_provenance": {
       "src_same": {
         "event": "tool_call",
+        "agent": "Retriever",
+        "tool": "BibliographicSearch",
         "step": 1,
         "trace": "tr-o1",
         "value": "first value"
@@ -274,14 +295,14 @@
     "certified_claim_sources": [],
     "counters": {
       "events": 2,
-      "tool_calls": 2,
+      "tool_calls": 1,
       "handoffs": 0,
       "messages": 0,
       "memory_writes": 1,
       "certificates": 0,
       "answers": 0,
-      "trace_items": 2,
-      "budget_consumed": 4
+      "trace_items": 1,
+      "budget_consumed": 2
     },
     "trace": "invalid_shared_memory_overwrite.json",
     "event_types": [
@@ -295,33 +316,24 @@
       "step 1: agent 'Planner' lacks permission for tool 'BibliographicSearch'"
     ],
     "final_budgets": {
-      "Planner": 1,
+      "Planner": 3,
       "Retriever": 5,
       "Verifier": 2
     },
-    "shared_memory": [
-      "src_bad_permission"
-    ],
-    "shared_provenance": {
-      "src_bad_permission": {
-        "event": "tool_call",
-        "step": 1,
-        "trace": "tr-p1",
-        "value": "unauthorised source"
-      }
-    },
+    "shared_memory": [],
+    "shared_provenance": {},
     "certified_claims": [],
     "certified_claim_sources": [],
     "counters": {
       "events": 1,
-      "tool_calls": 1,
+      "tool_calls": 0,
       "handoffs": 0,
       "messages": 0,
-      "memory_writes": 1,
+      "memory_writes": 0,
       "certificates": 0,
       "answers": 0,
-      "trace_items": 1,
-      "budget_consumed": 2
+      "trace_items": 0,
+      "budget_consumed": 0
     },
     "trace": "invalid_tool_permission.json",
     "event_types": [
@@ -345,29 +357,24 @@
     "shared_provenance": {
       "src_for_unauth": {
         "event": "tool_call",
+        "agent": "Retriever",
+        "tool": "BibliographicSearch",
         "step": 1,
         "trace": "tr-unauth-src",
         "value": "source for unauthorized certifier test"
       }
     },
-    "certified_claims": [
-      "planner_certified_claim"
-    ],
-    "certified_claim_sources": [
-      {
-        "claim": "planner_certified_claim",
-        "source": "src_for_unauth"
-      }
-    ],
+    "certified_claims": [],
+    "certified_claim_sources": [],
     "counters": {
       "events": 2,
       "tool_calls": 1,
       "handoffs": 0,
       "messages": 0,
       "memory_writes": 1,
-      "certificates": 1,
+      "certificates": 0,
       "answers": 0,
-      "trace_items": 2,
+      "trace_items": 1,
       "budget_consumed": 2
     },
     "trace": "invalid_unauthorized_certifier.json",
@@ -398,8 +405,8 @@
       "messages": 0,
       "memory_writes": 0,
       "certificates": 0,
-      "answers": 1,
-      "trace_items": 1,
+      "answers": 0,
+      "trace_items": 0,
       "budget_consumed": 0
     },
     "trace": "invalid_uncertified_answer.json",
@@ -425,12 +432,12 @@
     "counters": {
       "events": 1,
       "tool_calls": 0,
-      "handoffs": 1,
+      "handoffs": 0,
       "messages": 0,
       "memory_writes": 0,
       "certificates": 0,
       "answers": 0,
-      "trace_items": 1,
+      "trace_items": 0,
       "budget_consumed": 0
     },
     "trace": "invalid_unknown_agent.json",
@@ -455,13 +462,13 @@
     "certified_claim_sources": [],
     "counters": {
       "events": 1,
-      "tool_calls": 1,
+      "tool_calls": 0,
       "handoffs": 0,
       "messages": 0,
       "memory_writes": 0,
       "certificates": 0,
       "answers": 0,
-      "trace_items": 1,
+      "trace_items": 0,
       "budget_consumed": 0
     },
     "trace": "invalid_unknown_tool.json",
@@ -484,6 +491,8 @@
     "shared_provenance": {
       "src_bisimulation": {
         "event": "tool_call",
+        "agent": "Retriever",
+        "tool": "BibliographicSearch",
         "step": 2,
         "trace": "tr-reuse-002",
         "value": "Bisimulation reference for process equivalence"
@@ -533,6 +542,8 @@
     "shared_provenance": {
       "src_handoff_docs": {
         "event": "tool_call",
+        "agent": "Retriever",
+        "tool": "BibliographicSearch",
         "step": 2,
         "trace": "tr-lg-002",
         "value": "Framework documentation describing handoffs"
@@ -584,6 +595,8 @@
     "shared_provenance": {
       "src_prov_dm": {
         "event": "shared_memory_update",
+        "agent": "Retriever",
+        "tool": null,
         "step": 2,
         "trace": "tr-mem-002",
         "value": "PROV-DM W3C recommendation"
@@ -633,6 +646,8 @@
     "shared_provenance": {
       "src_rutten2000": {
         "event": "tool_call",
+        "agent": "Retriever",
+        "tool": "BibliographicSearch",
         "step": 2,
         "trace": "tr-002",
         "value": "Rutten 2000 universal coalgebra"
@@ -683,12 +698,16 @@
     "shared_provenance": {
       "src_coalgebra": {
         "event": "tool_call",
+        "agent": "Retriever",
+        "tool": "BibliographicSearch",
         "step": 2,
         "trace": "tr-v2-002",
         "value": "Rutten 2000 universal coalgebra"
       },
       "src_sell": {
         "event": "tool_call",
+        "agent": "Retriever",
+        "tool": "BibliographicSearch",
         "step": 3,
         "trace": "tr-v2-003",
         "value": "Nigam and Miller 2009 subexponentials"

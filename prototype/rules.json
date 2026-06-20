@@ -21,6 +21,10 @@
     }
   },
   "certifiers": ["Verifier"],
+  "payload_policies": {
+    "handoff": "nonempty_string",
+    "message": "nonempty_string"
+  },
   "trace_required_for": [
     "tool_call",
     "handoff",

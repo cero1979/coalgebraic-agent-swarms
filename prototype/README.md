@@ -10,20 +10,23 @@ SELL-inspired resource discipline. It checks:
 
 - known agents;
 - allowed handoff/message edges;
+- configured handoff/message payload policies;
 - tool permissions;
 - linear budget consumption;
 - append-only shared-memory writes with provenance;
 - claim certification from shared sources, retaining claim-source pairs;
 - audit-trace obligations for tool calls, handoffs, messages, shared-memory updates, certifications, and answers.
 
-The checker is not a full SELL prover. It is an executable abstraction of the
-resource discipline used in the article. The current suite contains 18 traces:
-5 accepted conformance scenarios and 13 rejected negative controls.
+The checker is not a full SELL prover. It recognises the side-conditioned
+certificate schemas used in the article. The suite contains 19 traces: 5
+accepted conformance scenarios and 14 rejected negative controls.
 
 ## Files
 
 - `checker.py`: trace checker implementation.
-- `rules.json`: swarm graph, tools, permissions, budgets, and trace rules.
+- `test_checker.py`: conformance and rejected-event transaction tests.
+- `verify_manifest.py`: SHA-256 manifest verifier.
+- `rules.json`: swarm graph, payload policies, tools, permissions, budgets, and trace rules.
 - `traces/valid_research_swarm.json`: accepted research-assistant trace.
 - `traces/valid_two_source_research_swarm.json`: accepted two-source trace.
 - `traces/valid_memory_update_reuse_trace.json`: accepted shared-memory-update trace.
@@ -36,6 +39,7 @@ resource discipline used in the article. The current suite contains 18 traces:
 - `traces/invalid_handoff_violation.json`: rejected graph violation.
 - `traces/invalid_message_violation.json`: rejected message graph violation.
 - `traces/invalid_missing_trace.json`: rejected audit-trace violation.
+- `traces/invalid_payload_policy.json`: rejected payload-policy violation.
 - `traces/invalid_shared_memory_overwrite.json`: rejected shared-memory overwrite.
 - `traces/invalid_tool_permission.json`: rejected tool-permission violation.
 - `traces/invalid_unauthorized_certifier.json`: rejected certification by an unauthorised agent.
@@ -55,6 +59,7 @@ Run from the project root:
 
 ```bash
 python3 prototype/checker.py --rules prototype/rules.json --traces prototype/traces/*.json --out-dir prototype/results
+python3 prototype/verify_manifest.py prototype/results/MANIFEST.json
 ```
 
 Then compile the paper:

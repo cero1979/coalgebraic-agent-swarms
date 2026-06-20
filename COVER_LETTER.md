@@ -1,175 +1,165 @@
-# Cover letter — resubmission to JLAMP
+# Cover letter - resubmission to JLAMP
 
 **To:** Alberto Lluch Lafuente, Editor-in-Chief
+
 **Journal of Logical and Algebraic Methods in Programming**
 
-**Re:** Resubmission of manuscript **[PREVIOUS REFERENCE NUMBER]**,
-"A Coalgebraic and Resource-Sensitive Semantics for Tool-Augmented Agent Swarms"
-(C. Ramírez Ovalle)
+**Re:** Resubmission of "A Coalgebraic and Resource-Sensitive Semantics for
+Tool-Augmented Agent Swarms" (C. Ramirez Ovalle)
 
 Dear Professor Lluch Lafuente,
 
-Thank you for the opportunity to resubmit a substantially revised version of the
-above manuscript, previously handled under reference **[PREVIOUS REFERENCE NUMBER]**.
-We are grateful to the handling editor for a constructive and precise review. The
-central recommendation—that the paper must be positioned against existing work on
-the behaviour of composite communicating systems, especially process algebra,
-mobile calculi, and session types—was well taken, and addressing it has clarified
-what is genuinely new in the contribution. Below we respond point by point and
-summarise the corresponding changes. All new text is in the Related Work,
-Preliminaries, Introduction, and Discussion sections; no formal result was
-weakened, and the artefact is unchanged.
+Thank you for the opportunity to resubmit a substantially revised version of
+this manuscript. We are grateful for the handling editor's precise assessment.
+The principal concern was that the paper did not establish its novelty against
+the mature literature on composite communicating systems, especially process
+algebra, mobile calculi, and session types. The revision addresses that concern
+directly and also corrects several statements whose earlier formulation was
+broader than their proofs supported.
 
----
+The revised manuscript now presents the contribution as a deliberately limited
+structural coupling between two layers: a coalgebra indexed by an interaction
+graph describes possible behaviour, while a side-conditioned SELL program uses
+the same graph to constrain resource-zone accessibility and to recognise
+certified executions. We do not claim a bialgebraic distributive law, full SELL
+proof search, protocol fidelity, deadlock-freedom, or probabilistic results.
 
-## Response to the handling editor's main concern (novelty and comparison)
+## Response to the main concern: novelty and comparison
 
-> *"In order to show the results' novelty and scientific value, the comparison
-> with other works that tackles the same problem (or similar ones) is a must."*
+> "In order to show the results' novelty and scientific value, the comparison
+> with other works that tackles the same problem (or similar ones) is a must."
 
-We agree. The revised paper now contains a dedicated comparison and a sharper
-statement of what the combination of coalgebra and SELL delivers that prior
-formalisms do not. Crucially, we also followed the editor's hint that the
-real potential of the work lies in its use of SELL, and we have foregrounded
-the one result that genuinely couples the two techniques (the graph-determined
-subexponential preorder) together with its computational consequence (linear-time
-certificate checking versus PSPACE/EXPTIME proof search). See the responses to
-Issues 1–3 below.
+We agree. The Related Work section now includes a dedicated subsection and a
+technical comparison table covering CCS, CSP, the pi-calculus, propositions as
+sessions, resource-aware session types, and bialgebraic semantics.
 
----
+The revised comparison makes the boundaries explicit:
 
-## Issue 3 — Comparison with process algebra, mobile calculi, and session types
+- CCS, CSP, and the pi-calculus already provide the classical notions of
+  communication, mobility, traces, and bisimulation used by the paper. We do not
+  claim novelty for interaction graphs, message/handoff events, or behavioural
+  equivalence.
+- Session types govern the shape of a channel protocol and, under the relevant
+  type-system assumptions, establish protocol fidelity and progress properties.
+  Our calculus does not type dual endpoints and does not establish those
+  properties.
+- Resource-aware session types integrate cost or potential with the channel
+  protocol. Our framework instead keeps permissions, budgets, provenance,
+  certified claims, and audit evidence in a ledger separate from the behavioural
+  functor.
+- Bialgebraic semantics couples syntax and behaviour through a distributive law.
+  The present paper does not provide such a law; it filters an already-given raw
+  coalgebra by side-conditioned certificate rules.
 
-> *"Reasoning about the behavior of composite systems is an old problem... Comparison
-> with those works is a must."*
+The distinguishing contribution is therefore not a replacement for those
+formalisms. It is the raw/certified separation for resource-governed executions,
+with quantitative budget accounting, append-only provenance, audit freshness,
+and answer support in one executable certificate discipline.
 
-This was the decisive comment, and we have addressed it directly.
+## Issue 1: limited interplay between coalgebra and SELL
 
-**New Related Work subsection "Process algebra, mobile calculi, and session
-types."** It (i) acknowledges CCS, CSP, and the π-calculus as the mature prior
-art that supplies our conceptual vocabulary (communication, delegation,
-behavioural equivalence), and explicitly states that our interaction graph,
-message/handoff events, and swarm bisimulation are classical rather than novel in
-this respect; (ii) discusses the propositions-as-sessions correspondence
-(Caires–Pfenning, Wadler, Honda et al., Hüttel et al.) as the closest body of
-work linking linear logic to concurrency; and (iii) draws the distinguishing
-line precisely.
+> "The use of the two techniques is mostly separate. Little nontrivial interplay
+> between the two."
 
-**Our answer to the editor's two-way question is the second option: the problem
-is related, but the method has distinguishing features.** Concretely:
+The revision now states the coupling precisely and no longer overstates it.
 
-- Session-type systems use a linear proposition to type a *channel and its dual*,
-  so the discipline guarantees *protocol fidelity and deadlock-freedom* between
-  endpoints; the resource under control is the interaction protocol.
-- Our framework does not type channels, require duality, or target
-  deadlock-freedom. Messages and handoffs are constrained only by *graph
-  admissibility*, which is strictly weaker than session fidelity. Instead, the
-  *subexponential* layer stratifies resources into labelled zones with different
-  structural status (reusable tool permissions and trace evidence vs. consumable
-  budgets and audit obligations), and certification binds these to *quantitative
-  budget accounting, append-only provenance memory, and answer support*—exactly
-  the aspects a session type abstracts away.
+1. The interaction graph indexing the swarm coalgebra generates the
+   agent-to-agent part of the subexponential preorder.
+2. The graph-characterisation proposition now proves that the quotient of the
+   agent-label preorder is isomorphic to the reachability order of the graph's
+   strongly connected components. Thus the signature retains exactly the
+   condensation order, rather than merely repeating a list of edges.
+3. Direct graph edges constrain message and handoff events, while reachability
+   constrains which agent zones a focused certificate rule may inspect.
+4. The composition theorem has been reformulated with the necessary
+   non-interference hypotheses: disjoint agents, tagged memory/claim/audit
+   namespaces, product state, and no cross-component reads. Under those
+   hypotheses, local certificates lift to interleaved composition. Shared-memory
+   or interface composition is now explicitly identified as requiring combined
+   verification.
 
-We also compare against the closest quantitative relative, **resource-aware
-session types** (Das–Hoffmann–Pfenning), explaining that they fold cost into the
-behavioural type of a channel, whereas we keep the budget/permission/provenance/
-audit ledger as a *separate component of the coalgebraic state*, decoupled from
-the behavioural functor and from channel duality. This decoupling is what makes
-the raw/certified separation and the prefix-closed safety sublanguage possible.
-Finally, we relate the work to **bialgebraic semantics** (Turi–Plotkin), stating
-honestly that we do *not* give a distributive-law/GSOS specification and
-identifying that coupling as future work.
+This is a structural graph-to-signature coupling, not a distributive law between
+SELL syntax and coalgebraic behaviour. The manuscript states that limitation in
+the Introduction, Related Work, Discussion, and Limitations sections.
 
-New references added: Milner (CCS), Hoare (CSP), Milner–Parrow–Walker
-(π-calculus), Caires–Pfenning, Wadler, Honda–Vasconcelos–Kubo, Hüttel et al.,
-Das–Hoffmann–Pfenning, and Turi–Plotkin.
+## Issue 2: abstraction power of coalgebra
 
----
+> "The abstraction power of the theory of coalgebra is not exploited (it is
+> applied only to Moore and Mealy machines)."
 
-## Issue 1 — Limited interplay between the two techniques
+The revision distinguishes generic facts from the deterministic instantiation.
+Final behaviour and bisimulation invariance depend only on the chosen functor
+and final coalgebra; the subcoalgebra construction is the standard factorisation
+pattern for a functor preserving the relevant inclusion. The event and ledger
+rules are instantiated to the deterministic Mealy functor because they inspect
+concrete finite steps.
 
-> *"The use of the two techniques is mostly separate. Little nontrivial interplay
-> between the two."*
+We also corrected the certified-bisimulation theorem. Certified bisimulation is
+now explicitly a two-way relation on the closed certifiable subcoalgebra
+`X_cert`. Only on that domain does it imply equality of raw observable
+behaviour. The partial certified LTS outside `X_cert` is used for safety
+monitoring but is not claimed to determine raw behavioural equivalence.
 
-We have foregrounded the result that *is* the interplay. The introduction now
-states explicitly that the SELL signature is **not chosen independently of the
-dynamics**: Proposition (graph-dependent structure of the signature) shows that
-the subexponential preorder is *uniquely determined by the reachability structure
-of the interaction graph that indexes the coalgebra*. In other words, the logical
-layer is read off the behavioural layer rather than layered on top of it. This
-links directly to the compositionality theorem, whose proof uses exactly this
-graph-to-preorder determination to show that disjoint swarms compose without
-global re-verification.
+The distribution-functor construction is retained only as an extension point.
+No probabilistic theorem is claimed.
 
----
+## Minor comment 1: standard Propositions 1 and 2
 
-## Issue 2 — Abstraction power of coalgebra not fully exploited
+> "Results such as Prop. 1 and 2 are very standard and do not have to be proved.
+> A reference is enough."
 
-> *"The abstraction power of the theory of coalgebra is not exploited (it is
-> applied only to Moore and Mealy machines)."*
+Done. The final Moore and deterministic Mealy constructions are cited as
+standard results. Only their characteristic equations, which are used later,
+are retained.
 
-As the editor noted, once Issue 3 is resolved this point can be treated lightly,
-and we have done so while still improving the presentation. We have (i) made the
-certified-subcoalgebra construction explicit as a genuine coalgebraic
-substructure embedded by a morphism into the raw coalgebra, with observable
-behaviour compared through the final coalgebra, and (ii) kept the probabilistic
-(distribution-functor) variant explicit as the natural generalisation beyond the
-deterministic Mealy presentation. We deliberately retain the deterministic core
-because the resource-preservation theorem concerns certified finite executions;
-this scope is now stated as an explicit assumption rather than an implicit choice.
+## Minor comment 2: SELL signature and contexts
 
----
+> "For Def. 6, the definition of subexponential signature is desired in the
+> paper (not only in a reference). So is that of linear and subexponential
+> context."
 
-## Minor comment 1 — Propositions 1 and 2 are standard
+Done. The Preliminaries now defines `Sigma = (I, <=, U)`, including the
+upward-closure requirement on `U`, and defines the linear context `Delta` and
+labelled context `Theta` before the certified-transition judgement. The concrete
+signature includes a reusable program zone, reusable policy and permission
+zones, and linear budget and audit-obligation resources.
 
-> *"Results such as Prop. 1 and 2 are very standard and do not have to be proved.
-> A reference is enough."*
+## Additional correctness and reproducibility revisions
 
-Done. The full finality proofs of Proposition 1 (final Moore semantics) and
-Proposition 2 (final semantics for deterministic swarms) have been replaced by
-references to the standard theory of coalgebras and Moore/Mealy automata
-(Rutten; Jacobs; Bonsangue–Rutten–Silva for Mealy machines). We retained only the
-characteristic equations of the behaviour map, since these—rather than the
-finality construction—are what later proofs actually use.
+During the final audit we made the following further corrections.
 
----
+1. The six displayed rules are now described as a side-conditioned operational
+   certificate calculus. Their resource transformations are reusable SELL
+   program clauses; arithmetic, graph membership, payload policy, and freshness
+   remain explicit external evidence. The checker correspondence is not
+   presented as completeness for pure SELL.
+2. The complexity statement now gives the actual bound: expected `O(s + N)` for
+   specification size `s` and trace representation size `N`, or expected `O(N)`
+   for a fixed specification. The previous, incorrect MELL/SELL complexity
+   contrast has been removed. The manuscript notes correctly that MALL is
+   PSPACE-complete and full propositional linear logic is undecidable, while
+   making no reduction or speed-up claim.
+3. Budget preservation now uses an explicit sufficiency inequality before
+   subtraction, avoiding truncated subtraction in the natural numbers.
+4. The conformance suite now contains 19 traces: 5 accepted scenarios and 14
+   rejected controls, including a payload-policy violation. The checker output
+   is deterministic across supported Python versions, and a manifest verifier
+   checks every recorded SHA-256 value.
+5. The public repository now includes the manuscript source and required LaTeX
+   class files, so `make all` works from a clean checkout. Documentation no
+   longer calls a mutable branch an archive.
+6. Submission highlights are provided as a separate editable file, each within
+   Elsevier's 85-character limit, and the required generative-AI preparation
+   declaration is included before the references.
 
-## Minor comment 2 — Definition of subexponential signature and contexts
-
-> *"For Def. 6, the definition of subexponential signature is desired in the paper
-> (not only in a reference). So is that of linear and subexponential context."*
-
-Done. A new Preliminaries subsection "Subexponential linear logic" now gives, in
-the paper itself and **before** the certified-transition definition (Def. 6),
-explicit definitions of the subexponential signature `Σ = (I, ⪯, U)` and of the
-linear context `Δ` and subexponential context `Θ`. Definition 6 now references
-these definitions directly, and the later "Subexponential signature" subsection
-recalls them before instantiating the signature for a swarm.
-
----
-
-## Summary of changes
-
-1. New Related Work subsection comparing with process algebra, mobile calculi,
-   and session types (Issue 3), with nine new references.
-2. New Preliminaries subsection defining the SELL signature and the linear and
-   subexponential contexts, referenced from Definition 6 (Minor comment 2).
-3. Proofs of Propositions 1 and 2 replaced by references plus the characteristic
-   equations actually used downstream (Minor comment 1).
-4. Introduction strengthened to foreground the graph-determined preorder as the
-   genuine coalgebra–SELL interplay (Issue 1) and the linear-time vs. PSPACE/
-   EXPTIME complexity contrast as the concrete technical result.
-5. Discussion extended to contrast SELL-based certification with session types
-   for communicating endpoints (Issue 3).
-
-We believe these revisions resolve the comparison concern that motivated the
-decision and make the specific novelty—the coupling of coalgebraic dynamics with
-a graph-determined, linearly-checkable subexponential certification discipline—
-explicit. We thank the editor again for guidance that materially improved the
-paper.
+We believe the revision now answers the editor's comparison request directly,
+states the coalgebra-SELL interaction at the strength actually proved, and makes
+the formal and executable claims independently auditable.
 
 Sincerely,
 
-Carlos Ramírez Ovalle
+Carlos Ramirez Ovalle
+
 Pontificia Universidad Javeriana-Cali
+
 carlosovalle@javerianacali.edu.co

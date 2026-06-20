@@ -13,9 +13,10 @@ invalid\_\allowbreak{}certificate\_\allowbreak{}source & rejected & 1 & 0 & step
 invalid\_\allowbreak{}duplicate\_\allowbreak{}trace & rejected & 2 & 0 & step 2: duplicate trace id 'tr-dup' \\
 invalid\_\allowbreak{}handoff\_\allowbreak{}violation & rejected & 1 & 0 & step 1: handoff edge 'Planner -> Verifier' is not allowed \\
 invalid\_\allowbreak{}message\_\allowbreak{}violation & rejected & 1 & 0 & step 1: message edge 'Planner -> Verifier' is not allowed \\
-invalid\_\allowbreak{}missing\_\allowbreak{}trace & rejected & 1 & 2 & step 1: event 'tool\_\allowbreak{}call' lacks required audit trace \\
-invalid\_\allowbreak{}shared\_\allowbreak{}memory\_\allowbreak{}overwrite & rejected & 2 & 4 & step 2: shared memory key 'src\_\allowbreak{}same' already exists \\
-invalid\_\allowbreak{}tool\_\allowbreak{}permission & rejected & 1 & 2 & step 1: agent 'Planner' lacks permission for tool 'BibliographicSearch' \\
+invalid\_\allowbreak{}missing\_\allowbreak{}trace & rejected & 1 & 0 & step 1: event 'tool\_\allowbreak{}call' lacks required audit trace \\
+invalid\_\allowbreak{}payload\_\allowbreak{}policy & rejected & 1 & 0 & step 1: handoff payload violates configured policy \\
+invalid\_\allowbreak{}shared\_\allowbreak{}memory\_\allowbreak{}overwrite & rejected & 2 & 2 & step 2: shared memory key 'src\_\allowbreak{}same' already exists \\
+invalid\_\allowbreak{}tool\_\allowbreak{}permission & rejected & 1 & 0 & step 1: agent 'Planner' lacks permission for tool 'BibliographicSearch' \\
 invalid\_\allowbreak{}unauthorized\_\allowbreak{}certifier & rejected & 2 & 2 & step 2: agent 'Planner' is not authorised to certify claims \\
 invalid\_\allowbreak{}uncertified\_\allowbreak{}answer & rejected & 1 & 0 & step 1: answer uses uncertified claim 'unsupported\_\allowbreak{}claim' \\
 invalid\_\allowbreak{}unknown\_\allowbreak{}agent & rejected & 1 & 0 & step 1: unknown source agent 'Ghost' \\

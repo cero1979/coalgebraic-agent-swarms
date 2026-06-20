@@ -13,12 +13,9 @@
 *.toc
 *.log
 
-# LaTeX source and compiled paper (kept local only, not in remote)
-main.tex
+# Generated or vendor-distribution files not kept in Git
 main.abs
 main.pdf
-cas-sc.cls
-cas-common.sty
 els-cas-templates.zip
 
 # Python

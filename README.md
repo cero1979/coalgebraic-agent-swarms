@@ -2,7 +2,8 @@
 
 **Repository:** <https://github.com/cero1979/coalgebraic-agent-swarms>
 
-This repository contains the manuscript and reproducibility artefact for the paper:
+This version-controlled repository contains the manuscript source and
+reproducibility artefact for the paper:
 
 > **A Coalgebraic and Resource-Sensitive Semantics for Tool-Augmented Agent Swarms**
 
@@ -13,7 +14,9 @@ The paper proposes a formal semantics for tool-augmented agent swarms. Coalgebra
 ```text
 .
 ├── main.tex                         # Article source
-├── main.pdf                         # Compiled article PDF, if generated locally
+├── cas-sc.cls                       # Elsevier CAS single-column class
+├── cas-common.sty                   # Elsevier CAS support package
+├── HIGHLIGHTS.md                    # Separate submission highlights
 ├── Makefile                         # Reproducibility commands
 ├── REPRODUCIBILITY.md               # Detailed artefact instructions
 └── prototype/
@@ -37,7 +40,9 @@ The prototype validates finite JSON traces against the implemented fragment of t
 - final answers citing only certified claims;
 - fresh audit traces for auditable events.
 
-The current conformance suite contains 18 traces: 5 accepted traces and 13 rejected traces covering targeted violations. The accepted set now includes a shared-memory update trace, a reusable-claim trace, and a LangGraph-like normalised trace with framework metadata.
+The current conformance suite contains 19 traces: 5 accepted traces and 14
+rejected controls covering targeted violations, including a configured
+payload-policy failure.
 
 ## Quick Reproduction
 
@@ -46,6 +51,7 @@ Clone and run the checker:
 ```bash
 git clone https://github.com/cero1979/coalgebraic-agent-swarms.git
 cd coalgebraic-agent-swarms
+git checkout jlamp-resubmission-2026-06
 python3 prototype/checker.py \
   --rules prototype/rules.json \
   --traces prototype/traces/*.json \
@@ -56,8 +62,10 @@ Or use the Make targets:
 
 ```bash
 make results   # regenerate prototype results
-make paper     # compile the article PDF (requires latexmk)
-make all       # both steps
+make verify    # verify every SHA-256 value in the generated manifest
+make test      # run checker conformance and transaction tests
+make paper     # compile main.pdf (requires latexmk)
+make all       # regenerate, verify, and compile
 ```
 
 ## Expected Results
@@ -70,7 +78,12 @@ The checker should accept:
 - `valid_claim_reuse_trace.json`
 - `valid_langgraph_like_trace.json`
 
-It should reject the remaining traces, including violations of budget, graph topology, tool permission, certificate source support, duplicate traces, missing traces, memory overwrite, unknown agents, unknown tools, and unauthorised certifiers. It also writes `coverage_summary.json`, `coverage_table.tex`, and `MANIFEST.json` with SHA-256 checksums for reproducibility.
+It should reject the remaining traces, including violations of budget, graph
+topology, payload policy, tool permission, certificate source support, duplicate
+traces, missing traces, memory overwrite, unknown agents, unknown tools, and
+unauthorised certifiers. It also writes `coverage_summary.json`,
+`coverage_table.tex`, and `MANIFEST.json`; `prototype/verify_manifest.py`
+verifies every recorded checksum.
 
 ## Requirements
 
@@ -80,4 +93,7 @@ It should reject the remaining traces, including violations of budget, graph top
 
 ## Notes
 
-The checker is intentionally small. It is not a full SELL proof-search implementation; it is an executable recogniser for the finite certificate fragment described in the paper.
+The checker is intentionally small. It is not a full SELL proof-search
+implementation. It recognises the six side-conditioned certificate schemas
+described in the paper; their resource projections are interpreted using
+reusable SELL program clauses.

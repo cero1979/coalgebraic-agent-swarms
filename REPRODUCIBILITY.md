@@ -1,6 +1,7 @@
 # Reproducibility Guide
 
 This document explains how to reproduce the article artefacts from a clean checkout.
+The resubmission snapshot is tagged `jlamp-resubmission-2026-06`.
 
 ## 1. Regenerate Prototype Results
 
@@ -28,9 +29,28 @@ This regenerates:
 - `prototype/results/coverage_table.tex`
 - `prototype/results/MANIFEST.json`
 
-The generated LaTeX tables are included by `main.tex`. The manifest records SHA-256 checksums for the checker, rules, traces, and generated outputs.
+The generated LaTeX tables are included by `main.tex`. Generated summaries do
+not contain runtime-version fields, so they are byte-stable across supported
+Python versions.
 
-## 2. Compile the Paper
+## 2. Verify the Manifest
+
+Run:
+
+```bash
+python3 prototype/verify_manifest.py prototype/results/MANIFEST.json
+```
+
+Equivalent Make target:
+
+```bash
+make verify
+```
+
+The verifier checks the manuscript source, LaTeX class files, checker, rules,
+traces, and generated results against their recorded SHA-256 values.
+
+## 3. Compile the Paper
 
 Run:
 
@@ -46,7 +66,7 @@ make paper
 
 The expected output is `main.pdf`.
 
-## 3. Clean Build Artefacts
+## 4. Clean Build Artefacts
 
 Run:
 
@@ -56,9 +76,10 @@ make clean
 
 This removes common LaTeX auxiliary files while leaving source files, prototype traces, results, and the PDF intact.
 
-## 4. Conformance Suite Summary
+## 5. Conformance Suite Summary
 
-The trace suite is intentionally finite and hand-checkable. It currently contains 18 traces: 5 accepted conformance scenarios and 13 rejected negative controls.
+The trace suite is intentionally finite and hand-checkable. It contains 19
+traces: 5 accepted conformance scenarios and 14 rejected negative controls.
 
 Accepted traces:
 
@@ -77,6 +98,7 @@ Rejected traces:
 - `prototype/traces/invalid_handoff_violation.json`
 - `prototype/traces/invalid_message_violation.json`
 - `prototype/traces/invalid_missing_trace.json`
+- `prototype/traces/invalid_payload_policy.json`
 - `prototype/traces/invalid_shared_memory_overwrite.json`
 - `prototype/traces/invalid_tool_permission.json`
 - `prototype/traces/invalid_unauthorized_certifier.json`
@@ -84,6 +106,8 @@ Rejected traces:
 - `prototype/traces/invalid_unknown_agent.json`
 - `prototype/traces/invalid_unknown_tool.json`
 
-## 5. Interpretation
+## 6. Interpretation
 
-Accepted traces instantiate the implemented local-soundness obligations of the paper. Rejected traces are negative controls for graph, permission, budget, provenance, certification, and audit failures.
+Accepted traces instantiate the implemented local-soundness obligations of the
+paper. Rejected traces are negative controls for graph, payload policy,
+permission, budget, provenance, certification, and audit failures.
