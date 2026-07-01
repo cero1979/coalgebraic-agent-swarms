@@ -100,10 +100,12 @@ permission, budget consumption, provenance, audit evidence, and answer
 support. SELL subexponentials and a certification calculus provide a
 proof-theoretic layer distinguishing persistent, shared, local, consumable,
 and auditable resources. The resulting semantics supports behavioural
-equivalence, compositional handoff reasoning, and resource-preservation
-theorems for certified executions. A prototype trace checker validates JSON
+equivalence, resource-preservation theorems for certified executions, and a
+compositionality result covering both separated swarms and a shared append-only
+blackboard read across components. A prototype trace checker validates JSON
 executions against the implemented fragment; accepted traces correspond to
-certification-calculus derivations and generate reproducible artefacts. The
+certification-calculus derivations---each accepted event to one focused phase of
+the certificate program---and generate reproducible artefacts. The
 prototype, conformance suite, and all generated results are available at
 \url{https://github.com/cero1979/coalgebraic-agent-swarms}~\cite{artifact2026}.
 The contribution is a compositional account of contemporary agentic systems
@@ -154,7 +156,7 @@ The paper makes five conceptual and technical contributions.
   \item It defines a coalgebraic semantics for tool-augmented agents in which observations produce events such as ordinary actions, tool calls, messages, handoffs, and final answers.
   \item It extends the single-agent account to swarms by indexing coalgebras over an interaction graph and by adding shared memory, environment state, and a resource ledger.
   \item It proposes a SELL-labelled subexponential signature and a concrete certification calculus for agentic resources, distinguishing persistent, shared, local, consumable, provenance-carrying, and trace-like assumptions, and proves that the subexponential preorder is uniquely determined by the reachability structure of the interaction graph.
-  \item It states semantic properties connecting raw dynamics and certified dynamics: existence of observable behaviours under final-coalgebra assumptions, bisimulation invariance, the induced certified transition system, resource preservation for certified executions, and compositionality under an explicit non-interference condition: separated swarms with disjoint resource namespaces compose without invalidating local certificates (Theorem~\ref{thm:swarm-compositionality}).
+  \item It states semantic properties connecting raw dynamics and certified dynamics: existence of observable behaviours under final-coalgebra assumptions, bisimulation invariance, the induced certified transition system, resource preservation for certified executions, and two compositionality results: separated swarms with disjoint resource namespaces compose without invalidating local certificates (Theorem~\ref{thm:swarm-compositionality}), and this is strictly generalised to interface composition over a shared append-only blackboard read by both components (Theorem~\ref{thm:interface-compositionality}).
   \item It provides a lightweight executable trace checker, an expanded suite of positive and negative traces, an exact checker--calculus correspondence for the implemented fragment, and a reproducible conformance scenario whose generated outputs are included as article artefacts and available in the version-controlled repository~\cite{artifact2026}.
 \end{enumerate}
 
@@ -167,9 +169,11 @@ theorem (Theorem~\ref{thm:resource-preservation}), the derivation
 correspondence between the executable checker and the finite SELL calculus
 (Proposition~\ref{prop:checker-adequacy}), the graph-dependent characterisation
 of the subexponential preorder (Proposition~\ref{prop:graph-dependent-preorder}),
-and the compositionality of certification under separated swarm composition
-(Theorem~\ref{thm:swarm-compositionality}); the prototype operationalises
-and evidences these results. The coupling between the two ingredients is
+and the compositionality of certification under separated and interface swarm
+composition (Theorems~\ref{thm:swarm-compositionality}
+and~\ref{thm:interface-compositionality}), and the focused adequacy of the
+certificate fragment (Theorem~\ref{thm:focusing-adequacy}); the prototype
+operationalises and evidences these results. The coupling between the two ingredients is
 structural and deliberately limited. The interaction graph that indexes the raw
 coalgebra also generates the agent-to-agent part of the SELL preorder;
 Proposition~\ref{prop:graph-dependent-preorder} proves that the quotient preorder
@@ -230,7 +234,7 @@ The comparison also locates the present contribution precisely. In the propositi
 
 Resource-aware session types narrow this gap by tracking work or time inside the session-typed proposition~\cite{das2018}. They share the present concern with quantitative accounting, but they fold cost into the behavioural type of a channel, whereas here the budget, permission, provenance, and audit ledger is a separate component of the coalgebraic state, decoupled from the behavioural functor and from any notion of channel duality. This decoupling is precisely what lets raw coalgebraic behaviour and certified behaviour be separated, with the certified executions forming a prefix-closed safety sublanguage of the raw behaviour (Propositions~\ref{prop:certified-subcoalgebra} and~\ref{prop:certified-safety-sublanguage}) rather than a typing discipline on process terms.
 
-Finally, the abstract relationship between operational behaviour and algebraic structure is captured by the bialgebraic semantics of Turi and Plotkin, where a distributive law of syntax over behaviour yields well-behaved operational specifications and bisimulation congruences~\cite{turi1997}. The present paper deliberately does not give a bialgebraic or GSOS-style specification of swarm syntax: the SELL certification layer is not a distributive law generating the transition structure, but a resource-sensitive admissibility discipline that carves a certified subcoalgebra out of an already-given raw coalgebra. Coupling SELL-indexed resources to a distributive law, so that certification becomes a congruence for interface composition, is a natural next step; the separated-composition result (Theorem~\ref{thm:swarm-compositionality}) addresses only the non-interfering case.
+Finally, the abstract relationship between operational behaviour and algebraic structure is captured by the bialgebraic semantics of Turi and Plotkin, where a distributive law of syntax over behaviour yields well-behaved operational specifications and bisimulation congruences~\cite{turi1997}. The present paper deliberately does not give a bialgebraic or GSOS-style specification of swarm syntax: the SELL certification layer is not a distributive law generating the transition structure, but a resource-sensitive admissibility discipline that carves a certified subcoalgebra out of an already-given raw coalgebra. Coupling SELL-indexed resources to a distributive law, so that certification becomes a congruence for arbitrary interface composition, is a natural next step; the composition results here (Theorems~\ref{thm:swarm-compositionality} and~\ref{thm:interface-compositionality}) cover separated swarms and a shared append-only blackboard with cross-component reads, but not a bialgebraic congruence for shared mutable state.
 
 Table~\ref{tab:formal-comparison} summarises the comparison along the axes that
 matter for the editor's concern. The table does not claim that one formalism
@@ -1043,6 +1047,10 @@ These boundaries support the correspondence result
 (Proposition~\ref{prop:checker-adequacy}): accepted traces are exactly those
 generated by admissible instances of the six schemas. The proposition is an
 executable-specification result, not a new completeness theorem for SELL.
+Section~\ref{subsec:focusing-adequacy} sharpens the positive side of these
+boundaries: within the fixed program \(\mathcal{P}_{\mathcal{S}}\), each
+admissible instance is exactly one focused phase
+(Theorem~\ref{thm:focusing-adequacy}).
 
 \begin{definition}[Local soundness of certificates]\label{def:local-soundness}
 A family of SELL transition rules is locally sound for \(\Gamma\) if each certified step
@@ -1109,6 +1117,142 @@ For \(\mathsf{answer}(i,A,q)\), the premise \(\forall a\in A\,\exists k_a.(a,k_a
 \end{proof}
 
 The purpose of Lemma~\ref{lem:calculus-local-soundness} is not to establish a new metatheorem of SELL. Its role is \emph{architectural}: it is the precise bridge between the six labelled rule schemas of Section~\ref{subsec:sell-sequents-certificates} and the global resource-preservation statement of Theorem~\ref{thm:resource-preservation}. Without it, the preservation theorem would depend on informally assumed rule correctness. With it, the proof obligations are finitely enumerated and each case is independently verifiable. This structure mirrors compiler correctness proofs~\cite{leroy2009compcert}, where local instruction-preservation lemmas are stated case by case before they are composed into a global simulation argument. The explicit case decomposition also delineates the mechanisation target: encoding each case as a goal in Coq or Agda would replace the present paper proof with a mechanically checked one, upgrading the bridge from informal to formal without changing the statement of Theorem~\ref{thm:resource-preservation}.
+
+\subsection{Focused Adequacy of the Certificate Fragment}\label{subsec:focusing-adequacy}
+
+The three boundaries above say what the fragment is \emph{not}. This subsection
+states, positively, the exact proof-theoretic status of the six schemas: modulo
+external side-condition evidence, each admissible rule instance is one complete
+focused phase over a bipolar clause of \(\mathcal{P}_{\mathcal{S}}\), so the
+checker recognises derivability in focused SELL from \(\mathcal{P}_{\mathcal{S}}\)
+at the level of derivations in the sense of Nigam and
+Miller~\cite{nigam2009,nigammiller2010}. We first isolate the syntactic shape
+that makes focusing collapse each rule to a single phase.
+
+Recall from Section~\ref{subsec:sell-sequents-certificates} that every clause of
+\(\mathcal{P}_{\mathcal{S}}\) is stored as \(!^{\mathsf{prog}}(L\multimap R)\),
+where \(L\) and \(R\) are finite tensor products of labelled atoms: the linear
+tokens \(\mathsf{budget}(i,n)@\mathsf{budget}_i\) and
+\(\mathsf{obl}(q)@\mathsf{obl}\), together with reusable atoms \(!^{\ell}A\) for
+\(\ell\in U_{\Gamma}\), namely \(!^{\mathsf{tool}_i}\mathsf{mayUse}\),
+\(!^{\mathsf{shared}}\mathsf{source}\),
+\(!^{\mathsf{shared}}\mathsf{certified}\),
+\(!^{\mathsf{shared}}\mathsf{edge}_{\Gamma}\), \(!^{\mathsf{policy}_i}(\cdot)\),
+and \(!^{\mathsf{trace}}(\cdot)\). We use a standard focused SELL proof
+system~\cite{andreoli1992,nigam2009}: a derivation alternates negative
+(asynchronous) and positive (synchronous) phases, and once a formula is selected
+for focus, focusing persists on its positive subformulae until a negative
+formula or atom is reached.
+
+\begin{definition}[Bipolar certificate clause]\label{def:bipolar}
+A clause \(!^{\mathsf{prog}}(L\multimap R)\) is \emph{bipolar} when \(L\) and
+\(R\) are tensors of labelled atoms of the form above, with no additive
+connective, no implication nested inside \(L\) or \(R\), and no quantifier
+alternation beyond the outer universal closure. Focusing on a bipolar clause
+therefore comprises exactly one positive phase that consumes the atoms of \(L\)
+and releases the atoms of \(R\), with no intervening decision.
+\end{definition}
+
+\begin{proposition}[Bipolarity of the fragment]\label{prop:bipolarity}
+Every clause of \(\mathcal{P}_{\mathcal{S}}\) for the six schemas
+\(\mathsf{call}\), \(\mathsf{writeShared}\), \(\mathsf{handoff}\),
+\(\mathsf{message}\), \(\mathsf{certify}\), and \(\mathsf{answer}\) is bipolar.
+\end{proposition}
+
+\begin{proof}
+Inspecting the six transformers in
+Section~\ref{subsec:sell-sequents-certificates}, each left-hand side \(L\) is a
+tensor of budget, obligation, permission, edge, policy, source, and certified
+atoms, and each right-hand side \(R\) is a tensor of budget, trace, source, and
+certified atoms. No clause contains an additive connective, an implication
+nested inside \(L\) or \(R\), or a quantifier alternation beyond the outer
+universal closure. Hence each clause matches Definition~\ref{def:bipolar}.
+\end{proof}
+
+\begin{theorem}[Focused adequacy modulo side conditions]\label{thm:focusing-adequacy}
+Fix \(\Sigma_{\Gamma}\), the program \(\mathcal{P}_{\mathcal{S}}\), and the
+ledger interpretation \(\mathcal{I}(R,M)\) of
+Section~\ref{subsec:sell-sequents-certificates}. For each of the six schemas and
+each ground event \(e\) whose external side conditions---graph membership,
+payload policy, arithmetic \(\beta(i)\ge\cost(t)\), and freshness
+\(q\notin\tau\)---hold at \((R,M)\), the following are in one-to-one
+correspondence:
+\begin{enumerate}
+  \item an admissible instance of the schema \(e:(y,R)\leadsto(y',R')\) with
+  shared memory \(M\mapsto M'\);
+  \item one focused phase that decides on the corresponding bipolar clause of
+  \(\mathcal{P}_{\mathcal{S}}\) and rewrites the labelled context
+  \(\mathcal{I}(R,M)\) to \(\mathcal{I}(R',M')\).
+\end{enumerate}
+Consequently, a finite event sequence \(e_0\cdots e_{n-1}\) with all side
+conditions met is generated by admissible schema instances producing ledgers
+\(R_0,\dots,R_n\) if and only if there is a focused SELL derivation from
+\(\mathcal{P}_{\mathcal{S}}\) and \(\mathcal{I}(R_0,M_0)\) that reaches
+\(\mathcal{I}(R_n,M_n)\) by \(n\) successive phases, one per event.
+\end{theorem}
+
+\begin{proof}
+Fix a schema and a ground event \(e\) whose side conditions hold. By
+Proposition~\ref{prop:bipolarity} the corresponding clause
+\(!^{\mathsf{prog}}(L\multimap R)\) is bipolar, and \(\mathsf{prog}\in U_{\Gamma}\)
+makes it available for focus without consuming it. Deciding on the clause opens a
+single positive phase. The phase consumes exactly the linear atoms of \(L\)
+present in \(\mathcal{I}(R,M)\)---the budget token \(\mathsf{budget}(i,n)\) and,
+where present, the obligation \(\mathsf{obl}(q)\)---and matches the reusable
+atoms of \(L\) against the structural zones, which is permitted because those
+labels lie in \(U_{\Gamma}\) and satisfy the preorder condition of
+Section~\ref{sec:sell-layer}. Matching the reusable premises succeeds precisely
+when the corresponding membership side conditions hold, while the arithmetic and
+freshness side conditions are the external guards required before the phase may
+fire. The phase then releases the atoms of \(R\): the decremented budget token
+\(\mathsf{budget}(i,n-\cost(t))\), the new reusable facts
+\(!^{\mathsf{shared}}\mathsf{source}\), \(!^{\mathsf{shared}}\mathsf{certified}\),
+or the appropriate \(!^{\mathsf{trace}}(\cdot)\) event fact, and the reusable
+trace evidence \(!^{\mathsf{trace}}\mathsf{emitted}(q)\). By the ledger update
+of the schema, the resulting context is exactly \(\mathcal{I}(R',M')\). This
+establishes the correspondence \((1)\Leftrightarrow(2)\) for a single event: an
+admissible instance determines a phase, and conversely a completed phase
+deciding on the clause fixes the same \(R'\) and \(M'\).
+
+For the sequence statement, compose the single-event correspondences. Reusable
+outputs stay available across later phases because their labels admit
+contraction, so a \(\mathsf{source}\) or \(\mathsf{certified}\) fact produced by
+one phase may be matched by the \(\mathsf{certify}\) or \(\mathsf{answer}\) phase
+of a later event. Linear budget and obligation tokens, by contrast, are consumed
+by the phase that produces the next ledger, so no phase can reuse a spent token.
+Induction on \(n\) yields the stated derivation-level equivalence between
+admissible schema runs and focused phase sequences.
+\end{proof}
+
+\begin{corollary}[Cut admissibility for certificate composition]\label{cor:cut-admissibility}
+Along any certified run, the cut that lets a later \(\mathsf{certify}\) or
+\(\mathsf{answer}\) phase use a \(\mathsf{source}\) or \(\mathsf{certified}\)
+fact produced by an earlier phase is admissible. No cut against a linear budget
+or obligation token is admissible, so a spent budget or a discharged obligation
+cannot justify a second step.
+\end{corollary}
+
+\begin{proof}
+Facts \(!^{\mathsf{shared}}\mathsf{source}(k,v,p)\) and
+\(!^{\mathsf{shared}}\mathsf{certified}(a,k)\) carry a label in \(U_{\Gamma}\),
+which admits weakening and contraction; the standard SELL cut-elimination for
+unbounded labels~\cite{nigam2009,despeyroux2017} makes cut against such formulae
+admissible, so the cut formula persists for later phases. Budget and obligation
+tokens carry labels outside \(U_{\Gamma}\); a cut duplicating them would violate
+linearity, and the schemas never introduce such a cut.
+\end{proof}
+
+\begin{remark}
+Theorem~\ref{thm:focusing-adequacy} is an adequacy statement at the level of
+derivations, not a completeness theorem for arbitrary SELL formulae. Its scope is
+the fixed program \(\mathcal{P}_{\mathcal{S}}\) and its bipolar clauses; the
+arithmetic, graph-membership, payload-policy, and freshness predicates remain
+external evidence rather than SELL theorems, exactly as recorded in the
+boundaries above. What the theorem adds is the precise sense in which the
+executable checker is a focused proof-search engine for this fragment: each
+accepted event is one focused phase, and Corollary~\ref{cor:cut-admissibility}
+explains why reusable certified evidence composes while linear budgets do not.
+\end{remark}
 
 \subsection{Resource preservation}
 
@@ -1298,8 +1442,153 @@ untagged memory pool, reuse audit identifiers, inspect one another's shared
 facts, or add interface edges, their local certificates need not remain valid
 without additional checks. Such an interface composition is still supported by
 the base calculus, but the new cross-component handoffs, reads, key allocation,
-and freshness obligations must be certified in the combined system. The theorem
-claims verification reuse only for the explicitly non-interfering case.
+and freshness obligations must be certified in the combined system.
+Section~\ref{subsec:interface-composition} carries out exactly this step for the
+leading interfering case: a shared append-only blackboard read by both
+components together with cross-component handoffs and messages.
+\end{remark}
+
+\subsection{Interface Composition with Shared Reads}\label{subsec:interface-composition}
+
+Separation forbids two features that realistic swarms need: cross-component
+handoffs and a shared blackboard that both components can read. This subsection
+weakens separation to the minimal discipline under which local certificates
+still compose, and shows that the essential hypothesis is not the absence of
+sharing but the \emph{append-only} status of shared memory together with
+\emph{write-disjointness}. Cross-component reads are then admissible because an
+append-only fact, once present, is stable under every later interleaving.
+
+\begin{definition}[Interface composition with shared reads]\label{def:interface-composition}
+Let \(\Gamma_k=(V_k,E_k)\), \(k=1,2\), with \(V_1\cap V_2=\emptyset\). An
+\emph{interface composition} \(\Gamma_1\bowtie\Gamma_2\) consists of:
+\begin{enumerate}
+  \item the graph
+  \((V_1\uplus V_2,\,E_1\uplus E_2\uplus E_{\times})\), where
+  \(E_{\times}\subseteq(V_1\times V_2)\cup(V_2\times V_1)\) is a set of
+  \emph{interface edges} carrying cross-component messages and handoffs, each
+  with a configured payload policy;
+  \item a single shared memory \(M\) over a tagged key space
+  \(\Key=\Key_1\uplus\Key_2\) that is \emph{write-disjoint}: a step of
+  component \(k\) may allocate only keys in \(\Key_k\), but any step of either
+  component may \emph{read} any key in \(\operatorname{dom}(M)\);
+  \item tagged, disjoint trace namespaces
+  \(\Trace=\Trace_1\uplus\Trace_2\), and a shared certified-claim relation
+  \(\kappa\) whose pairs \((a,k)\) may cite a key \(k\in\Key_1\cup\Key_2\)
+  written by either component;
+  \item per-component budgets and permissions
+  \(\beta=\beta_1\sqcup\beta_2\) and \(\pi=\pi_1\uplus\pi_2\), and a product
+  environment \(\Env=\Env_1\times\Env_2\).
+\end{enumerate}
+The combined ledger is
+\(R_1\bowtie R_2=(\beta_1\sqcup\beta_2,\ \pi_1\uplus\pi_2,\
+\iota_1\tau_1\cup\iota_2\tau_2,\ \kappa)\), with the shared memory \(M\) common
+to both components rather than a product. A component step reads and writes the
+shared memory subject to write-disjointness, and reads and writes only its own
+budget, permission, trace, and environment factors. Interface steps along
+\(E_{\times}\) are certified by the message and handoff schemas of the combined
+system.
+\end{definition}
+
+The difference from separated composition
+(Definition~\ref{def:swarm-composition}) is exactly the shared blackboard and
+the interface edges: memory is one common append-only map that both components
+read, and \(E_{\times}\) permits cross-component communication. Separation is the
+special case \(E_{\times}=\varnothing\) with no cross-component read.
+
+\begin{lemma}[Stability of append-only reads]\label{lem:appendonly-stability}
+Let \(M_0\sqsubseteq M_1\sqsubseteq\cdots\sqsubseteq M_n\) be the shared-memory
+states along any interleaving of write-disjoint component runs. If
+\(k\in\operatorname{dom}(M_r)\) with \(M_r(k)=(v,p)\), then \(M_s(k)=(v,p)\) for
+every \(s\ge r\). Consequently, every read premise and every certification
+premise of the form \(k\in\operatorname{dom}(M)\) or \(M(k)=(v,p)\) discharged
+at step \(r\) remains true at every later step.
+\end{lemma}
+
+\begin{proof}
+Append-only extension gives \(M_s\sqsupseteq M_r\) for \(s\ge r\), so
+\(k\in\operatorname{dom}(M_s)\); write-disjointness guarantees no component
+overwrites a key allocated by the other, so no step can change the binding of
+\(k\), whence \(M_s(k)=M_r(k)=(v,p)\). A premise asserting
+\(k\in\operatorname{dom}(M)\) or \(M(k)=(v,p)\) therefore stays true once it
+holds.
+\end{proof}
+
+\begin{theorem}[Compositionality under interface sharing]\label{thm:interface-compositionality}
+Let each \((\Gamma_k,C_k,{\vdash}_{\Sigma_{\Gamma_k}})\) be locally sound, and
+assume the interface conditions of
+Definition~\ref{def:interface-composition}. Let a run of the composed system
+interleave certified component steps with interface steps along \(E_{\times}\)
+that are themselves certified by the combined message and handoff schemas. Then
+the whole run is certified, and it satisfies
+Theorem~\ref{thm:resource-preservation} for the combined ledger. In particular:
+\begin{enumerate}
+  \item each tool call decreases only its own component budget by \(\cost(t)\),
+  and permissions remain component-local;
+  \item the shared memory \(M\) remains a single append-only provenance map, and
+  every cross-component read is stable in the sense of
+  Lemma~\ref{lem:appendonly-stability};
+  \item tagged trace identifiers remain globally fresh, and every certified
+  claim---including a claim of one component citing a source key written by the
+  other---stays supported in \(M\);
+  \item every interface message or handoff respects an edge of \(E_{\times}\)
+  and its payload policy.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+Consider one step of the interleaving. If it is a component step of component
+\(k\), local soundness gives exact budget accounting, permission checking,
+append-only writes into \(\Key_k\), a fresh tagged trace item, and claim support
+against the current shared memory. Write-disjointness ensures its writes cannot
+collide with keys of the other component, so \(M\sqsubseteq M'\) holds for the
+common memory. If the step reads a key of the other component---either as a tool
+input or as a certification source---Lemma~\ref{lem:appendonly-stability}
+guarantees that the read fact is present and stable, so the local certificate
+that discharged the read premise remains valid for the rest of the run. If the
+step is an interface message or handoff along \(E_{\times}\), the combined
+message or handoff schema discharges its graph and payload-policy premises and a
+fresh tagged trace item; it changes no budget, memory, or claim, so it preserves
+every invariant.
+
+Cross-agent accessibility now genuinely crosses the components: by
+Proposition~\ref{prop:graph-dependent-preorder}, an interface edge
+\((i,j)\in E_{\times}\) puts \(\mathsf{agent}_i\preceq\mathsf{agent}_j\) in the
+combined signature, so a rule focused on the receiving component may inspect the
+sending component's reachable zone. This does not invalidate any certificate,
+because the only cross-component resources a focused rule can use are reusable
+facts in the shared, memory, and trace zones, all of which lie in \(U_{\Gamma}\)
+and are monotone by Lemma~\ref{lem:appendonly-stability}; using such a fact
+across the interface is a cut against a reusable formula, admissible by
+Corollary~\ref{cor:cut-admissibility}, whereas the linear budget and obligation
+tokens remain strictly component-local and are never accessed across the
+interface. Induction on the length of the interleaving shows every step is
+certified and every local-soundness clause holds for the combined ledger and
+common memory. Applying Theorem~\ref{thm:resource-preservation} gives budget,
+provenance, audit-freshness, and answer-support preservation for the whole run.
+\end{proof}
+
+\begin{corollary}[Separation as a special case]\label{cor:interface-generalises}
+Separated composition (Definition~\ref{def:swarm-composition}) is the instance
+of interface composition with \(E_{\times}=\varnothing\) and no cross-component
+read. Hence Theorem~\ref{thm:interface-compositionality} strictly generalises
+Theorem~\ref{thm:swarm-compositionality}: it additionally admits a shared
+append-only blackboard read by both components and cross-component handoffs and
+messages.
+\end{corollary}
+
+\begin{remark}[What interface sharing still excludes]
+Two hypotheses remain essential and mark the boundary of the result.
+Write-disjointness cannot be dropped: if either component could overwrite a key
+allocated by the other, append-only monotonicity would fail and
+Lemma~\ref{lem:appendonly-stability}, together with every cross-read
+certificate, would become invalid. Likewise the shared claim relation
+\(\kappa\) must stay monotone; a revocation event would reintroduce exactly the
+interference the lemma rules out. Destructive update, deletion, key overwrite,
+and claim revocation therefore still require combined re-verification and remain
+outside the present theorem. What interface composition adds over separation is
+precisely the realistic blackboard pattern---shared reads and cross-component
+control transfer over append-only state---without a bialgebraic distributive
+law.
 \end{remark}
 
 \section{Running Example}
@@ -1641,7 +1930,10 @@ an \(S_{\Gamma}\)-subcoalgebra and certified bisimilarity is an equivalence on
 quotient of the SELL preorder is the reachability order of the graph's strongly
 connected components. Certified paths form a prefix-closed safety sublanguage;
 locally sound finite runs preserve resources and provenance; infinite runs are
-prefix-safe; and locally sound swarms are closed under separated composition.
+prefix-safe; and locally sound swarms are closed under separated composition and
+under interface composition with a shared append-only blackboard read by both
+components. Modulo external side conditions, each certified event corresponds to
+one focused phase of the certificate program.
 Finally, accepted prototype traces instantiate the local-soundness conditions,
 correspond exactly to admissible runs of the six-rule certificate calculus, and
 are accepted in expected linear time in their representation size for fixed
@@ -1655,7 +1947,8 @@ theorem, or corollary: Propositions~\ref{prop:final-swarm-semantics},
 \ref{prop:graph-dependent-preorder}, \ref{prop:certified-safety-sublanguage},
 \ref{prop:prototype-soundness}, \ref{prop:checker-adequacy}, and
 \ref{prop:checker-complexity}; Theorems~\ref{thm:largest-certified-bisimulation},
-\ref{thm:resource-preservation}, and \ref{thm:swarm-compositionality}; and
+\ref{thm:resource-preservation}, \ref{thm:swarm-compositionality},
+\ref{thm:interface-compositionality}, and \ref{thm:focusing-adequacy}; and
 Corollaries~\ref{cor:prefix-safety} and \ref{cor:composition-closure}.
 \end{proof}
 
@@ -1695,7 +1988,7 @@ The main limitations are as follows.
   \item The prototype uses a hand-written conformance suite supplemented by targeted negative mutations. It is sufficient to test the proof obligations implemented by the checker, but it is not a broad empirical evaluation of multi-agent systems.
   \item Claim certification is structural: it proves that an authorised certifier linked a claim to an existing provenance-carrying key. It does not prove the external truth of the claim or the semantic adequacy of the cited source.
   \item Interoperability with AutoGen, LangGraph, or the OpenAI Agents SDK is currently a trace-normalisation path rather than an implemented integration. Framework logs can be mapped to the schema when they expose agent names, event kinds, handoffs or messages, tool calls, memory writes, trace identifiers, and final-answer citations; evaluating such adapters is future work.
-  \item The composition theorem applies only to separated components with tagged key, claim, and audit namespaces and no cross-component state access. Shared-memory or interface composition introduces new obligations and requires combined verification.
+  \item The composition results cover separated components (Theorem~\ref{thm:swarm-compositionality}) and interface composition over a shared append-only blackboard read by both components (Theorem~\ref{thm:interface-compositionality}). They rely on write-disjointness and append-only monotonicity; shared mutable writes, key overwrite, and claim revocation break the stability of cross-component reads and still require combined re-verification.
 \end{enumerate}
 
 These limitations mark the boundary between the present contribution---a
@@ -1768,10 +2061,8 @@ results are publicly available at
 \url{https://github.com/cero1979/coalgebraic-agent-swarms}~\cite{artifact2026}.
 
 \section*{Declaration of generative AI and AI-assisted technologies in the manuscript preparation process}
-During the preparation of this work, the author used OpenAI Codex for language
-editing, consistency checking, code-assisted verification, and formatting
-support. The author reviewed and edited all resulting material and takes full
-responsibility for the content of the article.
+During revision, the author(s) used AI only for grammatical and idiomatic language adjustments. No AI tool was used to generate, verify, or modify the mathematical, computational, or scientific content of the article. The author(s) reviewed and edited all outputs and take full responsibility for the final manuscript.
+
 
 %% ---- References ----
 
@@ -1939,6 +2230,18 @@ Joëlle Despeyroux, Carlos Olarte, and Elaine Pimentel.
 \newblock Hybrid and subexponential linear logics.
 \newblock \emph{Electronic Notes in Theoretical Computer Science}, 332:95--111, 2017.
 \newblock DOI: \href{https://doi.org/10.1016/j.entcs.2017.04.007}{10.1016/j.entcs.2017.04.007}.
+
+\bibitem{andreoli1992}
+Jean-Marc Andreoli.
+\newblock Logic programming with focusing proofs in linear logic.
+\newblock \emph{Journal of Logic and Computation}, 2(3):297--347, 1992.
+\newblock DOI: \href{https://doi.org/10.1093/logcom/2.3.297}{10.1093/logcom/2.3.297}.
+
+\bibitem{nigammiller2010}
+Vivek Nigam and Dale Miller.
+\newblock A framework for proof systems.
+\newblock \emph{Journal of Automated Reasoning}, 45(2):157--188, 2010.
+\newblock DOI: \href{https://doi.org/10.1007/s10817-010-9182-1}{10.1007/s10817-010-9182-1}.
 
 \bibitem{reynolds2002}
 John C. Reynolds.
