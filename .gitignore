@@ -31,3 +31,7 @@ __pycache__/
 *.swo
 .idea/
 .vscode/
+
+# Private cover letter (keep local; the public repo is cited in the paper)
+cover_letter_jlamp_resubmission.tex
+cover_letter_jlamp_resubmission.pdf
