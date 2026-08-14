@@ -81,35 +81,7 @@
 \def\textpagefraction{.001}
 
 \begin{abstract}
-Computing systems are increasingly assembled as networks of specialised,
-resource-governed components that use tools, maintain shared memory, delegate
-control, and retain execution traces. Large language model agent frameworks
-provide the most prominent current instance of this pattern, but the semantic
-status of the primitives they expose---tool permissions, handoffs, budgets,
-and audit traces---remains underdeveloped. This paper
-proposes a formal framework for tool-augmented agent swarms combining two
-ingredients: coalgebra, to model state-based observable dynamics, and
-Subexponential Linear Logic (SELL), to discipline resources, permissions,
-budgets, and traces. An agent is modelled as a coalgebra whose observations
-trigger actions, tool calls, messages, handoffs, and state updates. A swarm
-is a coalgebra indexed by an interaction graph and equipped with
-provenance-carrying shared memory and a resource ledger. The central
-distinction is between raw executions, which a system may emit, and certified
-executions, which discharge labelled obligations for graph admissibility, tool
-permission, budget consumption, provenance, audit evidence, and answer
-support. SELL subexponentials and a certification calculus provide a
-proof-theoretic layer distinguishing persistent, shared, local, consumable,
-and auditable resources. The resulting semantics supports behavioural
-equivalence, resource-preservation theorems for certified executions, and a
-compositionality result covering both separated swarms and a shared append-only
-blackboard read across components. A prototype trace checker validates JSON
-executions against the implemented fragment; accepted traces correspond to
-certification-calculus derivations---each accepted event to one focused phase of
-the certificate program---and generate reproducible artefacts. The
-prototype, conformance suite, and all generated results are available at
-\url{https://github.com/cero1979/coalgebraic-agent-swarms}~\cite{artifact2026}.
-The contribution is a compositional account of contemporary agentic systems
-as observable, resource-governed, coalgebraic processes.
+Computing systems are increasingly assembled as networks of specialised, resource-governed components that use tools, maintain shared memory, delegate control, and retain execution traces. Large language model agent frameworks provide the most prominent current instance of this pattern, but the semantic status of the primitives they expose—tool permissions, handoffs, budgets, and audit traces—remains underdeveloped. This paper proposes a formal framework for tool-augmented agent swarms combining two ingredients: coalgebra, to model state-based observable dynamics, and Subexponential Linear Logic (SELL), to discipline resources, permissions, budgets, and traces. An agent is modelled as a coalgebra whose observations trigger actions, tool calls, messages, handoffs, and state updates. A swarm is a coalgebra indexed by an interaction graph and equipped with provenance-carrying shared memory and a resource ledger. The central distinction is between raw executions, which a system may emit, and certified executions, which discharge labelled obligations for graph admissibility, tool permission, budget consumption, provenance, audit evidence, and answer support. SELL subexponentials and a certification calculus provide a proof-theoretic layer distinguishing persistent, shared, local, consumable, and auditable resources. The resulting semantics supports behavioural equivalence, resource-preservation theorems for certified executions, and compositionality for separated swarms and shared append-only blackboards. The contribution is a compositional account of contemporary agentic systems as observable, resource-governed, coalgebraic processes.
 \end{abstract}
 
 \begin{highlights}
