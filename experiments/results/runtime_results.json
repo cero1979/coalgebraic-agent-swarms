@@ -1,6 +1,6 @@
 {
   "environment": {
-    "captured_at_utc": "2026-08-20T14:37:20.408100+00:00",
+    "captured_at_utc": "2026-08-20T15:32:06.875679+00:00",
     "deterministic_inputs": true,
     "host_machine": "arm64",
     "logical_cpu_count": 11,
@@ -28,112 +28,112 @@
   "samples": [
     {
       "durations_seconds": [
-        2.3375e-05,
-        2.5e-05,
-        2.5125e-05,
-        2.5125e-05,
-        2.5333e-05,
-        2.55e-05,
-        2.65e-05
+        2.4792e-05,
+        2.4875e-05,
+        2.4875e-05,
+        2.5083e-05,
+        2.5292e-05,
+        2.5292e-05,
+        2.6083e-05
       ],
       "event_type_counts": {
         "handoff": 5,
         "message": 5
       },
       "events": 10,
-      "events_per_second": 398009.9502487562,
-      "iqr_seconds": 3.5400000000000034e-07,
-      "median_seconds": 2.5125e-05,
-      "q1_seconds": 2.50625e-05,
-      "q3_seconds": 2.54165e-05,
+      "events_per_second": 398676.3943706893,
+      "iqr_seconds": 4.1699999999999957e-07,
+      "median_seconds": 2.5083e-05,
+      "q1_seconds": 2.4875e-05,
+      "q3_seconds": 2.5292e-05,
       "repetitions": 7
     },
     {
       "durations_seconds": [
-        0.000171958,
-        0.000175,
-        0.000175292,
-        0.000175958,
-        0.000182583,
-        0.000185834,
-        0.000207333
+        0.000183833,
+        0.000184541,
+        0.000184583,
+        0.000184625,
+        0.00018475,
+        0.000185,
+        0.000185667
       ],
       "event_type_counts": {
         "handoff": 50,
         "message": 50
       },
       "events": 100,
-      "events_per_second": 568317.439388945,
-      "iqr_seconds": 9.06250000000001e-06,
-      "median_seconds": 0.000175958,
-      "q1_seconds": 0.000175146,
-      "q3_seconds": 0.0001842085,
+      "events_per_second": 541638.4563303995,
+      "iqr_seconds": 3.1299999999999514e-07,
+      "median_seconds": 0.000184625,
+      "q1_seconds": 0.00018456199999999999,
+      "q3_seconds": 0.00018487499999999998,
       "repetitions": 7
     },
     {
       "durations_seconds": [
-        0.001764625,
-        0.001830333,
-        0.001848208,
-        0.001858042,
-        0.001908792,
-        0.001945542,
-        0.00195575
+        0.001811667,
+        0.001811875,
+        0.001816333,
+        0.001816417,
+        0.00182225,
+        0.001825833,
+        0.001833542
       ],
       "event_type_counts": {
         "handoff": 500,
         "message": 500
       },
       "events": 1000,
-      "events_per_second": 538200.9663936553,
-      "iqr_seconds": 8.789650000000002e-05,
-      "median_seconds": 0.001858042,
-      "q1_seconds": 0.0018392705,
-      "q3_seconds": 0.001927167,
+      "events_per_second": 550534.376192251,
+      "iqr_seconds": 9.937499999999964e-06,
+      "median_seconds": 0.001816417,
+      "q1_seconds": 0.001814104,
+      "q3_seconds": 0.0018240415,
       "repetitions": 7
     },
     {
       "durations_seconds": [
-        0.009291417,
-        0.009319708,
-        0.009371042,
-        0.009429042,
-        0.0094395,
-        0.009495042,
-        0.009625625
+        0.0090185,
+        0.009067125,
+        0.00907425,
+        0.009095583,
+        0.009107708,
+        0.009153417,
+        0.009277
       ],
       "event_type_counts": {
         "handoff": 2500,
         "message": 2500
       },
       "events": 5000,
-      "events_per_second": 530276.5646817567,
-      "iqr_seconds": 0.00012189599999999981,
-      "median_seconds": 0.009429042,
-      "q1_seconds": 0.009345375,
-      "q3_seconds": 0.009467271,
+      "events_per_second": 549717.3738066048,
+      "iqr_seconds": 5.98750000000009e-05,
+      "median_seconds": 0.009095583,
+      "q1_seconds": 0.0090706875,
+      "q3_seconds": 0.009130562500000002,
       "repetitions": 7
     },
     {
       "durations_seconds": [
-        0.0185885,
-        0.018774542,
-        0.018788416,
-        0.018992084,
-        0.019023541,
-        0.019127583,
-        0.01917375
+        0.018031875,
+        0.01806,
+        0.018082667,
+        0.018085959,
+        0.018153083,
+        0.018208542,
+        0.018262209
       ],
       "event_type_counts": {
         "handoff": 5000,
         "message": 5000
       },
       "events": 10000,
-      "events_per_second": 526535.1606490368,
-      "iqr_seconds": 0.00029408300000000054,
-      "median_seconds": 0.018992084,
-      "q1_seconds": 0.018781479,
-      "q3_seconds": 0.019075562,
+      "events_per_second": 552915.1094503753,
+      "iqr_seconds": 0.00010947899999999913,
+      "median_seconds": 0.018085959,
+      "q1_seconds": 0.0180713335,
+      "q3_seconds": 0.0181808125,
       "repetitions": 7
     }
   ],

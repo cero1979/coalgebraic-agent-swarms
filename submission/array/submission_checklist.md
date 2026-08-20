@@ -60,10 +60,9 @@ publishing approval.
 - **PASS** - `make all` passed 56 tests: 26 checker, five LangGraph integration,
   fourteen experiment, and eleven submission-script tests; it also completed
   all builds and the isolated submission check.
-- **PASS** - Final E1--E4 reproduction was recorded from clean source commit
-  `9c7395f47b293c488e44b1002ef1716b11bed355`; the environment record reports
-  `repository_worktree_dirty: false`. The later diagram-only repair does not
-  alter the checker, integrations, experiment runner, inputs, or measurements.
+- **PASS** - Final E1--E4 reproduction was recorded from clean release-candidate
+  commit `f4653a379471905cae2697eb35eb99f1d8eb3507`; the environment record
+  reports `repository_worktree_dirty: false` and the pinned dependency versions.
 - **PASS** - Both result manifests verify all recorded SHA-256 entries, and the
   submission validator verifies every flat-bundle entry against
   `BUILD_MANIFEST.json`.
