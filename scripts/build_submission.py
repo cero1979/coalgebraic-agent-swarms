@@ -32,6 +32,7 @@ AUTHOR_MAINTAINED = (
 FIXED_ELSEVIER_FILES = ("cas-sc.cls", "cas-common.sty")
 GRAPHIC_EXTENSIONS = (".pdf", ".png", ".jpg", ".jpeg", ".eps")
 BUILD_AUXILIARY_SUFFIXES = {
+    ".abs",
     ".aux",
     ".bbl",
     ".bcf",

@@ -6,16 +6,18 @@ not itself a submission document.
 
 ## Working State
 
-- Branch: `array-resubmission-2026-08`
+- Release tag: `v1.0.0`
+- Release URL: <https://github.com/cero1979/coalgebraic-agent-swarms/releases/tag/v1.0.0>
 - Article type: Regular Paper
 - Manuscript source: `main.tex`
 - Reproducibility entry point: `make all`
-- Public-release status: working revision only; no final immutable release or
-  archival DOI exists yet
+- Public-release status: immutable GitHub release with signed attestation and
+  checksummed assets; no archival DOI is claimed
 
-The editable manuscript was preserved on a dedicated local branch before the
-revision began. This work must not be advertised as an archived *Array*
-artefact until the final commit has been published, tagged, and deposited.
+The editable manuscript was preserved on a dedicated branch before the
+revision began. Release `v1.0.0` is the authoritative software/data snapshot
+for the submission. GitHub release immutability prevents its tag and assets
+from being changed after publication.
 
 ## Scientific Audit and Decisions
 
@@ -107,7 +109,7 @@ The revision does not claim:
 - general shared-state compositionality;
 - validation beyond the three included LangGraph workflows;
 - production throughput or platform-independent timing; or
-- a public immutable software/data release before one is actually created.
+- an archival DOI or Zenodo record for release `v1.0.0`.
 
 ## Reproducibility and Submission Gates
 
@@ -135,13 +137,15 @@ passes, and the flat package compiles in isolation.
 - [ ] Perform the author's final scientific and line-by-line manuscript review.
 - [ ] Confirm author identity, affiliation, correspondence, CRediT, funding,
       competing-interest, data/software, and generative-AI declarations.
-- [ ] Visually inspect the final manuscript and cover-letter PDFs.
+- [x] Visually inspect the final manuscript and cover-letter PDFs.
 - [ ] Complete Editorial Manager metadata and the declaration-of-interest form.
 - [ ] Review APC or institutional-agreement implications.
-- [ ] Publish and tag the exact final repository commit.
-- [ ] Archive that release and obtain a persistent identifier.
-- [ ] Replace provisional repository citations and metadata with the final DOI.
-- [ ] Run `make all` once more from the immutable submission state.
+- [x] Publish and tag the exact final repository commit as `v1.0.0`.
+- [x] Publish versioned manuscript/data assets and their SHA-256 inventory.
+- [x] Replace provisional repository citations with exact release/asset URLs.
+- [x] Run `make verify` and `make all` from a clean release-candidate checkout.
+- [ ] Optionally archive a future version in Zenodo and add its DOI only after
+      the identifier genuinely exists.
 
 ## Change Log
 
@@ -152,3 +156,6 @@ passes, and the flat package compiles in isolation.
   tables, integrity manifests, and Array-oriented documentation.
 - 2026-08-19: recorded the release/DOI step as a mandatory manual gate rather
   than claiming that an immutable public artefact already exists.
+- 2026-08-20: published the reconciled repository as immutable release
+  `v1.0.0`, attached the manuscript and separately licensed synthetic data,
+  and retained the absence of an archival DOI as an explicit limitation.

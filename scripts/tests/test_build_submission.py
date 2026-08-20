@@ -52,6 +52,7 @@ class BuildSubmissionTests(unittest.TestCase):
         self.temporary.cleanup()
 
     def test_build_is_flat_and_rewrites_nested_dependencies(self) -> None:
+        (self.output / "stale.abs").write_text("generated\n", encoding="utf-8")
         names = build_submission(
             root=self.root,
             output=self.output,
@@ -68,6 +69,7 @@ class BuildSubmissionTests(unittest.TestCase):
         self.assertIn("unsrtnat.bst", names)
         self.assertIn(r"% \input{missing-commented-file}", rewritten)
         self.assertTrue((self.output / "BUILD_MANIFEST.json").is_file())
+        self.assertFalse((self.output / "stale.abs").exists())
 
     def test_author_files_are_required_and_existing_files_survive_rebuild(self) -> None:
         cover = self.output / "cover_letter.tex"

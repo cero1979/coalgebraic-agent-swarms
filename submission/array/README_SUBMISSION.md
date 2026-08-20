@@ -66,6 +66,6 @@ workflows. Checker acceptance certifies the stated structural obligations; it
 does not establish factual truth, cryptographic authenticity, adversarial
 security, full SELL proof search, or a mechanised proof.
 
-No remote push, public release, or archival deposit is performed by the local
-submission builder. Those publication actions remain explicit author gates in
-`submission_checklist.md`.
+The local submission builder performs no remote write. The separately executed
+publication workflow produced immutable GitHub release `v1.0.0`; a future
+release or archival deposit remains an explicit author-controlled action.

@@ -1,9 +1,10 @@
 # Array pre-submission status checklist
 
 Status snapshot: 2026-08-20, after the complete automated build, clean-result
-capture, isolated package validation, and full visual inspection. `PASS` records
-objective evidence already present. It does not replace the author's scientific
-or publishing approval.
+capture, isolated package validation, full visual inspection, remote
+reconciliation, and publication of release `v1.0.0`. `PASS` records objective
+evidence already present. It does not replace the author's scientific or
+publishing approval.
 
 ## Author and article metadata
 
@@ -50,12 +51,12 @@ or publishing approval.
   every figure label is cited in the manuscript.
 - **PASS** - The frozen flat package contains every editable/generated table
   source and every table label is cited in the manuscript.
-- **PASS** - The builder collected a 19-file flat submission package containing
+- **PASS** - The builder collected an 18-file flat submission package containing
   the manuscript source, bibliography, Elsevier class/style files, flattened
   figure/table sources, highlights, cover letter, PDFs, and integrity manifest.
 - **PASS** - The intended source, generated results, manifests, and checklist are
-  frozen on the local `array-resubmission-2026-08` branch; the final local freeze
-  includes an empty `git status --short` check.
+  frozen on public tag `v1.0.0`; the release tag and assets are protected by
+  GitHub immutable releases and a signed attestation.
 - **PASS** - `make all` passed 56 tests: 26 checker, five LangGraph integration,
   fourteen experiment, and eleven submission-script tests; it also completed
   all builds and the isolated submission check.
@@ -105,24 +106,21 @@ or publishing approval.
 - **MANUAL AUTHOR ACTION** - Enter the dataset title exactly as:
   **Coalgebraic Agent Swarms: Conformance Traces and LangGraph Validation
   Outputs**.
-- **BLOCKED** - No immutable public software/data release and archival record
-  with a persistent identifier has been created. Create both before submission;
-  do not invent a DOI or call a mutable branch an archive.
-- **BLOCKED** - Artifact and dataset references cannot be finalised until that
-  release exists. Then update `main.tex`, `references.bib`, the data/software
-  availability text, repository metadata, and portal fields to the same release
-  and persistent identifier.
-- **BLOCKED** - Public reproducibility cannot be signed off until the immutable
-  release is opened from a clean checkout and its documented commands run
-  without private files, local-only paths, an LLM key, or a commercial API.
-- **BLOCKED** - Repository visibility, release assets, checksums, licensing, and
-  long-term archive access require verification after publication of the
-  immutable release.
-- **PASS** - This local preparation has performed **no remote push**, public
-  release, or archival deposit.
-- **MANUAL AUTHOR ACTION** - Approve the exact release contents before any
-  remote push, create the release/archive, and retain the resulting identifiers
-  and checksums.
+- **PASS** - Immutable public GitHub release `v1.0.0` identifies the exact
+  software snapshot and carries a signed release attestation. No archival DOI is
+  claimed or required by the manuscript.
+- **PASS** - `main.tex`, `references.bib`, `CITATION.cff`, and the availability
+  text cite the exact release and separately checksummed dataset-asset URLs.
+- **PASS** - A clean public release-candidate checkout passed committed-manifest
+  verification and the complete documented pipeline without a private file,
+  local-only path, LLM key, commercial API, or external research dataset.
+- **PASS** - Repository visibility, release assets, SHA-256 inventory, software
+  licence, data licence, and release attestation were verified after publication.
+- **PASS** - The author explicitly authorised the remote update and publication
+  of the final repository state and constructed artefacts.
+- **MANUAL AUTHOR ACTION** - A future Zenodo deposit is recommended for FAIR
+  discovery but is not an Array submission blocker. Add a DOI only after a real
+  archival identifier has been assigned.
 
 ## Declarations and publishing conditions
 

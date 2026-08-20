@@ -1,14 +1,16 @@
 cff-version: 1.2.0
-message: "If you use this software or its generated traces, please cite this repository."
+message: "If you use this software or its generated traces, please cite the versioned release."
 title: "Coalgebraic Agent Swarms: Certification Checker and Validation Artifact"
 type: software
+version: "1.0.0"
+date-released: "2026-08-20"
 authors:
   - family-names: "Ramirez Ovalle"
     given-names: "Carlos"
     orcid: "https://orcid.org/0000-0002-4254-5610"
     affiliation: "Pontificia Universidad Javeriana Cali"
 repository-code: "https://github.com/cero1979/coalgebraic-agent-swarms"
-url: "https://github.com/cero1979/coalgebraic-agent-swarms"
+url: "https://github.com/cero1979/coalgebraic-agent-swarms/releases/tag/v1.0.0"
 license: MIT
 keywords:
   - coalgebra

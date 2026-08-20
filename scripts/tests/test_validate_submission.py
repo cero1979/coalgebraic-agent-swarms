@@ -117,8 +117,10 @@ See Figure~\ref{fig:pipeline} and cite the artifact~\cite{artifact}.
 
     def test_manifest_detects_tampering_and_nested_layout(self) -> None:
         (self.bundle / "main.pdf").write_bytes(b"changed")
+        (self.bundle / "main.abs").write_text("generated\n", encoding="utf-8")
         (self.bundle / "nested").mkdir()
         codes = {issue.code for issue in validate_bundle_layout(self.bundle)}
+        self.assertIn("build-artifact", codes)
         self.assertIn("bundle-manifest", codes)
         self.assertIn("non-flat-layout", codes)
 

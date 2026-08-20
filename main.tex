@@ -315,8 +315,8 @@ Resource-aware session types narrow this gap by tracking work or time inside the
 Finally, the abstract relationship between operational behaviour and algebraic structure is captured by the bialgebraic semantics of Turi and Plotkin, where a distributive law of syntax over behaviour yields well-behaved operational specifications and bisimulation congruences~\cite{turi1997}. The present paper deliberately does not give a bialgebraic or GSOS-style specification of swarm syntax: the SELL certification layer is not a distributive law generating the transition structure, but a resource-sensitive admissibility discipline that filters paths of an already-given raw coalgebra. Only under the explicit totality and closure conditions of Proposition~\ref{prop:certified-subcoalgebra} does this filter restrict to a subcoalgebra. Coupling SELL-indexed resources to a distributive law, so that certification becomes a congruence for arbitrary interface composition, is a natural next step. Theorem~\ref{thm:disjoint-interleaving} covers only operational interleavings with disjoint namespaces, not a bialgebraic congruence or shared mutable state.
 
 Table~\ref{tab:formal-comparison} summarises the comparison along the axes that
-matter for the editor's concern. The table does not claim that one formalism
-subsumes another; it records different verification targets.
+are relevant to the present certification problem. The table does not claim
+that one formalism subsumes another; it records different verification targets.
 
 \begin{table}[htbp]
 \centering
@@ -1748,10 +1748,10 @@ implementation sanity check, not a proof of asymptotic complexity or a
 production benchmark.
 
 OpenAI Codex assisted repository auditing, checker and experiment refactoring,
-test construction, literature organisation, and language editing during this
-revision. The author inspected and edited the changes, executed the complete
-test and experiment pipeline, checked generated artifacts against their
-manifests, and independently reviewed the cited sources and reported claims.
+test construction, literature organisation, and language editing during the
+preparation of this work. The author inspected and edited the changes, executed
+the complete test and experiment pipeline, checked generated artifacts against
+their manifests, and independently reviewed the cited sources and reported claims.
 The numerical results in this section come from the reproducible scripts and
 recorded outputs rather than from generated prose.
 
@@ -1894,16 +1894,17 @@ python3.12 -m venv .venv
 python -m pip install -r requirements.txt
 make all
 \end{verbatim}
-The target runs 54 unit tests, regenerates both result sets, verifies their
+The target runs 56 unit tests, regenerates both result sets, verifies their
 SHA-256 manifests, compiles the paper, creates a flat Elsevier source bundle,
 and compiles that bundle in isolation. No model endpoint, network service, or
 commercial API is used. E1--E3 are deterministic. E4 records new timing
 observations on each machine; the committed JSON and CSV files retain all seven
 measurements per size, their quartiles, the timing scope, and the execution
-environment. The development repository is hosted at the URL in
-Reference~\cite{artifact2026}. An immutable public release and archival
-identifier remain a release gate before submission; no DOI is claimed in this
-draft.
+environment. The exact software snapshot is published as the immutable GitHub
+release identified in Reference~\cite{artifact2026}; the original synthetic
+data are also distributed as a separately checksummed release asset
+\cite{artifactdata2026}. GitHub's release attestation and the supplied SHA-256
+inventory bind those assets to version 1.0.0. No archival DOI is claimed.
 
 \subsection{Threats to validity and limitations}
 
@@ -2038,9 +2039,11 @@ for the study. The 19 conformance traces, native and canonical LangGraph records
 42 mutation cases, scaling inputs, raw timing observations, environment
 metadata, generated tables, source code, and SHA-256 manifests are included in
 the replication package~\cite{artifact2026,artifactdata2026}. No reference or
-third-party dataset was analysed. The development repository is
-\url{https://github.com/cero1979/coalgebraic-agent-swarms}; an immutable public
-release and archival identifier must be added before submission.
+third-party dataset was analysed. Version 1.0.0 of the software and data is
+available from the immutable public release
+\url{https://github.com/cero1979/coalgebraic-agent-swarms/releases/tag/v1.0.0}.
+The release is identified by a GitHub attestation and published SHA-256
+checksums; no archival DOI has been assigned.
 
 \section*{Declaration of generative AI and AI-assisted technologies in the manuscript preparation process}
 During the preparation of this work, the author used OpenAI Codex to assist with

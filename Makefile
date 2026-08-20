@@ -54,7 +54,7 @@ submission: experiments paper ## Regenerate evidence and build the flat, indepen
 submission-check: submission ## Validate objective Array constraints and isolated compilation.
 	$(PYTHON) scripts/validate_submission.py --bundle $(SUBMISSION_DIR)
 
-all: test prototype-results experiments verify paper submission-check ## Run the deterministic end-to-end pipeline.
+all: test experiments prototype-results verify paper submission-check ## Run the deterministic end-to-end pipeline.
 
 clean: ## Remove local build caches and LaTeX auxiliary files; retain results and PDFs.
 	-$(LATEXMK) -c main.tex

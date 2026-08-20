@@ -8,7 +8,7 @@ for the Regular Paper prepared for *Array*:
 > **Resource-Sensitive Certification of Tool-Augmented Agent Swarms: Coalgebraic
 > Semantics and LangGraph Validation**
 
-The revision separates a framework execution trace from a resource-certified
+The artefact separates a framework execution trace from a resource-certified
 trace. A deterministic coalgebra describes observable event/state evolution;
 a fixed, side-conditioned SELL-labelled ledger checks tool permissions, linear
 budgets, routing, append-only memory, structural provenance, claim support, and
@@ -53,6 +53,10 @@ no language model, commercial API, API key, network call, or external service.
 Any bibliographic strings used by a workflow are synthetic fixtures rather
 than observations extracted from a published dataset.
 
+The original synthetic records under `prototype/` and `experiments/results/`
+are released under CC BY 4.0 as specified in `DATA_LICENSE.md`; the software is
+released under the MIT licence in `LICENSE`.
+
 For an Elsevier source-of-data form, the appropriate classification is
 **Original data**. A suitable dataset title is:
 
@@ -77,15 +81,19 @@ For an Elsevier source-of-data form, the appropriate classification is
 |-- REPRODUCIBILITY.md                # End-to-end instructions
 |-- ARRAY_REVISION_NOTES.md           # Revision audit and remaining gates
 |-- CITATION.cff                      # Citation metadata
+|-- DATA_LICENSE.md                   # CC BY 4.0 scope for synthetic data
 |-- LICENSE                           # Software licence
 `-- Makefile                          # Reproducibility entry points
 ```
 
 ## Reproduce
 
-Python 3.12 is the reference interpreter. From the repository root:
+Python 3.12 is the reference interpreter. Reproduce the exact release with:
 
 ```bash
+git clone --branch v1.0.0 --depth 1 \
+  https://github.com/cero1979/coalgebraic-agent-swarms.git
+cd coalgebraic-agent-swarms
 python3.12 -m venv .venv
 . .venv/bin/activate
 python -m pip install -r requirements.txt
@@ -109,12 +117,16 @@ flat Array package, and `make submission-check` additionally validates and
 compiles that package in isolation. See `REPRODUCIBILITY.md` for prerequisites,
 individual experiment targets, and interpretation limits.
 
-## Release Status
+## Versioned Release
 
-The working branch is `array-resubmission-2026-08`. There is currently **no
-final public Array release and no archival DOI** for this revision. The local
-files and branch name must not be represented as an immutable archive. After
-the manuscript and artefact are frozen, the author must manually publish the
-final repository state, create an immutable release, archive that release in a
-suitable repository such as Zenodo, and replace any provisional software/data
-citation with the resulting persistent identifier before submission.
+The authoritative submission artefact is the immutable GitHub release
+[`v1.0.0`](https://github.com/cero1979/coalgebraic-agent-swarms/releases/tag/v1.0.0).
+GitHub locks its tag and assets on publication and supplies a signed release
+attestation. The release includes the manuscript PDF, a separately licensed
+data archive, and a SHA-256 inventory; GitHub also supplies source ZIP and TAR
+archives for the tagged commit.
+
+No archival DOI has been assigned. The manuscript and metadata therefore cite
+the exact public release and data-asset URLs without inventing a DOI. A future
+Zenodo deposit would improve long-term FAIR discovery but is not represented as
+already existing.

@@ -1,9 +1,10 @@
 # Reproducibility Guide
 
 This guide reproduces the software tests, four evaluation groups, manuscript,
-and flat *Array* submission package from a clean checkout. The reference branch
-is `array-resubmission-2026-08`; it is a working branch, not an immutable public
-release.
+and flat *Array* submission package from a clean checkout. The reference
+snapshot is the immutable public GitHub release `v1.0.0`:
+
+<https://github.com/cero1979/coalgebraic-agent-swarms/releases/tag/v1.0.0>
 
 ## 1. Prerequisites
 
@@ -13,9 +14,13 @@ release.
   for the paper and flat submission package;
 - sufficient local disk space for the pinned Python environment.
 
-Create the reference environment and install the exact dependencies:
+Clone the tagged snapshot, create the reference environment, and install the
+exact dependencies:
 
 ```bash
+git clone --branch v1.0.0 --depth 1 \
+  https://github.com/cero1979/coalgebraic-agent-swarms.git
+cd coalgebraic-agent-swarms
 python3.12 -m venv .venv
 . .venv/bin/activate
 python -m pip install -r requirements.txt
@@ -170,6 +175,10 @@ Suggested data-source metadata:
 - **Title:** Coalgebraic Agent Swarms: Conformance Traces and LangGraph
   Validation Outputs
 
+The original synthetic inputs, outputs, and generated result tables are
+licensed under CC BY 4.0 as scoped in `DATA_LICENSE.md`. Software remains under
+the MIT licence in `LICENSE`.
+
 ## 7. Integrity Verification
 
 ```bash
@@ -215,20 +224,23 @@ The generated `submission/array/` directory is a local build artefact. Before
 upload, the author must inspect the PDFs, declarations, author metadata,
 highlights, bibliography, and package manifest.
 
-## 9. Release Gate
+## 9. Release Integrity
 
-No final public *Array* release or archival DOI exists yet. Before submission,
-the author must manually:
+Release `v1.0.0` is the exact public snapshot cited by the paper. GitHub
+immutable releases prevent its tag and assets from being changed after
+publication and provide a signed release attestation. The attached
+`SHA256SUMS-v1.0.0.txt` records the manuscript and dataset-archive hashes.
 
-1. freeze and publish the exact repository commit used for the paper;
-2. create an immutable tagged release;
-3. archive it with a persistent identifier, for example through Zenodo;
-4. update the manuscript, `CITATION.cff`, and submission metadata with that
-   identifier; and
-5. rerun `make all` from the frozen state.
+The release contains:
 
-Until those steps are complete, cite the repository URL only as a working
-software location and do not describe the branch as archived or DOI-backed.
+- `array-manuscript-v1.0.0.pdf`;
+- `coalgebraic-agent-swarms-data-v1.0.0.zip`; and
+- `SHA256SUMS-v1.0.0.txt`.
+
+GitHub supplies source-code ZIP and TAR archives directly from the tagged
+commit. No Zenodo record or DOI is claimed. If an archival DOI is assigned
+later, it must be added in a new, internally consistent version rather than
+retroactively asserted for `v1.0.0`.
 
 ## 10. Cleaning Local Build Files
 

@@ -33,6 +33,7 @@ REQUIRED_FILES = (
     "unsrtnat.bst",
 )
 PROHIBITED_SUFFIXES = {
+    ".abs",
     ".aux",
     ".bbl",
     ".bcf",
