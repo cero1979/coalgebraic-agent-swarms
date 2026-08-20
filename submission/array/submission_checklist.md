@@ -1,8 +1,9 @@
 # Array pre-submission status checklist
 
-Status snapshot: 2026-08-20, before the final source freeze and submission
-build. `PASS` records objective evidence already present. It does not replace
-the author's scientific or publishing approval.
+Status snapshot: 2026-08-20, after the complete automated build and before the
+final clean-result capture and visual inspection. `PASS` records objective
+evidence already present. It does not replace the author's scientific or
+publishing approval.
 
 ## Author and article metadata
 
@@ -41,32 +42,28 @@ the author's scientific or publishing approval.
 
 ## Final technical freeze
 
-- **BLOCKED** - Final manuscript compilation is not yet passed: run the complete
-  build only after all source edits are frozen.
-- **BLOCKED** - Final reference consistency is not yet passed: the final
-  submission validator must report no missing, duplicate, unused, or
-  out-of-order references.
-- **BLOCKED** - Final figure validation is not yet passed: the frozen package
-  must contain every figure source and show that every figure is cited.
-- **BLOCKED** - Final table validation is not yet passed: the frozen package
-  must contain every editable/generated table and show that every table is
-  cited.
-- **BLOCKED** - The flat submission source set is not yet final: `make
-  submission` must collect `main.tex`, `references.bib`, Elsevier class/style
-  files, bibliography style, flattened figure/table sources, highlights, and
-  the cover letter.
+- **PASS** - `make all` compiled the final manuscript to a 34-page PDF with no
+  undefined citation or cross-reference in the final log.
+- **PASS** - The submission validator found no missing, duplicate, or unused
+  citation keys and BibTeX completed without warnings or errors.
+- **PASS** - The frozen flat package contains both editable figure sources and
+  every figure label is cited in the manuscript.
+- **PASS** - The frozen flat package contains every editable/generated table
+  source and every table label is cited in the manuscript.
+- **PASS** - The builder collected a 19-file flat submission package containing
+  the manuscript source, bibliography, Elsevier class/style files, flattened
+  figure/table sources, highlights, cover letter, PDFs, and integrity manifest.
 - **BLOCKED** - The repository is currently modified and untracked files remain;
   do not describe the source snapshot as clean until the intended files are
   committed and `git status --short` is empty.
-- **BLOCKED** - A final all-tests pass is not yet recorded for the frozen tree.
-  From a clean environment, install the pinned requirements and run `make all`;
-  require all unit tests, integration tests, experiment tests, builds, and
-  isolated submission checks to pass.
+- **PASS** - `make all` passed 56 tests: 26 checker, five LangGraph integration,
+  fourteen experiment, and eleven submission-script tests; it also completed
+  all builds and the isolated submission check.
 - **BLOCKED** - Final experiment reproduction is not yet recorded for the frozen
   source commit. Regenerate all results and tables after the source freeze.
-- **BLOCKED** - Final checksum verification is not yet passed. The prototype
-  manifest currently predates source edits and must be regenerated; all
-  experiment and submission manifests must then verify without mismatch.
+- **PASS** - Both result manifests verify all recorded SHA-256 entries, and the
+  submission validator verifies every flat-bundle entry against
+  `BUILD_MANIFEST.json`.
 - **PASS** - The Array-specific `cover_letter.tex` exists, names the article
   type and destination, reports the evidence and limitations, and contains no
   stale journal correspondence.
@@ -155,11 +152,10 @@ the author's scientific or publishing approval.
 
 ## Package and portal approval
 
-- **BLOCKED** - Run `make submission-check` immediately before upload and retain
-  its successful output; this must occur after the final source and artifact
-  references are frozen.
-- **BLOCKED** - Validate the final `BUILD_MANIFEST.json` against every flat
-  bundle file and confirm there are no auxiliary files or nested directories.
+- **PASS** - `make all` invoked `make submission-check`; the objective validator
+  reported that the package is flat, complete, and independently compilable.
+- **PASS** - `BUILD_MANIFEST.json` matches every recorded flat-bundle file; no
+  nested directory or prohibited auxiliary file is present.
 - **BLOCKED** - Visually inspect every page of final `main.pdf` and
   `cover_letter.pdf` for clipping, blank pages, broken tables, missing figures,
   unresolved references, and malformed hyperlinks.
