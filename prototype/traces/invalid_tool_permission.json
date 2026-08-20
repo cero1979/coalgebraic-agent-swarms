@@ -10,7 +10,8 @@
       {
         "scope": "shared",
         "key": "src_bad_permission",
-        "value": "unauthorised source"
+        "value": "unauthorised source",
+        "provenance": "synthetic fixture: unauthorised tool result"
       }
     ]
   }

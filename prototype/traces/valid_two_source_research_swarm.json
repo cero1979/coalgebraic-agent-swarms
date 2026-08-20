@@ -18,7 +18,8 @@
       {
         "scope": "shared",
         "key": "src_coalgebra",
-        "value": "Rutten 2000 universal coalgebra"
+        "value": "Rutten 2000 universal coalgebra",
+        "provenance": "synthetic fixture: BibliographicSearch result for universal coalgebra"
       }
     ]
   },
@@ -33,7 +34,8 @@
       {
         "scope": "shared",
         "key": "src_sell",
-        "value": "Nigam and Miller 2009 subexponentials"
+        "value": "Nigam and Miller 2009 subexponentials",
+        "provenance": "synthetic fixture: BibliographicSearch result for subexponentials"
       }
     ]
   },

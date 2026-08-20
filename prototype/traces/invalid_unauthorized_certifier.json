@@ -10,7 +10,8 @@
       {
         "scope": "shared",
         "key": "src_for_unauth",
-        "value": "source for unauthorized certifier test"
+        "value": "source for unauthorized certifier test",
+        "provenance": "synthetic fixture: source for certifier authorization control"
       }
     ]
   },

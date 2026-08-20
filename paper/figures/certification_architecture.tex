@@ -1,0 +1,20 @@
+\begin{tikzpicture}[
+  node distance=5mm,
+  box/.style={draw, rounded corners=1.5pt, align=center, minimum height=8mm,
+              text width=0.22\linewidth, font=\small},
+  arrow/.style={-{Latex[length=2mm]}, thick}
+]
+\node[box] (framework) {Agent framework\\execution};
+\node[box, right=of framework] (adapter) {Native-stream\\adapter};
+\node[box, right=of adapter] (raw) {Canonical candidate\\raw trace};
+\node[box, below=of raw] (checker) {Certification\\checker};
+\node[box, left=of checker] (obligations) {Graph, permission,\\budget, provenance,\\and audit obligations};
+\node[box, left=of obligations] (decision) {Certified run\\or typed violation};
+\draw[arrow] (framework) -- node[above,font=\scriptsize]{native records} (adapter);
+\draw[arrow] (adapter) -- node[above,font=\scriptsize]{normalisation} (raw);
+\draw[arrow] (raw) -- (checker);
+\draw[arrow] (obligations) -- node[above,font=\scriptsize]{rule index} (checker);
+\draw[arrow] (checker) -- node[above,font=\scriptsize]{result} (decision);
+\draw[arrow, dashed] (raw.south west) to[bend right=18]
+  node[below,font=\scriptsize]{coalgebraic observation sequence} (decision.south east);
+\end{tikzpicture}

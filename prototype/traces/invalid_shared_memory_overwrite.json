@@ -10,7 +10,8 @@
       {
         "scope": "shared",
         "key": "src_same",
-        "value": "first value"
+        "value": "first value",
+        "provenance": "synthetic fixture: first source"
       }
     ]
   },
@@ -25,7 +26,8 @@
       {
         "scope": "shared",
         "key": "src_same",
-        "value": "second value"
+        "value": "second value",
+        "provenance": "synthetic fixture: overwrite attempt"
       }
     ]
   }

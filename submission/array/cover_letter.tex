@@ -1,0 +1,108 @@
+\documentclass[11pt]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper,margin=27mm]{geometry}
+\usepackage{parskip}
+\usepackage[hidelinks]{hyperref}
+
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+
+\begin{document}
+
+\begin{flushright}
+\today
+\end{flushright}
+
+Editors of \emph{Array}\\
+Elsevier
+
+\textbf{Re: Regular Paper submission, ``Resource-Sensitive Certification of
+Tool-Augmented Agent Swarms: Coalgebraic Semantics and LangGraph Validation''}
+
+Dear Editors,
+
+Please consider the enclosed manuscript as a Regular Paper for publication in
+\emph{Array}. The paper studies how an execution trace from a tool-augmented
+multi-agent workflow can be checked against explicit obligations for routing,
+permissions, budgets, append-only evidence, provenance, audit freshness, and
+support for final-answer claims. It combines a deterministic coalgebraic model
+of observable swarm behaviour with a side-conditioned, resource-sensitive
+certificate calculus whose labels are motivated by Subexponential Linear Logic
+(SELL).
+
+The contribution is deliberately bounded. Coalgebra describes the raw events
+that a framework execution may emit; the certificate layer recognises those
+finite paths for which the required ledger evidence is present. The paper proves
+prefix closure and finite-run preservation results for the stated operational
+fragment and gives an indexed, transactional checker for that fragment. It does
+not claim a bialgebraic distributive law, full SELL proof search, mechanisation,
+factual correctness of tool output, authenticated provenance, adversarial
+security, or protocol-progress guarantees. Provenance is structural: the
+checker establishes that a required record passes the documented
+explicit-provenance predicate and is linked to an append-only write, not that
+the record is externally true or cryptographically authenticated.
+
+The accompanying evaluation separates four questions and reports the evidence
+for each one:
+
+\begin{itemize}
+  \item a 19-trace conformance suite contains five accepted traces and fourteen
+        targeted negative controls, all classified as expected;
+  \item three deterministic workflows were executed with LangGraph 1.2.11 and
+        their native version-2 streams were retained before conversion to the
+        canonical trace schema; all three unmodified workflows were accepted;
+  \item fourteen certification duties were mutated once in each of the three
+        framework traces, and all 42 exact mutations were rejected at the
+        mutated step with the expected violation code; and
+  \item a scaling sanity check covers valid communication traces from 10 to
+        10,000 events, using one warm-up and seven measured repetitions per
+        size.
+\end{itemize}
+
+All evaluation data are original synthetic data generated for this study. The
+workflows are deterministic, use no language model and no commercial API, and
+exercise one orchestration framework. Accordingly, the experiments establish
+executable conformance, mutation sensitivity, and integration feasibility in
+the studied setting; they do not establish production-scale generality or
+comparative superiority. The associated reproducibility artifact contains the
+checker, LangGraph adapter and workflows, experiment runner, tests, pinned
+dependencies, generated tables, environment metadata, and integrity manifests.
+
+The manuscript fits \emph{Array} because it joins theoretical computer science
+with executable software-engineering validation for data-intensive and
+intelligent systems. Its formal contribution gives an explicit semantic and
+resource-accounting boundary; its software contribution turns that boundary
+into a reproducible validation pipeline over native framework records. The
+article should therefore be relevant to readers working across formal methods,
+software reliability, data provenance, workflow orchestration, and intelligent
+systems infrastructure.
+
+I confirm that the manuscript is original, has not been published, and is not
+under consideration by another journal. As the sole author, I approve the
+submission and take responsibility for the manuscript, software, data, and
+reported results. I declare no competing interests. This research received no
+specific grant from funding agencies in the public, commercial, or not-for-profit
+sectors. The study used no human participants, personal data, animals, or
+third-party research dataset.
+
+During preparation of the work, I used OpenAI Codex to assist with repository
+auditing, software development and testing, literature organisation, and
+language and structural editing. I reviewed and edited all outputs,
+independently verified the cited sources and reported results, and take full
+responsibility for the content of the submission. The corresponding declaration
+is included in the manuscript.
+
+Thank you for considering this work for \emph{Array}.
+
+Sincerely,
+
+\vspace{2mm}
+Carlos Ram\'irez Ovalle\\
+Departamento de Ciencias Naturales y Matem\'aticas\\
+Pontificia Universidad Javeriana Cali\\
+Cali, Colombia\\
+\href{mailto:carlosovalle@javerianacali.edu.co}{carlosovalle@javerianacali.edu.co}
+
+\end{document}

@@ -16,7 +16,8 @@
       {
         "scope": "shared",
         "key": "src_prov_dm",
-        "value": "PROV-DM W3C recommendation"
+        "value": "PROV-DM W3C recommendation",
+        "provenance": "synthetic fixture: hand-authored W3C PROV-DM reference"
       }
     ]
   },

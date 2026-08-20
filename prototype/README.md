@@ -21,6 +21,55 @@ The checker is not a full SELL prover. It recognises the side-conditioned
 certificate schemas used in the article. The suite contains 19 traces: 5
 accepted conformance scenarios and 14 rejected negative controls.
 
+Every write with `"scope": "shared"` must contain a non-empty explicit
+`"provenance"` value. The checker preserves that value verbatim in the
+corresponding `shared_provenance` record; event metadata does not substitute for
+source provenance.
+
+## Result and violation schema
+
+`check_trace(trace, rules)` retains the original result fields and additionally
+returns a `violations` list. Each item has a stable machine-readable code and a
+separate human-readable message:
+
+```json
+{
+  "code": "tool_permission",
+  "step": 3,
+  "message": "agent 'Planner' lacks permission for tool 'BibliographicSearch'"
+}
+```
+
+The corresponding legacy `errors` item remains
+`"step 3: agent 'Planner' lacks permission ..."`. Stable experiment-facing
+codes include `unknown_agent`, `unknown_tool`, `tool_permission`,
+`insufficient_budget`, `illegal_handoff`, `illegal_message`, `payload_policy`,
+`missing_provenance`, `certificate_source`, `unauthorized_certifier`,
+`duplicate_audit`, `missing_audit`, `memory_overwrite`, `uncertified_claim`,
+`unknown_event`, and `nonsequential_step`.
+
+Malformed structural fields are also rejected without aborting the checker.
+Their diagnostic codes are `memory_scope`, `invalid_writes`, `invalid_write`,
+`missing_memory_key`, `invalid_claims`, and `missing_claim`. In particular, a
+`shared_memory_update` must contain at least one write, event objects and their
+identifiers must have the expected JSON types, and `step` must be a strict JSON
+integer (booleans and floating-point values are rejected).
+
+## Transaction and complexity model
+
+Rules are indexed once per `check_trace` call into sets and dictionaries for
+agents, graph edges, tools, permissions, certifiers, and audit requirements.
+Each event is validated into a pending plan. Budget debits, audit identifiers,
+memory writes, counters, and certificates are committed only when the complete
+event is valid. Rejected events therefore leave no partial ledger effects and
+do not require copying the accumulated ledger.
+
+Under the standard constant-time indexed-lookup model, the worst-case input
+traversal and result construction take `O(S + N)` time and `O(S + N)` space,
+where `S` is the finite rule specification size and `N` includes events,
+claims, writes, and provenance payloads. No per-event deep copy of prior memory,
+claims, or audit state occurs.
+
 ## Files
 
 - `checker.py`: trace checker implementation.

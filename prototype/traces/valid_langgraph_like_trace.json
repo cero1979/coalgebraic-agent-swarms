@@ -28,7 +28,8 @@
       {
         "scope": "shared",
         "key": "src_handoff_docs",
-        "value": "Framework documentation describing handoffs"
+        "value": "Framework documentation describing handoffs",
+        "provenance": "synthetic fixture: normalised LangGraph-like tool result"
       }
     ]
   },

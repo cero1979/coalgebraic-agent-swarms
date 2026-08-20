@@ -1,0 +1,4571 @@
+[
+  {
+    "canonical_event_count": 7,
+    "canonical_event_types": [
+      "answer",
+      "certify",
+      "handoff",
+      "message",
+      "tool_call"
+    ],
+    "canonical_trace": [
+      {
+        "event": "handoff",
+        "framework": {
+          "name": "langgraph",
+          "native_event_id": "e2-research-run-001:research_planner:retrieve",
+          "native_kind": "route",
+          "node": "research_planner",
+          "run_id": "e2-research-run-001",
+          "stream_mode": "updates",
+          "stream_version": "v2",
+          "task_id": "fe418f5b-8f8a-299a-0987-bf944b4096ce",
+          "version": "1.2.11",
+          "workflow": "research"
+        },
+        "from": "Planner",
+        "payload": "retrieve a source for the requested coalgebraic claim",
+        "step": 1,
+        "to": "Retriever",
+        "trace": "e2-research-run-001:001"
+      },
+      {
+        "agent": "Retriever",
+        "event": "tool_call",
+        "framework": {
+          "name": "langgraph",
+          "native_event_id": "e2-research-run-001:research_retriever:search",
+          "native_kind": "tool_invocation",
+          "node": "research_retriever",
+          "run_id": "e2-research-run-001",
+          "stream_mode": "updates",
+          "stream_version": "v2",
+          "task_id": "7769bc5c-0354-9bd4-c26e-421b4c6e32bf",
+          "version": "1.2.11",
+          "workflow": "research"
+        },
+        "query": "coalgebraic behavioural equivalence for agent systems",
+        "step": 2,
+        "tool": "BibliographicSearch",
+        "tool_input": {
+          "query": "coalgebraic behavioural equivalence for agent systems"
+        },
+        "trace": "e2-research-run-001:002",
+        "writes": [
+          {
+            "key": "src_research_coalgebra",
+            "provenance": {
+              "agent": "Retriever",
+              "framework": "langgraph",
+              "node": "research_retriever",
+              "operation": "BibliographicSearch",
+              "origin": "deterministic_tool_result",
+              "run_id": "e2-research-run-001",
+              "trace": "e2-research-run-001:002",
+              "workflow": "research"
+            },
+            "scope": "shared",
+            "value": "Rutten (2000), Universal coalgebra: a theory of systems; deterministic query='coalgebraic behavioural equivalence for agent systems'"
+          }
+        ]
+      },
+      {
+        "event": "message",
+        "framework": {
+          "name": "langgraph",
+          "native_event_id": "e2-research-run-001:research_retriever:notify-verifier",
+          "native_kind": "message",
+          "node": "research_retriever",
+          "run_id": "e2-research-run-001",
+          "stream_mode": "updates",
+          "stream_version": "v2",
+          "task_id": "7769bc5c-0354-9bd4-c26e-421b4c6e32bf",
+          "version": "1.2.11",
+          "workflow": "research"
+        },
+        "from": "Retriever",
+        "payload": "verify the candidate source src_research_coalgebra",
+        "step": 3,
+        "to": "Verifier",
+        "trace": "e2-research-run-001:003"
+      },
+      {
+        "agent": "Verifier",
+        "claim": "Coalgebra supports behavioural equivalence for state-based systems",
+        "event": "tool_call",
+        "framework": {
+          "name": "langgraph",
+          "native_event_id": "e2-research-run-001:research_verifier:check",
+          "native_kind": "tool_invocation",
+          "node": "research_verifier",
+          "run_id": "e2-research-run-001",
+          "stream_mode": "updates",
+          "stream_version": "v2",
+          "task_id": "0ebf6a49-8967-c189-0511-160d82763354",
+          "version": "1.2.11",
+          "workflow": "research"
+        },
+        "source": "src_research_coalgebra",
+        "step": 4,
+        "tool": "ClaimCheck",
+        "tool_input": {
+          "claim": "Coalgebra supports behavioural equivalence for state-based systems",
+          "source": "src_research_coalgebra"
+        },
+        "trace": "e2-research-run-001:004",
+        "writes": []
+      },
+      {
+        "agent": "Verifier",
+        "claim": "coalgebra_behavioural_equivalence",
+        "event": "certify",
+        "framework": {
+          "name": "langgraph",
+          "native_event_id": "e2-research-run-001:research_verifier:certify",
+          "native_kind": "claim_certificate",
+          "node": "research_verifier",
+          "run_id": "e2-research-run-001",
+          "stream_mode": "updates",
+          "stream_version": "v2",
+          "task_id": "0ebf6a49-8967-c189-0511-160d82763354",
+          "version": "1.2.11",
+          "workflow": "research"
+        },
+        "source": "src_research_coalgebra",
+        "step": 5,
+        "trace": "e2-research-run-001:005"
+      },
+      {
+        "event": "handoff",
+        "framework": {
+          "name": "langgraph",
+          "native_event_id": "e2-research-run-001:research_verifier:return",
+          "native_kind": "route",
+          "node": "research_verifier",
+          "run_id": "e2-research-run-001",
+          "stream_mode": "updates",
+          "stream_version": "v2",
+          "task_id": "0ebf6a49-8967-c189-0511-160d82763354",
+          "version": "1.2.11",
+          "workflow": "research"
+        },
+        "from": "Verifier",
+        "payload": "return the certified research claim",
+        "step": 6,
+        "to": "Planner",
+        "trace": "e2-research-run-001:006"
+      },
+      {
+        "agent": "Planner",
+        "claims": [
+          "coalgebra_behavioural_equivalence"
+        ],
+        "event": "answer",
+        "framework": {
+          "name": "langgraph",
+          "native_event_id": "e2-research-run-001:research_answer:answer",
+          "native_kind": "final_output",
+          "node": "research_answer",
+          "run_id": "e2-research-run-001",
+          "stream_mode": "updates",
+          "stream_version": "v2",
+          "task_id": "828e7dbd-2585-6293-8e74-b59ecd797287",
+          "version": "1.2.11",
+          "workflow": "research"
+        },
+        "payload": "The retrieved source supports the certified coalgebraic claim.",
+        "step": 7,
+        "trace": "e2-research-run-001:007"
+      }
+    ],
+    "checker_result": {
+      "accepted": true,
+      "certified_claim_sources": [
+        {
+          "claim": "coalgebra_behavioural_equivalence",
+          "source": "src_research_coalgebra"
+        }
+      ],
+      "certified_claims": [
+        "coalgebra_behavioural_equivalence"
+      ],
+      "counters": {
+        "answers": 1,
+        "budget_consumed": 3,
+        "certificates": 1,
+        "events": 7,
+        "handoffs": 2,
+        "memory_writes": 1,
+        "messages": 1,
+        "tool_calls": 2,
+        "trace_items": 7
+      },
+      "errors": [],
+      "final_budgets": {
+        "Planner": 3,
+        "Retriever": 3,
+        "Verifier": 1
+      },
+      "shared_memory": [
+        "src_research_coalgebra"
+      ],
+      "shared_provenance": {
+        "src_research_coalgebra": {
+          "agent": "Retriever",
+          "event": "tool_call",
+          "provenance": {
+            "agent": "Retriever",
+            "framework": "langgraph",
+            "node": "research_retriever",
+            "operation": "BibliographicSearch",
+            "origin": "deterministic_tool_result",
+            "run_id": "e2-research-run-001",
+            "trace": "e2-research-run-001:002",
+            "workflow": "research"
+          },
+          "step": 2,
+          "tool": "BibliographicSearch",
+          "trace": "e2-research-run-001:002",
+          "value": "Rutten (2000), Universal coalgebra: a theory of systems; deterministic query='coalgebraic behavioural equivalence for agent systems'"
+        }
+      },
+      "violations": []
+    },
+    "final_state": {
+      "answer": "The retrieved source supports the certified coalgebraic claim.",
+      "certified_claims": [
+        "coalgebra_behavioural_equivalence"
+      ],
+      "emissions": [
+        {
+          "actor": "Planner",
+          "event_id": "e2-research-run-001:research_planner:retrieve",
+          "kind": "route",
+          "payload": "retrieve a source for the requested coalgebraic claim",
+          "recipient": "Retriever"
+        },
+        {
+          "actor": "Retriever",
+          "event_id": "e2-research-run-001:research_retriever:search",
+          "inputs": {
+            "query": "coalgebraic behavioural equivalence for agent systems"
+          },
+          "kind": "tool_invocation",
+          "operation": "BibliographicSearch",
+          "writes": [
+            {
+              "address": "src_research_coalgebra",
+              "content": "Rutten (2000), Universal coalgebra: a theory of systems; deterministic query='coalgebraic behavioural equivalence for agent systems'",
+              "namespace": "shared",
+              "provenance": {
+                "agent": "Retriever",
+                "framework": "langgraph",
+                "node": "research_retriever",
+                "operation": "BibliographicSearch",
+                "origin": "deterministic_tool_result",
+                "run_id": "e2-research-run-001",
+                "workflow": "research"
+              }
+            }
+          ]
+        },
+        {
+          "actor": "Retriever",
+          "event_id": "e2-research-run-001:research_retriever:notify-verifier",
+          "kind": "message",
+          "payload": "verify the candidate source src_research_coalgebra",
+          "recipient": "Verifier"
+        },
+        {
+          "actor": "Verifier",
+          "event_id": "e2-research-run-001:research_verifier:check",
+          "inputs": {
+            "claim": "Coalgebra supports behavioural equivalence for state-based systems",
+            "source": "src_research_coalgebra"
+          },
+          "kind": "tool_invocation",
+          "operation": "ClaimCheck",
+          "writes": []
+        },
+        {
+          "actor": "Verifier",
+          "claim_id": "coalgebra_behavioural_equivalence",
+          "event_id": "e2-research-run-001:research_verifier:certify",
+          "kind": "claim_certificate",
+          "source_key": "src_research_coalgebra"
+        },
+        {
+          "actor": "Verifier",
+          "event_id": "e2-research-run-001:research_verifier:return",
+          "kind": "route",
+          "payload": "return the certified research claim",
+          "recipient": "Planner"
+        },
+        {
+          "actor": "Planner",
+          "event_id": "e2-research-run-001:research_answer:answer",
+          "kind": "final_output",
+          "payload": "The retrieved source supports the certified coalgebraic claim.",
+          "supported_claims": [
+            "coalgebra_behavioural_equivalence"
+          ]
+        }
+      ],
+      "query": "coalgebraic behavioural equivalence for agent systems",
+      "remaining_budgets": {
+        "Planner": 3,
+        "Retriever": 3,
+        "Verifier": 1
+      },
+      "route": "",
+      "run_id": "e2-research-run-001",
+      "shared_memory": {
+        "src_research_coalgebra": "Rutten (2000), Universal coalgebra: a theory of systems; deterministic query='coalgebraic behavioural equivalence for agent systems'"
+      },
+      "workflow": "research"
+    },
+    "langgraph_version": "1.2.11",
+    "native_record_count": 17,
+    "native_stream": [
+      {
+        "data": {
+          "answer": "",
+          "certified_claims": [],
+          "emissions": [],
+          "query": "coalgebraic behavioural equivalence for agent systems",
+          "remaining_budgets": {
+            "Planner": 3,
+            "Retriever": 5,
+            "Verifier": 2
+          },
+          "route": "",
+          "run_id": "e2-research-run-001",
+          "shared_memory": {},
+          "workflow": "research"
+        },
+        "interrupts": [],
+        "ns": [],
+        "type": "values"
+      },
+      {
+        "data": {
+          "id": "fe418f5b-8f8a-299a-0987-bf944b4096ce",
+          "input": {
+            "answer": "",
+            "certified_claims": [],
+            "emissions": [],
+            "query": "coalgebraic behavioural equivalence for agent systems",
+            "remaining_budgets": {
+              "Planner": 3,
+              "Retriever": 5,
+              "Verifier": 2
+            },
+            "route": "",
+            "run_id": "e2-research-run-001",
+            "shared_memory": {},
+            "workflow": "research"
+          },
+          "metadata": {
+            "external_run_id": "e2-research-run-001",
+            "tags": [
+              "deterministic",
+              "array-validation",
+              "research"
+            ],
+            "workflow": "research"
+          },
+          "name": "research_planner",
+          "triggers": [
+            "branch:to:research_planner"
+          ]
+        },
+        "ns": [],
+        "type": "tasks"
+      },
+      {
+        "data": {
+          "research_planner": {
+            "emissions": [
+              {
+                "actor": "Planner",
+                "event_id": "e2-research-run-001:research_planner:retrieve",
+                "kind": "route",
+                "payload": "retrieve a source for the requested coalgebraic claim",
+                "recipient": "Retriever"
+              }
+            ]
+          }
+        },
+        "ns": [],
+        "type": "updates"
+      },
+      {
+        "data": {
+          "error": null,
+          "id": "fe418f5b-8f8a-299a-0987-bf944b4096ce",
+          "interrupts": [],
+          "name": "research_planner",
+          "result": {
+            "emissions": [
+              {
+                "actor": "Planner",
+                "event_id": "e2-research-run-001:research_planner:retrieve",
+                "kind": "route",
+                "payload": "retrieve a source for the requested coalgebraic claim",
+                "recipient": "Retriever"
+              }
+            ]
+          }
+        },
+        "ns": [],
+        "type": "tasks"
+      },
+      {
+        "data": {
+          "answer": "",
+          "certified_claims": [],
+          "emissions": [
+            {
+              "actor": "Planner",
+              "event_id": "e2-research-run-001:research_planner:retrieve",
+              "kind": "route",
+              "payload": "retrieve a source for the requested coalgebraic claim",
+              "recipient": "Retriever"
+            }
+          ],
+          "query": "coalgebraic behavioural equivalence for agent systems",
+          "remaining_budgets": {
+            "Planner": 3,
+            "Retriever": 5,
+            "Verifier": 2
+          },
+          "route": "",
+          "run_id": "e2-research-run-001",
+          "shared_memory": {},
+          "workflow": "research"
+        },
+        "interrupts": [],
+        "ns": [],
+        "type": "values"
+      },
+      {
+        "data": {
+          "id": "7769bc5c-0354-9bd4-c26e-421b4c6e32bf",
+          "input": {
+            "answer": "",
+            "certified_claims": [],
+            "emissions": [
+              {
+                "actor": "Planner",
+                "event_id": "e2-research-run-001:research_planner:retrieve",
+                "kind": "route",
+                "payload": "retrieve a source for the requested coalgebraic claim",
+                "recipient": "Retriever"
+              }
+            ],
+            "query": "coalgebraic behavioural equivalence for agent systems",
+            "remaining_budgets": {
+              "Planner": 3,
+              "Retriever": 5,
+              "Verifier": 2
+            },
+            "route": "",
+            "run_id": "e2-research-run-001",
+            "shared_memory": {},
+            "workflow": "research"
+          },
+          "metadata": {
+            "external_run_id": "e2-research-run-001",
+            "tags": [
+              "deterministic",
+              "array-validation",
+              "research"
+            ],
+            "workflow": "research"
+          },
+          "name": "research_retriever",
+          "triggers": [
+            "branch:to:research_retriever"
+          ]
+        },
+        "ns": [],
+        "type": "tasks"
+      },
+      {
+        "data": {
+          "research_retriever": {
+            "emissions": [
+              {
+                "actor": "Retriever",
+                "event_id": "e2-research-run-001:research_retriever:search",
+                "inputs": {
+                  "query": "coalgebraic behavioural equivalence for agent systems"
+                },
+                "kind": "tool_invocation",
+                "operation": "BibliographicSearch",
+                "writes": [
+                  {
+                    "address": "src_research_coalgebra",
+                    "content": "Rutten (2000), Universal coalgebra: a theory of systems; deterministic query='coalgebraic behavioural equivalence for agent systems'",
+                    "namespace": "shared",
+                    "provenance": {
+                      "agent": "Retriever",
+                      "framework": "langgraph",
+                      "node": "research_retriever",
+                      "operation": "BibliographicSearch",
+                      "origin": "deterministic_tool_result",
+                      "run_id": "e2-research-run-001",
+                      "workflow": "research"
+                    }
+                  }
+                ]
+              },
+              {
+                "actor": "Retriever",
+                "event_id": "e2-research-run-001:research_retriever:notify-verifier",
+                "kind": "message",
+                "payload": "verify the candidate source src_research_coalgebra",
+                "recipient": "Verifier"
+              }
+            ],
+            "remaining_budgets": {
+              "Planner": 3,
+              "Retriever": 3,
+              "Verifier": 2
+            },
+            "shared_memory": {
+              "src_research_coalgebra": "Rutten (2000), Universal coalgebra: a theory of systems; deterministic query='coalgebraic behavioural equivalence for agent systems'"
+            }
+          }
+        },
+        "ns": [],
+        "type": "updates"
+      },
+      {
+        "data": {
+          "error": null,
+          "id": "7769bc5c-0354-9bd4-c26e-421b4c6e32bf",
+          "interrupts": [],
+          "name": "research_retriever",
+          "result": {
+            "emissions": [
+              {
+                "actor": "Retriever",
+                "event_id": "e2-research-run-001:research_retriever:search",
+                "inputs": {
+                  "query": "coalgebraic behavioural equivalence for agent systems"
+                },
+                "kind": "tool_invocation",
+                "operation": "BibliographicSearch",
+                "writes": [
+                  {
+                    "address": "src_research_coalgebra",
+                    "content": "Rutten (2000), Universal coalgebra: a theory of systems; deterministic query='coalgebraic behavioural equivalence for agent systems'",
+                    "namespace": "shared",
+                    "provenance": {
+                      "agent": "Retriever",
+                      "framework": "langgraph",
+                      "node": "research_retriever",
+                      "operation": "BibliographicSearch",
+                      "origin": "deterministic_tool_result",
+                      "run_id": "e2-research-run-001",
+                      "workflow": "research"
+                    }
+                  }
+                ]
+              },
+              {
+                "actor": "Retriever",
+                "event_id": "e2-research-run-001:research_retriever:notify-verifier",
+                "kind": "message",
+                "payload": "verify the candidate source src_research_coalgebra",
+                "recipient": "Verifier"
+              }
+            ],
+            "remaining_budgets": {
+              "Planner": 3,
+              "Retriever": 3,
+              "Verifier": 2
+            },
+            "shared_memory": {
+              "src_research_coalgebra": "Rutten (2000), Universal coalgebra: a theory of systems; deterministic query='coalgebraic behavioural equivalence for agent systems'"
+            }
+          }
+        },
+        "ns": [],
+        "type": "tasks"
+      },
+      {
+        "data": {
+          "answer": "",
+          "certified_claims": [],
+          "emissions": [
+            {
+              "actor": "Planner",
+              "event_id": "e2-research-run-001:research_planner:retrieve",
+              "kind": "route",
+              "payload": "retrieve a source for the requested coalgebraic claim",
+              "recipient": "Retriever"
+            },
+            {
+              "actor": "Retriever",
+              "event_id": "e2-research-run-001:research_retriever:search",
+              "inputs": {
+                "query": "coalgebraic behavioural equivalence for agent systems"
+              },
+              "kind": "tool_invocation",
+              "operation": "BibliographicSearch",
+              "writes": [
+                {
+                  "address": "src_research_coalgebra",
+                  "content": "Rutten (2000), Universal coalgebra: a theory of systems; deterministic query='coalgebraic behavioural equivalence for agent systems'",
+                  "namespace": "shared",
+                  "provenance": {
+                    "agent": "Retriever",
+                    "framework": "langgraph",
+                    "node": "research_retriever",
+                    "operation": "BibliographicSearch",
+                    "origin": "deterministic_tool_result",
+                    "run_id": "e2-research-run-001",
+                    "workflow": "research"
+                  }
+                }
+              ]
+            },
+            {
+              "actor": "Retriever",
+              "event_id": "e2-research-run-001:research_retriever:notify-verifier",
+              "kind": "message",
+              "payload": "verify the candidate source src_research_coalgebra",
+              "recipient": "Verifier"
+            }
+          ],
+          "query": "coalgebraic behavioural equivalence for agent systems",
+          "remaining_budgets": {
+            "Planner": 3,
+            "Retriever": 3,
+            "Verifier": 2
+          },
+          "route": "",
+          "run_id": "e2-research-run-001",
+          "shared_memory": {
+            "src_research_coalgebra": "Rutten (2000), Universal coalgebra: a theory of systems; deterministic query='coalgebraic behavioural equivalence for agent systems'"
+          },
+          "workflow": "research"
+        },
+        "interrupts": [],
+        "ns": [],
+        "type": "values"
+      },
+      {
+        "data": {
+          "id": "0ebf6a49-8967-c189-0511-160d82763354",
+          "input": {
+            "answer": "",
+            "certified_claims": [],
+            "emissions": [
+              {
+                "actor": "Planner",
+                "event_id": "e2-research-run-001:research_planner:retrieve",
+                "kind": "route",
+                "payload": "retrieve a source for the requested coalgebraic claim",
+                "recipient": "Retriever"
+              },
+              {
+                "actor": "Retriever",
+                "event_id": "e2-research-run-001:research_retriever:search",
+                "inputs": {
+                  "query": "coalgebraic behavioural equivalence for agent systems"
+                },
+                "kind": "tool_invocation",
+                "operation": "BibliographicSearch",
+                "writes": [
+                  {
+                    "address": "src_research_coalgebra",
+                    "content": "Rutten (2000), Universal coalgebra: a theory of systems; deterministic query='coalgebraic behavioural equivalence for agent systems'",
+                    "namespace": "shared",
+                    "provenance": {
+                      "agent": "Retriever",
+                      "framework": "langgraph",
+                      "node": "research_retriever",
+                      "operation": "BibliographicSearch",
+                      "origin": "deterministic_tool_result",
+                      "run_id": "e2-research-run-001",
+                      "workflow": "research"
+                    }
+                  }
+                ]
+              },
+              {
+                "actor": "Retriever",
+                "event_id": "e2-research-run-001:research_retriever:notify-verifier",
+                "kind": "message",
+                "payload": "verify the candidate source src_research_coalgebra",
+                "recipient": "Verifier"
+              }
+            ],
+            "query": "coalgebraic behavioural equivalence for agent systems",
+            "remaining_budgets": {
+              "Planner": 3,
+              "Retriever": 3,
+              "Verifier": 2
+            },
+            "route": "",
+            "run_id": "e2-research-run-001",
+            "shared_memory": {
+              "src_research_coalgebra": "Rutten (2000), Universal coalgebra: a theory of systems; deterministic query='coalgebraic behavioural equivalence for agent systems'"
+            },
+            "workflow": "research"
+          },
+          "metadata": {
+            "external_run_id": "e2-research-run-001",
+            "tags": [
+              "deterministic",
+              "array-validation",
+              "research"
+            ],
+            "workflow": "research"
+          },
+          "name": "research_verifier",
+          "triggers": [
+            "branch:to:research_verifier"
+          ]
+        },
+        "ns": [],
+        "type": "tasks"
+      },
+      {
+        "data": {
+          "research_verifier": {
+            "certified_claims": [
+              "coalgebra_behavioural_equivalence"
+            ],
+            "emissions": [
+              {
+                "actor": "Verifier",
+                "event_id": "e2-research-run-001:research_verifier:check",
+                "inputs": {
+                  "claim": "Coalgebra supports behavioural equivalence for state-based systems",
+                  "source": "src_research_coalgebra"
+                },
+                "kind": "tool_invocation",
+                "operation": "ClaimCheck",
+                "writes": []
+              },
+              {
+                "actor": "Verifier",
+                "claim_id": "coalgebra_behavioural_equivalence",
+                "event_id": "e2-research-run-001:research_verifier:certify",
+                "kind": "claim_certificate",
+                "source_key": "src_research_coalgebra"
+              },
+              {
+                "actor": "Verifier",
+                "event_id": "e2-research-run-001:research_verifier:return",
+                "kind": "route",
+                "payload": "return the certified research claim",
+                "recipient": "Planner"
+              }
+            ],
+            "remaining_budgets": {
+              "Planner": 3,
+              "Retriever": 3,
+              "Verifier": 1
+            }
+          }
+        },
+        "ns": [],
+        "type": "updates"
+      },
+      {
+        "data": {
+          "error": null,
+          "id": "0ebf6a49-8967-c189-0511-160d82763354",
+          "interrupts": [],
+          "name": "research_verifier",
+          "result": {
+            "certified_claims": [
+              "coalgebra_behavioural_equivalence"
+            ],
+            "emissions": [
+              {
+                "actor": "Verifier",
+                "event_id": "e2-research-run-001:research_verifier:check",
+                "inputs": {
+                  "claim": "Coalgebra supports behavioural equivalence for state-based systems",
+                  "source": "src_research_coalgebra"
+                },
+                "kind": "tool_invocation",
+                "operation": "ClaimCheck",
+                "writes": []
+              },
+              {
+                "actor": "Verifier",
+                "claim_id": "coalgebra_behavioural_equivalence",
+                "event_id": "e2-research-run-001:research_verifier:certify",
+                "kind": "claim_certificate",
+                "source_key": "src_research_coalgebra"
+              },
+              {
+                "actor": "Verifier",
+                "event_id": "e2-research-run-001:research_verifier:return",
+                "kind": "route",
+                "payload": "return the certified research claim",
+                "recipient": "Planner"
+              }
+            ],
+            "remaining_budgets": {
+              "Planner": 3,
+              "Retriever": 3,
+              "Verifier": 1
+            }
+          }
+        },
+        "ns": [],
+        "type": "tasks"
+      },
+      {
+        "data": {
+          "answer": "",
+          "certified_claims": [
+            "coalgebra_behavioural_equivalence"
+          ],
+          "emissions": [
+            {
+              "actor": "Planner",
+              "event_id": "e2-research-run-001:research_planner:retrieve",
+              "kind": "route",
+              "payload": "retrieve a source for the requested coalgebraic claim",
+              "recipient": "Retriever"
+            },
+            {
+              "actor": "Retriever",
+              "event_id": "e2-research-run-001:research_retriever:search",
+              "inputs": {
+                "query": "coalgebraic behavioural equivalence for agent systems"
+              },
+              "kind": "tool_invocation",
+              "operation": "BibliographicSearch",
+              "writes": [
+                {
+                  "address": "src_research_coalgebra",
+                  "content": "Rutten (2000), Universal coalgebra: a theory of systems; deterministic query='coalgebraic behavioural equivalence for agent systems'",
+                  "namespace": "shared",
+                  "provenance": {
+                    "agent": "Retriever",
+                    "framework": "langgraph",
+                    "node": "research_retriever",
+                    "operation": "BibliographicSearch",
+                    "origin": "deterministic_tool_result",
+                    "run_id": "e2-research-run-001",
+                    "workflow": "research"
+                  }
+                }
+              ]
+            },
+            {
+              "actor": "Retriever",
+              "event_id": "e2-research-run-001:research_retriever:notify-verifier",
+              "kind": "message",
+              "payload": "verify the candidate source src_research_coalgebra",
+              "recipient": "Verifier"
+            },
+            {
+              "actor": "Verifier",
+              "event_id": "e2-research-run-001:research_verifier:check",
+              "inputs": {
+                "claim": "Coalgebra supports behavioural equivalence for state-based systems",
+                "source": "src_research_coalgebra"
+              },
+              "kind": "tool_invocation",
+              "operation": "ClaimCheck",
+              "writes": []
+            },
+            {
+              "actor": "Verifier",
+              "claim_id": "coalgebra_behavioural_equivalence",
+              "event_id": "e2-research-run-001:research_verifier:certify",
+              "kind": "claim_certificate",
+              "source_key": "src_research_coalgebra"
+            },
+            {
+              "actor": "Verifier",
+              "event_id": "e2-research-run-001:research_verifier:return",
+              "kind": "route",
+              "payload": "return the certified research claim",
+              "recipient": "Planner"
+            }
+          ],
+          "query": "coalgebraic behavioural equivalence for agent systems",
+          "remaining_budgets": {
+            "Planner": 3,
+            "Retriever": 3,
+            "Verifier": 1
+          },
+          "route": "",
+          "run_id": "e2-research-run-001",
+          "shared_memory": {
+            "src_research_coalgebra": "Rutten (2000), Universal coalgebra: a theory of systems; deterministic query='coalgebraic behavioural equivalence for agent systems'"
+          },
+          "workflow": "research"
+        },
+        "interrupts": [],
+        "ns": [],
+        "type": "values"
+      },
+      {
+        "data": {
+          "id": "828e7dbd-2585-6293-8e74-b59ecd797287",
+          "input": {
+            "answer": "",
+            "certified_claims": [
+              "coalgebra_behavioural_equivalence"
+            ],
+            "emissions": [
+              {
+                "actor": "Planner",
+                "event_id": "e2-research-run-001:research_planner:retrieve",
+                "kind": "route",
+                "payload": "retrieve a source for the requested coalgebraic claim",
+                "recipient": "Retriever"
+              },
+              {
+                "actor": "Retriever",
+                "event_id": "e2-research-run-001:research_retriever:search",
+                "inputs": {
+                  "query": "coalgebraic behavioural equivalence for agent systems"
+                },
+                "kind": "tool_invocation",
+                "operation": "BibliographicSearch",
+                "writes": [
+                  {
+                    "address": "src_research_coalgebra",
+                    "content": "Rutten (2000), Universal coalgebra: a theory of systems; deterministic query='coalgebraic behavioural equivalence for agent systems'",
+                    "namespace": "shared",
+                    "provenance": {
+                      "agent": "Retriever",
+                      "framework": "langgraph",
+                      "node": "research_retriever",
+                      "operation": "BibliographicSearch",
+                      "origin": "deterministic_tool_result",
+                      "run_id": "e2-research-run-001",
+                      "workflow": "research"
+                    }
+                  }
+                ]
+              },
+              {
+                "actor": "Retriever",
+                "event_id": "e2-research-run-001:research_retriever:notify-verifier",
+                "kind": "message",
+                "payload": "verify the candidate source src_research_coalgebra",
+                "recipient": "Verifier"
+              },
+              {
+                "actor": "Verifier",
+                "event_id": "e2-research-run-001:research_verifier:check",
+                "inputs": {
+                  "claim": "Coalgebra supports behavioural equivalence for state-based systems",
+                  "source": "src_research_coalgebra"
+                },
+                "kind": "tool_invocation",
+                "operation": "ClaimCheck",
+                "writes": []
+              },
+              {
+                "actor": "Verifier",
+                "claim_id": "coalgebra_behavioural_equivalence",
+                "event_id": "e2-research-run-001:research_verifier:certify",
+                "kind": "claim_certificate",
+                "source_key": "src_research_coalgebra"
+              },
+              {
+                "actor": "Verifier",
+                "event_id": "e2-research-run-001:research_verifier:return",
+                "kind": "route",
+                "payload": "return the certified research claim",
+                "recipient": "Planner"
+              }
+            ],
+            "query": "coalgebraic behavioural equivalence for agent systems",
+            "remaining_budgets": {
+              "Planner": 3,
+              "Retriever": 3,
+              "Verifier": 1
+            },
+            "route": "",
+            "run_id": "e2-research-run-001",
+            "shared_memory": {
+              "src_research_coalgebra": "Rutten (2000), Universal coalgebra: a theory of systems; deterministic query='coalgebraic behavioural equivalence for agent systems'"
+            },
+            "workflow": "research"
+          },
+          "metadata": {
+            "external_run_id": "e2-research-run-001",
+            "tags": [
+              "deterministic",
+              "array-validation",
+              "research"
+            ],
+            "workflow": "research"
+          },
+          "name": "research_answer",
+          "triggers": [
+            "branch:to:research_answer"
+          ]
+        },
+        "ns": [],
+        "type": "tasks"
+      },
+      {
+        "data": {
+          "research_answer": {
+            "answer": "The retrieved source supports the certified coalgebraic claim.",
+            "emissions": [
+              {
+                "actor": "Planner",
+                "event_id": "e2-research-run-001:research_answer:answer",
+                "kind": "final_output",
+                "payload": "The retrieved source supports the certified coalgebraic claim.",
+                "supported_claims": [
+                  "coalgebra_behavioural_equivalence"
+                ]
+              }
+            ]
+          }
+        },
+        "ns": [],
+        "type": "updates"
+      },
+      {
+        "data": {
+          "error": null,
+          "id": "828e7dbd-2585-6293-8e74-b59ecd797287",
+          "interrupts": [],
+          "name": "research_answer",
+          "result": {
+            "answer": "The retrieved source supports the certified coalgebraic claim.",
+            "emissions": [
+              {
+                "actor": "Planner",
+                "event_id": "e2-research-run-001:research_answer:answer",
+                "kind": "final_output",
+                "payload": "The retrieved source supports the certified coalgebraic claim.",
+                "supported_claims": [
+                  "coalgebra_behavioural_equivalence"
+                ]
+              }
+            ]
+          }
+        },
+        "ns": [],
+        "type": "tasks"
+      },
+      {
+        "data": {
+          "answer": "The retrieved source supports the certified coalgebraic claim.",
+          "certified_claims": [
+            "coalgebra_behavioural_equivalence"
+          ],
+          "emissions": [
+            {
+              "actor": "Planner",
+              "event_id": "e2-research-run-001:research_planner:retrieve",
+              "kind": "route",
+              "payload": "retrieve a source for the requested coalgebraic claim",
+              "recipient": "Retriever"
+            },
+            {
+              "actor": "Retriever",
+              "event_id": "e2-research-run-001:research_retriever:search",
+              "inputs": {
+                "query": "coalgebraic behavioural equivalence for agent systems"
+              },
+              "kind": "tool_invocation",
+              "operation": "BibliographicSearch",
+              "writes": [
+                {
+                  "address": "src_research_coalgebra",
+                  "content": "Rutten (2000), Universal coalgebra: a theory of systems; deterministic query='coalgebraic behavioural equivalence for agent systems'",
+                  "namespace": "shared",
+                  "provenance": {
+                    "agent": "Retriever",
+                    "framework": "langgraph",
+                    "node": "research_retriever",
+                    "operation": "BibliographicSearch",
+                    "origin": "deterministic_tool_result",
+                    "run_id": "e2-research-run-001",
+                    "workflow": "research"
+                  }
+                }
+              ]
+            },
+            {
+              "actor": "Retriever",
+              "event_id": "e2-research-run-001:research_retriever:notify-verifier",
+              "kind": "message",
+              "payload": "verify the candidate source src_research_coalgebra",
+              "recipient": "Verifier"
+            },
+            {
+              "actor": "Verifier",
+              "event_id": "e2-research-run-001:research_verifier:check",
+              "inputs": {
+                "claim": "Coalgebra supports behavioural equivalence for state-based systems",
+                "source": "src_research_coalgebra"
+              },
+              "kind": "tool_invocation",
+              "operation": "ClaimCheck",
+              "writes": []
+            },
+            {
+              "actor": "Verifier",
+              "claim_id": "coalgebra_behavioural_equivalence",
+              "event_id": "e2-research-run-001:research_verifier:certify",
+              "kind": "claim_certificate",
+              "source_key": "src_research_coalgebra"
+            },
+            {
+              "actor": "Verifier",
+              "event_id": "e2-research-run-001:research_verifier:return",
+              "kind": "route",
+              "payload": "return the certified research claim",
+              "recipient": "Planner"
+            },
+            {
+              "actor": "Planner",
+              "event_id": "e2-research-run-001:research_answer:answer",
+              "kind": "final_output",
+              "payload": "The retrieved source supports the certified coalgebraic claim.",
+              "supported_claims": [
+                "coalgebra_behavioural_equivalence"
+              ]
+            }
+          ],
+          "query": "coalgebraic behavioural equivalence for agent systems",
+          "remaining_budgets": {
+            "Planner": 3,
+            "Retriever": 3,
+            "Verifier": 1
+          },
+          "route": "",
+          "run_id": "e2-research-run-001",
+          "shared_memory": {
+            "src_research_coalgebra": "Rutten (2000), Universal coalgebra: a theory of systems; deterministic query='coalgebraic behavioural equivalence for agent systems'"
+          },
+          "workflow": "research"
+        },
+        "interrupts": [],
+        "ns": [],
+        "type": "values"
+      }
+    ],
+    "run_count_for_workflow": 1,
+    "run_count_rationale": "The workflow and local tools are deterministic; one execution tests the sole configured path without inflating the sample count.",
+    "run_id": "e2-research-run-001",
+    "stream_modes": [
+      "tasks",
+      "updates",
+      "values"
+    ],
+    "stream_version": "v2",
+    "workflow": "research"
+  },
+  {
+    "canonical_event_count": 8,
+    "canonical_event_types": [
+      "answer",
+      "certify",
+      "handoff",
+      "message",
+      "tool_call"
+    ],
+    "canonical_trace": [
+      {
+        "event": "handoff",
+        "framework": {
+          "name": "langgraph",
+          "native_event_id": "e2-resource_controlled-run-001:resource_planner:retrieve",
+          "native_kind": "route",
+          "node": "resource_planner",
+          "run_id": "e2-resource_controlled-run-001",
+          "stream_mode": "updates",
+          "stream_version": "v2",
+          "task_id": "ad03e1b0-c237-ed27-ce58-f5b2594e51e0",
+          "version": "1.2.11",
+          "workflow": "resource_controlled"
+        },
+        "from": "Planner",
+        "payload": "collect two sources while respecting the retrieval budget",
+        "step": 1,
+        "to": "Retriever",
+        "trace": "e2-resource_controlled-run-001:001"
+      },
+      {
+        "agent": "Retriever",
+        "event": "tool_call",
+        "framework": {
+          "name": "langgraph",
+          "native_event_id": "e2-resource_controlled-run-001:resource_search_primary:search",
+          "native_kind": "tool_invocation",
+          "node": "resource_search_primary",
+          "run_id": "e2-resource_controlled-run-001",
+          "stream_mode": "updates",
+          "stream_version": "v2",
+          "task_id": "1a6c73bd-e69d-c652-11f9-5c377adee499",
+          "version": "1.2.11",
+          "workflow": "resource_controlled"
+        },
+        "query": "linear resources in agent protocols",
+        "step": 2,
+        "tool": "BibliographicSearch",
+        "tool_input": {
+          "query": "linear resources in agent protocols",
+          "source_key": "src_budget_sell"
+        },
+        "trace": "e2-resource_controlled-run-001:002",
+        "writes": [
+          {
+            "key": "src_budget_sell",
+            "provenance": {
+              "agent": "Retriever",
+              "framework": "langgraph",
+              "node": "resource_search_primary",
+              "operation": "BibliographicSearch",
+              "origin": "deterministic_tool_result",
+              "run_id": "e2-resource_controlled-run-001",
+              "trace": "e2-resource_controlled-run-001:002",
+              "workflow": "resource_controlled"
+            },
+            "scope": "shared",
+            "value": "Nigam and Miller (2009), Algorithmic specifications in linear logic with subexponentials; deterministic query='linear resources in agent protocols'"
+          }
+        ]
+      },
+      {
+        "agent": "Retriever",
+        "event": "tool_call",
+        "framework": {
+          "name": "langgraph",
+          "native_event_id": "e2-resource_controlled-run-001:resource_search_secondary:search",
+          "native_kind": "tool_invocation",
+          "node": "resource_search_secondary",
+          "run_id": "e2-resource_controlled-run-001",
+          "stream_mode": "updates",
+          "stream_version": "v2",
+          "task_id": "1ae9ad43-79cb-70b8-51f6-b4714c5c5cb5",
+          "version": "1.2.11",
+          "workflow": "resource_controlled"
+        },
+        "query": "linear resources in agent protocols",
+        "step": 3,
+        "tool": "BibliographicSearch",
+        "tool_input": {
+          "query": "linear resources in agent protocols",
+          "source_key": "src_budget_sessions"
+        },
+        "trace": "e2-resource_controlled-run-001:003",
+        "writes": [
+          {
+            "key": "src_budget_sessions",
+            "provenance": {
+              "agent": "Retriever",
+              "framework": "langgraph",
+              "node": "resource_search_secondary",
+              "operation": "BibliographicSearch",
+              "origin": "deterministic_tool_result",
+              "run_id": "e2-resource_controlled-run-001",
+              "trace": "e2-resource_controlled-run-001:003",
+              "workflow": "resource_controlled"
+            },
+            "scope": "shared",
+            "value": "Caires and Pfenning (2010), Session types as intuitionistic linear propositions; deterministic query='linear resources in agent protocols'"
+          }
+        ]
+      },
+      {
+        "event": "message",
+        "framework": {
+          "name": "langgraph",
+          "native_event_id": "e2-resource_controlled-run-001:resource_search_secondary:notify-verifier",
+          "native_kind": "message",
+          "node": "resource_search_secondary",
+          "run_id": "e2-resource_controlled-run-001",
+          "stream_mode": "updates",
+          "stream_version": "v2",
+          "task_id": "1ae9ad43-79cb-70b8-51f6-b4714c5c5cb5",
+          "version": "1.2.11",
+          "workflow": "resource_controlled"
+        },
+        "from": "Retriever",
+        "payload": "two budgeted sources are ready for verification",
+        "step": 4,
+        "to": "Verifier",
+        "trace": "e2-resource_controlled-run-001:004"
+      },
+      {
+        "agent": "Verifier",
+        "claim": "SELL subexponentials distinguish reusable and linear resources",
+        "event": "tool_call",
+        "framework": {
+          "name": "langgraph",
+          "native_event_id": "e2-resource_controlled-run-001:resource_verifier:check",
+          "native_kind": "tool_invocation",
+          "node": "resource_verifier",
+          "run_id": "e2-resource_controlled-run-001",
+          "stream_mode": "updates",
+          "stream_version": "v2",
+          "task_id": "412b6aa4-c37b-5428-ed63-07b99f1b5e21",
+          "version": "1.2.11",
+          "workflow": "resource_controlled"
+        },
+        "source": "src_budget_sell",
+        "step": 5,
+        "tool": "ClaimCheck",
+        "tool_input": {
+          "claim": "SELL subexponentials distinguish reusable and linear resources",
+          "source": "src_budget_sell"
+        },
+        "trace": "e2-resource_controlled-run-001:005",
+        "writes": []
+      },
+      {
+        "agent": "Verifier",
+        "claim": "sell_controls_linear_resources",
+        "event": "certify",
+        "framework": {
+          "name": "langgraph",
+          "native_event_id": "e2-resource_controlled-run-001:resource_verifier:certify",
+          "native_kind": "claim_certificate",
+          "node": "resource_verifier",
+          "run_id": "e2-resource_controlled-run-001",
+          "stream_mode": "updates",
+          "stream_version": "v2",
+          "task_id": "412b6aa4-c37b-5428-ed63-07b99f1b5e21",
+          "version": "1.2.11",
+          "workflow": "resource_controlled"
+        },
+        "source": "src_budget_sell",
+        "step": 6,
+        "trace": "e2-resource_controlled-run-001:006"
+      },
+      {
+        "event": "handoff",
+        "framework": {
+          "name": "langgraph",
+          "native_event_id": "e2-resource_controlled-run-001:resource_verifier:return",
+          "native_kind": "route",
+          "node": "resource_verifier",
+          "run_id": "e2-resource_controlled-run-001",
+          "stream_mode": "updates",
+          "stream_version": "v2",
+          "task_id": "412b6aa4-c37b-5428-ed63-07b99f1b5e21",
+          "version": "1.2.11",
+          "workflow": "resource_controlled"
+        },
+        "from": "Verifier",
+        "payload": "return the resource-certified claim",
+        "step": 7,
+        "to": "Planner",
+        "trace": "e2-resource_controlled-run-001:007"
+      },
+      {
+        "agent": "Planner",
+        "claims": [
+          "sell_controls_linear_resources"
+        ],
+        "event": "answer",
+        "framework": {
+          "name": "langgraph",
+          "native_event_id": "e2-resource_controlled-run-001:resource_answer:answer",
+          "native_kind": "final_output",
+          "node": "resource_answer",
+          "run_id": "e2-resource_controlled-run-001",
+          "stream_mode": "updates",
+          "stream_version": "v2",
+          "task_id": "9f205600-a670-5ab8-e62e-5ee0ef51e6ba",
+          "version": "1.2.11",
+          "workflow": "resource_controlled"
+        },
+        "payload": "The workflow completed within the explicit tool budgets.",
+        "step": 8,
+        "trace": "e2-resource_controlled-run-001:008"
+      }
+    ],
+    "checker_result": {
+      "accepted": true,
+      "certified_claim_sources": [
+        {
+          "claim": "sell_controls_linear_resources",
+          "source": "src_budget_sell"
+        }
+      ],
+      "certified_claims": [
+        "sell_controls_linear_resources"
+      ],
+      "counters": {
+        "answers": 1,
+        "budget_consumed": 5,
+        "certificates": 1,
+        "events": 8,
+        "handoffs": 2,
+        "memory_writes": 2,
+        "messages": 1,
+        "tool_calls": 3,
+        "trace_items": 8
+      },
+      "errors": [],
+      "final_budgets": {
+        "Planner": 3,
+        "Retriever": 1,
+        "Verifier": 1
+      },
+      "shared_memory": [
+        "src_budget_sell",
+        "src_budget_sessions"
+      ],
+      "shared_provenance": {
+        "src_budget_sell": {
+          "agent": "Retriever",
+          "event": "tool_call",
+          "provenance": {
+            "agent": "Retriever",
+            "framework": "langgraph",
+            "node": "resource_search_primary",
+            "operation": "BibliographicSearch",
+            "origin": "deterministic_tool_result",
+            "run_id": "e2-resource_controlled-run-001",
+            "trace": "e2-resource_controlled-run-001:002",
+            "workflow": "resource_controlled"
+          },
+          "step": 2,
+          "tool": "BibliographicSearch",
+          "trace": "e2-resource_controlled-run-001:002",
+          "value": "Nigam and Miller (2009), Algorithmic specifications in linear logic with subexponentials; deterministic query='linear resources in agent protocols'"
+        },
+        "src_budget_sessions": {
+          "agent": "Retriever",
+          "event": "tool_call",
+          "provenance": {
+            "agent": "Retriever",
+            "framework": "langgraph",
+            "node": "resource_search_secondary",
+            "operation": "BibliographicSearch",
+            "origin": "deterministic_tool_result",
+            "run_id": "e2-resource_controlled-run-001",
+            "trace": "e2-resource_controlled-run-001:003",
+            "workflow": "resource_controlled"
+          },
+          "step": 3,
+          "tool": "BibliographicSearch",
+          "trace": "e2-resource_controlled-run-001:003",
+          "value": "Caires and Pfenning (2010), Session types as intuitionistic linear propositions; deterministic query='linear resources in agent protocols'"
+        }
+      },
+      "violations": []
+    },
+    "final_state": {
+      "answer": "The workflow completed within the explicit tool budgets.",
+      "certified_claims": [
+        "sell_controls_linear_resources"
+      ],
+      "emissions": [
+        {
+          "actor": "Planner",
+          "event_id": "e2-resource_controlled-run-001:resource_planner:retrieve",
+          "kind": "route",
+          "payload": "collect two sources while respecting the retrieval budget",
+          "recipient": "Retriever"
+        },
+        {
+          "actor": "Retriever",
+          "event_id": "e2-resource_controlled-run-001:resource_search_primary:search",
+          "inputs": {
+            "query": "linear resources in agent protocols",
+            "source_key": "src_budget_sell"
+          },
+          "kind": "tool_invocation",
+          "operation": "BibliographicSearch",
+          "writes": [
+            {
+              "address": "src_budget_sell",
+              "content": "Nigam and Miller (2009), Algorithmic specifications in linear logic with subexponentials; deterministic query='linear resources in agent protocols'",
+              "namespace": "shared",
+              "provenance": {
+                "agent": "Retriever",
+                "framework": "langgraph",
+                "node": "resource_search_primary",
+                "operation": "BibliographicSearch",
+                "origin": "deterministic_tool_result",
+                "run_id": "e2-resource_controlled-run-001",
+                "workflow": "resource_controlled"
+              }
+            }
+          ]
+        },
+        {
+          "actor": "Retriever",
+          "event_id": "e2-resource_controlled-run-001:resource_search_secondary:search",
+          "inputs": {
+            "query": "linear resources in agent protocols",
+            "source_key": "src_budget_sessions"
+          },
+          "kind": "tool_invocation",
+          "operation": "BibliographicSearch",
+          "writes": [
+            {
+              "address": "src_budget_sessions",
+              "content": "Caires and Pfenning (2010), Session types as intuitionistic linear propositions; deterministic query='linear resources in agent protocols'",
+              "namespace": "shared",
+              "provenance": {
+                "agent": "Retriever",
+                "framework": "langgraph",
+                "node": "resource_search_secondary",
+                "operation": "BibliographicSearch",
+                "origin": "deterministic_tool_result",
+                "run_id": "e2-resource_controlled-run-001",
+                "workflow": "resource_controlled"
+              }
+            }
+          ]
+        },
+        {
+          "actor": "Retriever",
+          "event_id": "e2-resource_controlled-run-001:resource_search_secondary:notify-verifier",
+          "kind": "message",
+          "payload": "two budgeted sources are ready for verification",
+          "recipient": "Verifier"
+        },
+        {
+          "actor": "Verifier",
+          "event_id": "e2-resource_controlled-run-001:resource_verifier:check",
+          "inputs": {
+            "claim": "SELL subexponentials distinguish reusable and linear resources",
+            "source": "src_budget_sell"
+          },
+          "kind": "tool_invocation",
+          "operation": "ClaimCheck",
+          "writes": []
+        },
+        {
+          "actor": "Verifier",
+          "claim_id": "sell_controls_linear_resources",
+          "event_id": "e2-resource_controlled-run-001:resource_verifier:certify",
+          "kind": "claim_certificate",
+          "source_key": "src_budget_sell"
+        },
+        {
+          "actor": "Verifier",
+          "event_id": "e2-resource_controlled-run-001:resource_verifier:return",
+          "kind": "route",
+          "payload": "return the resource-certified claim",
+          "recipient": "Planner"
+        },
+        {
+          "actor": "Planner",
+          "event_id": "e2-resource_controlled-run-001:resource_answer:answer",
+          "kind": "final_output",
+          "payload": "The workflow completed within the explicit tool budgets.",
+          "supported_claims": [
+            "sell_controls_linear_resources"
+          ]
+        }
+      ],
+      "query": "linear resources in agent protocols",
+      "remaining_budgets": {
+        "Planner": 3,
+        "Retriever": 1,
+        "Verifier": 1
+      },
+      "route": "search_again",
+      "run_id": "e2-resource_controlled-run-001",
+      "shared_memory": {
+        "src_budget_sell": "Nigam and Miller (2009), Algorithmic specifications in linear logic with subexponentials; deterministic query='linear resources in agent protocols'",
+        "src_budget_sessions": "Caires and Pfenning (2010), Session types as intuitionistic linear propositions; deterministic query='linear resources in agent protocols'"
+      },
+      "workflow": "resource_controlled"
+    },
+    "langgraph_version": "1.2.11",
+    "native_record_count": 25,
+    "native_stream": [
+      {
+        "data": {
+          "answer": "",
+          "certified_claims": [],
+          "emissions": [],
+          "query": "linear resources in agent protocols",
+          "remaining_budgets": {
+            "Planner": 3,
+            "Retriever": 5,
+            "Verifier": 2
+          },
+          "route": "",
+          "run_id": "e2-resource_controlled-run-001",
+          "shared_memory": {},
+          "workflow": "resource_controlled"
+        },
+        "interrupts": [],
+        "ns": [],
+        "type": "values"
+      },
+      {
+        "data": {
+          "id": "ad03e1b0-c237-ed27-ce58-f5b2594e51e0",
+          "input": {
+            "answer": "",
+            "certified_claims": [],
+            "emissions": [],
+            "query": "linear resources in agent protocols",
+            "remaining_budgets": {
+              "Planner": 3,
+              "Retriever": 5,
+              "Verifier": 2
+            },
+            "route": "",
+            "run_id": "e2-resource_controlled-run-001",
+            "shared_memory": {},
+            "workflow": "resource_controlled"
+          },
+          "metadata": {
+            "external_run_id": "e2-resource_controlled-run-001",
+            "tags": [
+              "deterministic",
+              "array-validation",
+              "resource_controlled"
+            ],
+            "workflow": "resource_controlled"
+          },
+          "name": "resource_planner",
+          "triggers": [
+            "branch:to:resource_planner"
+          ]
+        },
+        "ns": [],
+        "type": "tasks"
+      },
+      {
+        "data": {
+          "resource_planner": {
+            "emissions": [
+              {
+                "actor": "Planner",
+                "event_id": "e2-resource_controlled-run-001:resource_planner:retrieve",
+                "kind": "route",
+                "payload": "collect two sources while respecting the retrieval budget",
+                "recipient": "Retriever"
+              }
+            ]
+          }
+        },
+        "ns": [],
+        "type": "updates"
+      },
+      {
+        "data": {
+          "error": null,
+          "id": "ad03e1b0-c237-ed27-ce58-f5b2594e51e0",
+          "interrupts": [],
+          "name": "resource_planner",
+          "result": {
+            "emissions": [
+              {
+                "actor": "Planner",
+                "event_id": "e2-resource_controlled-run-001:resource_planner:retrieve",
+                "kind": "route",
+                "payload": "collect two sources while respecting the retrieval budget",
+                "recipient": "Retriever"
+              }
+            ]
+          }
+        },
+        "ns": [],
+        "type": "tasks"
+      },
+      {
+        "data": {
+          "answer": "",
+          "certified_claims": [],
+          "emissions": [
+            {
+              "actor": "Planner",
+              "event_id": "e2-resource_controlled-run-001:resource_planner:retrieve",
+              "kind": "route",
+              "payload": "collect two sources while respecting the retrieval budget",
+              "recipient": "Retriever"
+            }
+          ],
+          "query": "linear resources in agent protocols",
+          "remaining_budgets": {
+            "Planner": 3,
+            "Retriever": 5,
+            "Verifier": 2
+          },
+          "route": "",
+          "run_id": "e2-resource_controlled-run-001",
+          "shared_memory": {},
+          "workflow": "resource_controlled"
+        },
+        "interrupts": [],
+        "ns": [],
+        "type": "values"
+      },
+      {
+        "data": {
+          "id": "1a6c73bd-e69d-c652-11f9-5c377adee499",
+          "input": {
+            "answer": "",
+            "certified_claims": [],
+            "emissions": [
+              {
+                "actor": "Planner",
+                "event_id": "e2-resource_controlled-run-001:resource_planner:retrieve",
+                "kind": "route",
+                "payload": "collect two sources while respecting the retrieval budget",
+                "recipient": "Retriever"
+              }
+            ],
+            "query": "linear resources in agent protocols",
+            "remaining_budgets": {
+              "Planner": 3,
+              "Retriever": 5,
+              "Verifier": 2
+            },
+            "route": "",
+            "run_id": "e2-resource_controlled-run-001",
+            "shared_memory": {},
+            "workflow": "resource_controlled"
+          },
+          "metadata": {
+            "external_run_id": "e2-resource_controlled-run-001",
+            "tags": [
+              "deterministic",
+              "array-validation",
+              "resource_controlled"
+            ],
+            "workflow": "resource_controlled"
+          },
+          "name": "resource_search_primary",
+          "triggers": [
+            "branch:to:resource_search_primary"
+          ]
+        },
+        "ns": [],
+        "type": "tasks"
+      },
+      {
+        "data": {
+          "resource_search_primary": {
+            "emissions": [
+              {
+                "actor": "Retriever",
+                "event_id": "e2-resource_controlled-run-001:resource_search_primary:search",
+                "inputs": {
+                  "query": "linear resources in agent protocols",
+                  "source_key": "src_budget_sell"
+                },
+                "kind": "tool_invocation",
+                "operation": "BibliographicSearch",
+                "writes": [
+                  {
+                    "address": "src_budget_sell",
+                    "content": "Nigam and Miller (2009), Algorithmic specifications in linear logic with subexponentials; deterministic query='linear resources in agent protocols'",
+                    "namespace": "shared",
+                    "provenance": {
+                      "agent": "Retriever",
+                      "framework": "langgraph",
+                      "node": "resource_search_primary",
+                      "operation": "BibliographicSearch",
+                      "origin": "deterministic_tool_result",
+                      "run_id": "e2-resource_controlled-run-001",
+                      "workflow": "resource_controlled"
+                    }
+                  }
+                ]
+              }
+            ],
+            "remaining_budgets": {
+              "Planner": 3,
+              "Retriever": 3,
+              "Verifier": 2
+            },
+            "shared_memory": {
+              "src_budget_sell": "Nigam and Miller (2009), Algorithmic specifications in linear logic with subexponentials; deterministic query='linear resources in agent protocols'"
+            }
+          }
+        },
+        "ns": [],
+        "type": "updates"
+      },
+      {
+        "data": {
+          "error": null,
+          "id": "1a6c73bd-e69d-c652-11f9-5c377adee499",
+          "interrupts": [],
+          "name": "resource_search_primary",
+          "result": {
+            "emissions": [
+              {
+                "actor": "Retriever",
+                "event_id": "e2-resource_controlled-run-001:resource_search_primary:search",
+                "inputs": {
+                  "query": "linear resources in agent protocols",
+                  "source_key": "src_budget_sell"
+                },
+                "kind": "tool_invocation",
+                "operation": "BibliographicSearch",
+                "writes": [
+                  {
+                    "address": "src_budget_sell",
+                    "content": "Nigam and Miller (2009), Algorithmic specifications in linear logic with subexponentials; deterministic query='linear resources in agent protocols'",
+                    "namespace": "shared",
+                    "provenance": {
+                      "agent": "Retriever",
+                      "framework": "langgraph",
+                      "node": "resource_search_primary",
+                      "operation": "BibliographicSearch",
+                      "origin": "deterministic_tool_result",
+                      "run_id": "e2-resource_controlled-run-001",
+                      "workflow": "resource_controlled"
+                    }
+                  }
+                ]
+              }
+            ],
+            "remaining_budgets": {
+              "Planner": 3,
+              "Retriever": 3,
+              "Verifier": 2
+            },
+            "shared_memory": {
+              "src_budget_sell": "Nigam and Miller (2009), Algorithmic specifications in linear logic with subexponentials; deterministic query='linear resources in agent protocols'"
+            }
+          }
+        },
+        "ns": [],
+        "type": "tasks"
+      },
+      {
+        "data": {
+          "answer": "",
+          "certified_claims": [],
+          "emissions": [
+            {
+              "actor": "Planner",
+              "event_id": "e2-resource_controlled-run-001:resource_planner:retrieve",
+              "kind": "route",
+              "payload": "collect two sources while respecting the retrieval budget",
+              "recipient": "Retriever"
+            },
+            {
+              "actor": "Retriever",
+              "event_id": "e2-resource_controlled-run-001:resource_search_primary:search",
+              "inputs": {
+                "query": "linear resources in agent protocols",
+                "source_key": "src_budget_sell"
+              },
+              "kind": "tool_invocation",
+              "operation": "BibliographicSearch",
+              "writes": [
+                {
+                  "address": "src_budget_sell",
+                  "content": "Nigam and Miller (2009), Algorithmic specifications in linear logic with subexponentials; deterministic query='linear resources in agent protocols'",
+                  "namespace": "shared",
+                  "provenance": {
+                    "agent": "Retriever",
+                    "framework": "langgraph",
+                    "node": "resource_search_primary",
+                    "operation": "BibliographicSearch",
+                    "origin": "deterministic_tool_result",
+                    "run_id": "e2-resource_controlled-run-001",
+                    "workflow": "resource_controlled"
+                  }
+                }
+              ]
+            }
+          ],
+          "query": "linear resources in agent protocols",
+          "remaining_budgets": {
+            "Planner": 3,
+            "Retriever": 3,
+            "Verifier": 2
+          },
+          "route": "",
+          "run_id": "e2-resource_controlled-run-001",
+          "shared_memory": {
+            "src_budget_sell": "Nigam and Miller (2009), Algorithmic specifications in linear logic with subexponentials; deterministic query='linear resources in agent protocols'"
+          },
+          "workflow": "resource_controlled"
+        },
+        "interrupts": [],
+        "ns": [],
+        "type": "values"
+      },
+      {
+        "data": {
+          "id": "a21a5aa9-d920-2bec-10e1-57dad91101c1",
+          "input": {
+            "answer": "",
+            "certified_claims": [],
+            "emissions": [
+              {
+                "actor": "Planner",
+                "event_id": "e2-resource_controlled-run-001:resource_planner:retrieve",
+                "kind": "route",
+                "payload": "collect two sources while respecting the retrieval budget",
+                "recipient": "Retriever"
+              },
+              {
+                "actor": "Retriever",
+                "event_id": "e2-resource_controlled-run-001:resource_search_primary:search",
+                "inputs": {
+                  "query": "linear resources in agent protocols",
+                  "source_key": "src_budget_sell"
+                },
+                "kind": "tool_invocation",
+                "operation": "BibliographicSearch",
+                "writes": [
+                  {
+                    "address": "src_budget_sell",
+                    "content": "Nigam and Miller (2009), Algorithmic specifications in linear logic with subexponentials; deterministic query='linear resources in agent protocols'",
+                    "namespace": "shared",
+                    "provenance": {
+                      "agent": "Retriever",
+                      "framework": "langgraph",
+                      "node": "resource_search_primary",
+                      "operation": "BibliographicSearch",
+                      "origin": "deterministic_tool_result",
+                      "run_id": "e2-resource_controlled-run-001",
+                      "workflow": "resource_controlled"
+                    }
+                  }
+                ]
+              }
+            ],
+            "query": "linear resources in agent protocols",
+            "remaining_budgets": {
+              "Planner": 3,
+              "Retriever": 3,
+              "Verifier": 2
+            },
+            "route": "",
+            "run_id": "e2-resource_controlled-run-001",
+            "shared_memory": {
+              "src_budget_sell": "Nigam and Miller (2009), Algorithmic specifications in linear logic with subexponentials; deterministic query='linear resources in agent protocols'"
+            },
+            "workflow": "resource_controlled"
+          },
+          "metadata": {
+            "external_run_id": "e2-resource_controlled-run-001",
+            "tags": [
+              "deterministic",
+              "array-validation",
+              "resource_controlled"
+            ],
+            "workflow": "resource_controlled"
+          },
+          "name": "resource_budget_gate",
+          "triggers": [
+            "branch:to:resource_budget_gate"
+          ]
+        },
+        "ns": [],
+        "type": "tasks"
+      },
+      {
+        "data": {
+          "resource_budget_gate": {
+            "route": "search_again"
+          }
+        },
+        "ns": [],
+        "type": "updates"
+      },
+      {
+        "data": {
+          "error": null,
+          "id": "a21a5aa9-d920-2bec-10e1-57dad91101c1",
+          "interrupts": [],
+          "name": "resource_budget_gate",
+          "result": {
+            "route": "search_again"
+          }
+        },
+        "ns": [],
+        "type": "tasks"
+      },
+      {
+        "data": {
+          "answer": "",
+          "certified_claims": [],
+          "emissions": [
+            {
+              "actor": "Planner",
+              "event_id": "e2-resource_controlled-run-001:resource_planner:retrieve",
+              "kind": "route",
+              "payload": "collect two sources while respecting the retrieval budget",
+              "recipient": "Retriever"
+            },
+            {
+              "actor": "Retriever",
+              "event_id": "e2-resource_controlled-run-001:resource_search_primary:search",
+              "inputs": {
+                "query": "linear resources in agent protocols",
+                "source_key": "src_budget_sell"
+              },
+              "kind": "tool_invocation",
+              "operation": "BibliographicSearch",
+              "writes": [
+                {
+                  "address": "src_budget_sell",
+                  "content": "Nigam and Miller (2009), Algorithmic specifications in linear logic with subexponentials; deterministic query='linear resources in agent protocols'",
+                  "namespace": "shared",
+                  "provenance": {
+                    "agent": "Retriever",
+                    "framework": "langgraph",
+                    "node": "resource_search_primary",
+                    "operation": "BibliographicSearch",
+                    "origin": "deterministic_tool_result",
+                    "run_id": "e2-resource_controlled-run-001",
+                    "workflow": "resource_controlled"
+                  }
+                }
+              ]
+            }
+          ],
+          "query": "linear resources in agent protocols",
+          "remaining_budgets": {
+            "Planner": 3,
+            "Retriever": 3,
+            "Verifier": 2
+          },
+          "route": "search_again",
+          "run_id": "e2-resource_controlled-run-001",
+          "shared_memory": {
+            "src_budget_sell": "Nigam and Miller (2009), Algorithmic specifications in linear logic with subexponentials; deterministic query='linear resources in agent protocols'"
+          },
+          "workflow": "resource_controlled"
+        },
+        "interrupts": [],
+        "ns": [],
+        "type": "values"
+      },
+      {
+        "data": {
+          "id": "1ae9ad43-79cb-70b8-51f6-b4714c5c5cb5",
+          "input": {
+            "answer": "",
+            "certified_claims": [],
+            "emissions": [
+              {
+                "actor": "Planner",
+                "event_id": "e2-resource_controlled-run-001:resource_planner:retrieve",
+                "kind": "route",
+                "payload": "collect two sources while respecting the retrieval budget",
+                "recipient": "Retriever"
+              },
+              {
+                "actor": "Retriever",
+                "event_id": "e2-resource_controlled-run-001:resource_search_primary:search",
+                "inputs": {
+                  "query": "linear resources in agent protocols",
+                  "source_key": "src_budget_sell"
+                },
+                "kind": "tool_invocation",
+                "operation": "BibliographicSearch",
+                "writes": [
+                  {
+                    "address": "src_budget_sell",
+                    "content": "Nigam and Miller (2009), Algorithmic specifications in linear logic with subexponentials; deterministic query='linear resources in agent protocols'",
+                    "namespace": "shared",
+                    "provenance": {
+                      "agent": "Retriever",
+                      "framework": "langgraph",
+                      "node": "resource_search_primary",
+                      "operation": "BibliographicSearch",
+                      "origin": "deterministic_tool_result",
+                      "run_id": "e2-resource_controlled-run-001",
+                      "workflow": "resource_controlled"
+                    }
+                  }
+                ]
+              }
+            ],
+            "query": "linear resources in agent protocols",
+            "remaining_budgets": {
+              "Planner": 3,
+              "Retriever": 3,
+              "Verifier": 2
+            },
+            "route": "search_again",
+            "run_id": "e2-resource_controlled-run-001",
+            "shared_memory": {
+              "src_budget_sell": "Nigam and Miller (2009), Algorithmic specifications in linear logic with subexponentials; deterministic query='linear resources in agent protocols'"
+            },
+            "workflow": "resource_controlled"
+          },
+          "metadata": {
+            "external_run_id": "e2-resource_controlled-run-001",
+            "tags": [
+              "deterministic",
+              "array-validation",
+              "resource_controlled"
+            ],
+            "workflow": "resource_controlled"
+          },
+          "name": "resource_search_secondary",
+          "triggers": [
+            "branch:to:resource_search_secondary"
+          ]
+        },
+        "ns": [],
+        "type": "tasks"
+      },
+      {
+        "data": {
+          "resource_search_secondary": {
+            "emissions": [
+              {
+                "actor": "Retriever",
+                "event_id": "e2-resource_controlled-run-001:resource_search_secondary:search",
+                "inputs": {
+                  "query": "linear resources in agent protocols",
+                  "source_key": "src_budget_sessions"
+                },
+                "kind": "tool_invocation",
+                "operation": "BibliographicSearch",
+                "writes": [
+                  {
+                    "address": "src_budget_sessions",
+                    "content": "Caires and Pfenning (2010), Session types as intuitionistic linear propositions; deterministic query='linear resources in agent protocols'",
+                    "namespace": "shared",
+                    "provenance": {
+                      "agent": "Retriever",
+                      "framework": "langgraph",
+                      "node": "resource_search_secondary",
+                      "operation": "BibliographicSearch",
+                      "origin": "deterministic_tool_result",
+                      "run_id": "e2-resource_controlled-run-001",
+                      "workflow": "resource_controlled"
+                    }
+                  }
+                ]
+              },
+              {
+                "actor": "Retriever",
+                "event_id": "e2-resource_controlled-run-001:resource_search_secondary:notify-verifier",
+                "kind": "message",
+                "payload": "two budgeted sources are ready for verification",
+                "recipient": "Verifier"
+              }
+            ],
+            "remaining_budgets": {
+              "Planner": 3,
+              "Retriever": 1,
+              "Verifier": 2
+            },
+            "shared_memory": {
+              "src_budget_sell": "Nigam and Miller (2009), Algorithmic specifications in linear logic with subexponentials; deterministic query='linear resources in agent protocols'",
+              "src_budget_sessions": "Caires and Pfenning (2010), Session types as intuitionistic linear propositions; deterministic query='linear resources in agent protocols'"
+            }
+          }
+        },
+        "ns": [],
+        "type": "updates"
+      },
+      {
+        "data": {
+          "error": null,
+          "id": "1ae9ad43-79cb-70b8-51f6-b4714c5c5cb5",
+          "interrupts": [],
+          "name": "resource_search_secondary",
+          "result": {
+            "emissions": [
+              {
+                "actor": "Retriever",
+                "event_id": "e2-resource_controlled-run-001:resource_search_secondary:search",
+                "inputs": {
+                  "query": "linear resources in agent protocols",
+                  "source_key": "src_budget_sessions"
+                },
+                "kind": "tool_invocation",
+                "operation": "BibliographicSearch",
+                "writes": [
+                  {
+                    "address": "src_budget_sessions",
+                    "content": "Caires and Pfenning (2010), Session types as intuitionistic linear propositions; deterministic query='linear resources in agent protocols'",
+                    "namespace": "shared",
+                    "provenance": {
+                      "agent": "Retriever",
+                      "framework": "langgraph",
+                      "node": "resource_search_secondary",
+                      "operation": "BibliographicSearch",
+                      "origin": "deterministic_tool_result",
+                      "run_id": "e2-resource_controlled-run-001",
+                      "workflow": "resource_controlled"
+                    }
+                  }
+                ]
+              },
+              {
+                "actor": "Retriever",
+                "event_id": "e2-resource_controlled-run-001:resource_search_secondary:notify-verifier",
+                "kind": "message",
+                "payload": "two budgeted sources are ready for verification",
+                "recipient": "Verifier"
+              }
+            ],
+            "remaining_budgets": {
+              "Planner": 3,
+              "Retriever": 1,
+              "Verifier": 2
+            },
+            "shared_memory": {
+              "src_budget_sell": "Nigam and Miller (2009), Algorithmic specifications in linear logic with subexponentials; deterministic query='linear resources in agent protocols'",
+              "src_budget_sessions": "Caires and Pfenning (2010), Session types as intuitionistic linear propositions; deterministic query='linear resources in agent protocols'"
+            }
+          }
+        },
+        "ns": [],
+        "type": "tasks"
+      },
+      {
+        "data": {
+          "answer": "",
+          "certified_claims": [],
+          "emissions": [
+            {
+              "actor": "Planner",
+              "event_id": "e2-resource_controlled-run-001:resource_planner:retrieve",
+              "kind": "route",
+              "payload": "collect two sources while respecting the retrieval budget",
+              "recipient": "Retriever"
+            },
+            {
+              "actor": "Retriever",
+              "event_id": "e2-resource_controlled-run-001:resource_search_primary:search",
+              "inputs": {
+                "query": "linear resources in agent protocols",
+                "source_key": "src_budget_sell"
+              },
+              "kind": "tool_invocation",
+              "operation": "BibliographicSearch",
+              "writes": [
+                {
+                  "address": "src_budget_sell",
+                  "content": "Nigam and Miller (2009), Algorithmic specifications in linear logic with subexponentials; deterministic query='linear resources in agent protocols'",
+                  "namespace": "shared",
+                  "provenance": {
+                    "agent": "Retriever",
+                    "framework": "langgraph",
+                    "node": "resource_search_primary",
+                    "operation": "BibliographicSearch",
+                    "origin": "deterministic_tool_result",
+                    "run_id": "e2-resource_controlled-run-001",
+                    "workflow": "resource_controlled"
+                  }
+                }
+              ]
+            },
+            {
+              "actor": "Retriever",
+              "event_id": "e2-resource_controlled-run-001:resource_search_secondary:search",
+              "inputs": {
+                "query": "linear resources in agent protocols",
+                "source_key": "src_budget_sessions"
+              },
+              "kind": "tool_invocation",
+              "operation": "BibliographicSearch",
+              "writes": [
+                {
+                  "address": "src_budget_sessions",
+                  "content": "Caires and Pfenning (2010), Session types as intuitionistic linear propositions; deterministic query='linear resources in agent protocols'",
+                  "namespace": "shared",
+                  "provenance": {
+                    "agent": "Retriever",
+                    "framework": "langgraph",
+                    "node": "resource_search_secondary",
+                    "operation": "BibliographicSearch",
+                    "origin": "deterministic_tool_result",
+                    "run_id": "e2-resource_controlled-run-001",
+                    "workflow": "resource_controlled"
+                  }
+                }
+              ]
+            },
+            {
+              "actor": "Retriever",
+              "event_id": "e2-resource_controlled-run-001:resource_search_secondary:notify-verifier",
+              "kind": "message",
+              "payload": "two budgeted sources are ready for verification",
+              "recipient": "Verifier"
+            }
+          ],
+          "query": "linear resources in agent protocols",
+          "remaining_budgets": {
+            "Planner": 3,
+            "Retriever": 1,
+            "Verifier": 2
+          },
+          "route": "search_again",
+          "run_id": "e2-resource_controlled-run-001",
+          "shared_memory": {
+            "src_budget_sell": "Nigam and Miller (2009), Algorithmic specifications in linear logic with subexponentials; deterministic query='linear resources in agent protocols'",
+            "src_budget_sessions": "Caires and Pfenning (2010), Session types as intuitionistic linear propositions; deterministic query='linear resources in agent protocols'"
+          },
+          "workflow": "resource_controlled"
+        },
+        "interrupts": [],
+        "ns": [],
+        "type": "values"
+      },
+      {
+        "data": {
+          "id": "412b6aa4-c37b-5428-ed63-07b99f1b5e21",
+          "input": {
+            "answer": "",
+            "certified_claims": [],
+            "emissions": [
+              {
+                "actor": "Planner",
+                "event_id": "e2-resource_controlled-run-001:resource_planner:retrieve",
+                "kind": "route",
+                "payload": "collect two sources while respecting the retrieval budget",
+                "recipient": "Retriever"
+              },
+              {
+                "actor": "Retriever",
+                "event_id": "e2-resource_controlled-run-001:resource_search_primary:search",
+                "inputs": {
+                  "query": "linear resources in agent protocols",
+                  "source_key": "src_budget_sell"
+                },
+                "kind": "tool_invocation",
+                "operation": "BibliographicSearch",
+                "writes": [
+                  {
+                    "address": "src_budget_sell",
+                    "content": "Nigam and Miller (2009), Algorithmic specifications in linear logic with subexponentials; deterministic query='linear resources in agent protocols'",
+                    "namespace": "shared",
+                    "provenance": {
+                      "agent": "Retriever",
+                      "framework": "langgraph",
+                      "node": "resource_search_primary",
+                      "operation": "BibliographicSearch",
+                      "origin": "deterministic_tool_result",
+                      "run_id": "e2-resource_controlled-run-001",
+                      "workflow": "resource_controlled"
+                    }
+                  }
+                ]
+              },
+              {
+                "actor": "Retriever",
+                "event_id": "e2-resource_controlled-run-001:resource_search_secondary:search",
+                "inputs": {
+                  "query": "linear resources in agent protocols",
+                  "source_key": "src_budget_sessions"
+                },
+                "kind": "tool_invocation",
+                "operation": "BibliographicSearch",
+                "writes": [
+                  {
+                    "address": "src_budget_sessions",
+                    "content": "Caires and Pfenning (2010), Session types as intuitionistic linear propositions; deterministic query='linear resources in agent protocols'",
+                    "namespace": "shared",
+                    "provenance": {
+                      "agent": "Retriever",
+                      "framework": "langgraph",
+                      "node": "resource_search_secondary",
+                      "operation": "BibliographicSearch",
+                      "origin": "deterministic_tool_result",
+                      "run_id": "e2-resource_controlled-run-001",
+                      "workflow": "resource_controlled"
+                    }
+                  }
+                ]
+              },
+              {
+                "actor": "Retriever",
+                "event_id": "e2-resource_controlled-run-001:resource_search_secondary:notify-verifier",
+                "kind": "message",
+                "payload": "two budgeted sources are ready for verification",
+                "recipient": "Verifier"
+              }
+            ],
+            "query": "linear resources in agent protocols",
+            "remaining_budgets": {
+              "Planner": 3,
+              "Retriever": 1,
+              "Verifier": 2
+            },
+            "route": "search_again",
+            "run_id": "e2-resource_controlled-run-001",
+            "shared_memory": {
+              "src_budget_sell": "Nigam and Miller (2009), Algorithmic specifications in linear logic with subexponentials; deterministic query='linear resources in agent protocols'",
+              "src_budget_sessions": "Caires and Pfenning (2010), Session types as intuitionistic linear propositions; deterministic query='linear resources in agent protocols'"
+            },
+            "workflow": "resource_controlled"
+          },
+          "metadata": {
+            "external_run_id": "e2-resource_controlled-run-001",
+            "tags": [
+              "deterministic",
+              "array-validation",
+              "resource_controlled"
+            ],
+            "workflow": "resource_controlled"
+          },
+          "name": "resource_verifier",
+          "triggers": [
+            "branch:to:resource_verifier"
+          ]
+        },
+        "ns": [],
+        "type": "tasks"
+      },
+      {
+        "data": {
+          "resource_verifier": {
+            "certified_claims": [
+              "sell_controls_linear_resources"
+            ],
+            "emissions": [
+              {
+                "actor": "Verifier",
+                "event_id": "e2-resource_controlled-run-001:resource_verifier:check",
+                "inputs": {
+                  "claim": "SELL subexponentials distinguish reusable and linear resources",
+                  "source": "src_budget_sell"
+                },
+                "kind": "tool_invocation",
+                "operation": "ClaimCheck",
+                "writes": []
+              },
+              {
+                "actor": "Verifier",
+                "claim_id": "sell_controls_linear_resources",
+                "event_id": "e2-resource_controlled-run-001:resource_verifier:certify",
+                "kind": "claim_certificate",
+                "source_key": "src_budget_sell"
+              },
+              {
+                "actor": "Verifier",
+                "event_id": "e2-resource_controlled-run-001:resource_verifier:return",
+                "kind": "route",
+                "payload": "return the resource-certified claim",
+                "recipient": "Planner"
+              }
+            ],
+            "remaining_budgets": {
+              "Planner": 3,
+              "Retriever": 1,
+              "Verifier": 1
+            }
+          }
+        },
+        "ns": [],
+        "type": "updates"
+      },
+      {
+        "data": {
+          "error": null,
+          "id": "412b6aa4-c37b-5428-ed63-07b99f1b5e21",
+          "interrupts": [],
+          "name": "resource_verifier",
+          "result": {
+            "certified_claims": [
+              "sell_controls_linear_resources"
+            ],
+            "emissions": [
+              {
+                "actor": "Verifier",
+                "event_id": "e2-resource_controlled-run-001:resource_verifier:check",
+                "inputs": {
+                  "claim": "SELL subexponentials distinguish reusable and linear resources",
+                  "source": "src_budget_sell"
+                },
+                "kind": "tool_invocation",
+                "operation": "ClaimCheck",
+                "writes": []
+              },
+              {
+                "actor": "Verifier",
+                "claim_id": "sell_controls_linear_resources",
+                "event_id": "e2-resource_controlled-run-001:resource_verifier:certify",
+                "kind": "claim_certificate",
+                "source_key": "src_budget_sell"
+              },
+              {
+                "actor": "Verifier",
+                "event_id": "e2-resource_controlled-run-001:resource_verifier:return",
+                "kind": "route",
+                "payload": "return the resource-certified claim",
+                "recipient": "Planner"
+              }
+            ],
+            "remaining_budgets": {
+              "Planner": 3,
+              "Retriever": 1,
+              "Verifier": 1
+            }
+          }
+        },
+        "ns": [],
+        "type": "tasks"
+      },
+      {
+        "data": {
+          "answer": "",
+          "certified_claims": [
+            "sell_controls_linear_resources"
+          ],
+          "emissions": [
+            {
+              "actor": "Planner",
+              "event_id": "e2-resource_controlled-run-001:resource_planner:retrieve",
+              "kind": "route",
+              "payload": "collect two sources while respecting the retrieval budget",
+              "recipient": "Retriever"
+            },
+            {
+              "actor": "Retriever",
+              "event_id": "e2-resource_controlled-run-001:resource_search_primary:search",
+              "inputs": {
+                "query": "linear resources in agent protocols",
+                "source_key": "src_budget_sell"
+              },
+              "kind": "tool_invocation",
+              "operation": "BibliographicSearch",
+              "writes": [
+                {
+                  "address": "src_budget_sell",
+                  "content": "Nigam and Miller (2009), Algorithmic specifications in linear logic with subexponentials; deterministic query='linear resources in agent protocols'",
+                  "namespace": "shared",
+                  "provenance": {
+                    "agent": "Retriever",
+                    "framework": "langgraph",
+                    "node": "resource_search_primary",
+                    "operation": "BibliographicSearch",
+                    "origin": "deterministic_tool_result",
+                    "run_id": "e2-resource_controlled-run-001",
+                    "workflow": "resource_controlled"
+                  }
+                }
+              ]
+            },
+            {
+              "actor": "Retriever",
+              "event_id": "e2-resource_controlled-run-001:resource_search_secondary:search",
+              "inputs": {
+                "query": "linear resources in agent protocols",
+                "source_key": "src_budget_sessions"
+              },
+              "kind": "tool_invocation",
+              "operation": "BibliographicSearch",
+              "writes": [
+                {
+                  "address": "src_budget_sessions",
+                  "content": "Caires and Pfenning (2010), Session types as intuitionistic linear propositions; deterministic query='linear resources in agent protocols'",
+                  "namespace": "shared",
+                  "provenance": {
+                    "agent": "Retriever",
+                    "framework": "langgraph",
+                    "node": "resource_search_secondary",
+                    "operation": "BibliographicSearch",
+                    "origin": "deterministic_tool_result",
+                    "run_id": "e2-resource_controlled-run-001",
+                    "workflow": "resource_controlled"
+                  }
+                }
+              ]
+            },
+            {
+              "actor": "Retriever",
+              "event_id": "e2-resource_controlled-run-001:resource_search_secondary:notify-verifier",
+              "kind": "message",
+              "payload": "two budgeted sources are ready for verification",
+              "recipient": "Verifier"
+            },
+            {
+              "actor": "Verifier",
+              "event_id": "e2-resource_controlled-run-001:resource_verifier:check",
+              "inputs": {
+                "claim": "SELL subexponentials distinguish reusable and linear resources",
+                "source": "src_budget_sell"
+              },
+              "kind": "tool_invocation",
+              "operation": "ClaimCheck",
+              "writes": []
+            },
+            {
+              "actor": "Verifier",
+              "claim_id": "sell_controls_linear_resources",
+              "event_id": "e2-resource_controlled-run-001:resource_verifier:certify",
+              "kind": "claim_certificate",
+              "source_key": "src_budget_sell"
+            },
+            {
+              "actor": "Verifier",
+              "event_id": "e2-resource_controlled-run-001:resource_verifier:return",
+              "kind": "route",
+              "payload": "return the resource-certified claim",
+              "recipient": "Planner"
+            }
+          ],
+          "query": "linear resources in agent protocols",
+          "remaining_budgets": {
+            "Planner": 3,
+            "Retriever": 1,
+            "Verifier": 1
+          },
+          "route": "search_again",
+          "run_id": "e2-resource_controlled-run-001",
+          "shared_memory": {
+            "src_budget_sell": "Nigam and Miller (2009), Algorithmic specifications in linear logic with subexponentials; deterministic query='linear resources in agent protocols'",
+            "src_budget_sessions": "Caires and Pfenning (2010), Session types as intuitionistic linear propositions; deterministic query='linear resources in agent protocols'"
+          },
+          "workflow": "resource_controlled"
+        },
+        "interrupts": [],
+        "ns": [],
+        "type": "values"
+      },
+      {
+        "data": {
+          "id": "9f205600-a670-5ab8-e62e-5ee0ef51e6ba",
+          "input": {
+            "answer": "",
+            "certified_claims": [
+              "sell_controls_linear_resources"
+            ],
+            "emissions": [
+              {
+                "actor": "Planner",
+                "event_id": "e2-resource_controlled-run-001:resource_planner:retrieve",
+                "kind": "route",
+                "payload": "collect two sources while respecting the retrieval budget",
+                "recipient": "Retriever"
+              },
+              {
+                "actor": "Retriever",
+                "event_id": "e2-resource_controlled-run-001:resource_search_primary:search",
+                "inputs": {
+                  "query": "linear resources in agent protocols",
+                  "source_key": "src_budget_sell"
+                },
+                "kind": "tool_invocation",
+                "operation": "BibliographicSearch",
+                "writes": [
+                  {
+                    "address": "src_budget_sell",
+                    "content": "Nigam and Miller (2009), Algorithmic specifications in linear logic with subexponentials; deterministic query='linear resources in agent protocols'",
+                    "namespace": "shared",
+                    "provenance": {
+                      "agent": "Retriever",
+                      "framework": "langgraph",
+                      "node": "resource_search_primary",
+                      "operation": "BibliographicSearch",
+                      "origin": "deterministic_tool_result",
+                      "run_id": "e2-resource_controlled-run-001",
+                      "workflow": "resource_controlled"
+                    }
+                  }
+                ]
+              },
+              {
+                "actor": "Retriever",
+                "event_id": "e2-resource_controlled-run-001:resource_search_secondary:search",
+                "inputs": {
+                  "query": "linear resources in agent protocols",
+                  "source_key": "src_budget_sessions"
+                },
+                "kind": "tool_invocation",
+                "operation": "BibliographicSearch",
+                "writes": [
+                  {
+                    "address": "src_budget_sessions",
+                    "content": "Caires and Pfenning (2010), Session types as intuitionistic linear propositions; deterministic query='linear resources in agent protocols'",
+                    "namespace": "shared",
+                    "provenance": {
+                      "agent": "Retriever",
+                      "framework": "langgraph",
+                      "node": "resource_search_secondary",
+                      "operation": "BibliographicSearch",
+                      "origin": "deterministic_tool_result",
+                      "run_id": "e2-resource_controlled-run-001",
+                      "workflow": "resource_controlled"
+                    }
+                  }
+                ]
+              },
+              {
+                "actor": "Retriever",
+                "event_id": "e2-resource_controlled-run-001:resource_search_secondary:notify-verifier",
+                "kind": "message",
+                "payload": "two budgeted sources are ready for verification",
+                "recipient": "Verifier"
+              },
+              {
+                "actor": "Verifier",
+                "event_id": "e2-resource_controlled-run-001:resource_verifier:check",
+                "inputs": {
+                  "claim": "SELL subexponentials distinguish reusable and linear resources",
+                  "source": "src_budget_sell"
+                },
+                "kind": "tool_invocation",
+                "operation": "ClaimCheck",
+                "writes": []
+              },
+              {
+                "actor": "Verifier",
+                "claim_id": "sell_controls_linear_resources",
+                "event_id": "e2-resource_controlled-run-001:resource_verifier:certify",
+                "kind": "claim_certificate",
+                "source_key": "src_budget_sell"
+              },
+              {
+                "actor": "Verifier",
+                "event_id": "e2-resource_controlled-run-001:resource_verifier:return",
+                "kind": "route",
+                "payload": "return the resource-certified claim",
+                "recipient": "Planner"
+              }
+            ],
+            "query": "linear resources in agent protocols",
+            "remaining_budgets": {
+              "Planner": 3,
+              "Retriever": 1,
+              "Verifier": 1
+            },
+            "route": "search_again",
+            "run_id": "e2-resource_controlled-run-001",
+            "shared_memory": {
+              "src_budget_sell": "Nigam and Miller (2009), Algorithmic specifications in linear logic with subexponentials; deterministic query='linear resources in agent protocols'",
+              "src_budget_sessions": "Caires and Pfenning (2010), Session types as intuitionistic linear propositions; deterministic query='linear resources in agent protocols'"
+            },
+            "workflow": "resource_controlled"
+          },
+          "metadata": {
+            "external_run_id": "e2-resource_controlled-run-001",
+            "tags": [
+              "deterministic",
+              "array-validation",
+              "resource_controlled"
+            ],
+            "workflow": "resource_controlled"
+          },
+          "name": "resource_answer",
+          "triggers": [
+            "branch:to:resource_answer"
+          ]
+        },
+        "ns": [],
+        "type": "tasks"
+      },
+      {
+        "data": {
+          "resource_answer": {
+            "answer": "The workflow completed within the explicit tool budgets.",
+            "emissions": [
+              {
+                "actor": "Planner",
+                "event_id": "e2-resource_controlled-run-001:resource_answer:answer",
+                "kind": "final_output",
+                "payload": "The workflow completed within the explicit tool budgets.",
+                "supported_claims": [
+                  "sell_controls_linear_resources"
+                ]
+              }
+            ]
+          }
+        },
+        "ns": [],
+        "type": "updates"
+      },
+      {
+        "data": {
+          "error": null,
+          "id": "9f205600-a670-5ab8-e62e-5ee0ef51e6ba",
+          "interrupts": [],
+          "name": "resource_answer",
+          "result": {
+            "answer": "The workflow completed within the explicit tool budgets.",
+            "emissions": [
+              {
+                "actor": "Planner",
+                "event_id": "e2-resource_controlled-run-001:resource_answer:answer",
+                "kind": "final_output",
+                "payload": "The workflow completed within the explicit tool budgets.",
+                "supported_claims": [
+                  "sell_controls_linear_resources"
+                ]
+              }
+            ]
+          }
+        },
+        "ns": [],
+        "type": "tasks"
+      },
+      {
+        "data": {
+          "answer": "The workflow completed within the explicit tool budgets.",
+          "certified_claims": [
+            "sell_controls_linear_resources"
+          ],
+          "emissions": [
+            {
+              "actor": "Planner",
+              "event_id": "e2-resource_controlled-run-001:resource_planner:retrieve",
+              "kind": "route",
+              "payload": "collect two sources while respecting the retrieval budget",
+              "recipient": "Retriever"
+            },
+            {
+              "actor": "Retriever",
+              "event_id": "e2-resource_controlled-run-001:resource_search_primary:search",
+              "inputs": {
+                "query": "linear resources in agent protocols",
+                "source_key": "src_budget_sell"
+              },
+              "kind": "tool_invocation",
+              "operation": "BibliographicSearch",
+              "writes": [
+                {
+                  "address": "src_budget_sell",
+                  "content": "Nigam and Miller (2009), Algorithmic specifications in linear logic with subexponentials; deterministic query='linear resources in agent protocols'",
+                  "namespace": "shared",
+                  "provenance": {
+                    "agent": "Retriever",
+                    "framework": "langgraph",
+                    "node": "resource_search_primary",
+                    "operation": "BibliographicSearch",
+                    "origin": "deterministic_tool_result",
+                    "run_id": "e2-resource_controlled-run-001",
+                    "workflow": "resource_controlled"
+                  }
+                }
+              ]
+            },
+            {
+              "actor": "Retriever",
+              "event_id": "e2-resource_controlled-run-001:resource_search_secondary:search",
+              "inputs": {
+                "query": "linear resources in agent protocols",
+                "source_key": "src_budget_sessions"
+              },
+              "kind": "tool_invocation",
+              "operation": "BibliographicSearch",
+              "writes": [
+                {
+                  "address": "src_budget_sessions",
+                  "content": "Caires and Pfenning (2010), Session types as intuitionistic linear propositions; deterministic query='linear resources in agent protocols'",
+                  "namespace": "shared",
+                  "provenance": {
+                    "agent": "Retriever",
+                    "framework": "langgraph",
+                    "node": "resource_search_secondary",
+                    "operation": "BibliographicSearch",
+                    "origin": "deterministic_tool_result",
+                    "run_id": "e2-resource_controlled-run-001",
+                    "workflow": "resource_controlled"
+                  }
+                }
+              ]
+            },
+            {
+              "actor": "Retriever",
+              "event_id": "e2-resource_controlled-run-001:resource_search_secondary:notify-verifier",
+              "kind": "message",
+              "payload": "two budgeted sources are ready for verification",
+              "recipient": "Verifier"
+            },
+            {
+              "actor": "Verifier",
+              "event_id": "e2-resource_controlled-run-001:resource_verifier:check",
+              "inputs": {
+                "claim": "SELL subexponentials distinguish reusable and linear resources",
+                "source": "src_budget_sell"
+              },
+              "kind": "tool_invocation",
+              "operation": "ClaimCheck",
+              "writes": []
+            },
+            {
+              "actor": "Verifier",
+              "claim_id": "sell_controls_linear_resources",
+              "event_id": "e2-resource_controlled-run-001:resource_verifier:certify",
+              "kind": "claim_certificate",
+              "source_key": "src_budget_sell"
+            },
+            {
+              "actor": "Verifier",
+              "event_id": "e2-resource_controlled-run-001:resource_verifier:return",
+              "kind": "route",
+              "payload": "return the resource-certified claim",
+              "recipient": "Planner"
+            },
+            {
+              "actor": "Planner",
+              "event_id": "e2-resource_controlled-run-001:resource_answer:answer",
+              "kind": "final_output",
+              "payload": "The workflow completed within the explicit tool budgets.",
+              "supported_claims": [
+                "sell_controls_linear_resources"
+              ]
+            }
+          ],
+          "query": "linear resources in agent protocols",
+          "remaining_budgets": {
+            "Planner": 3,
+            "Retriever": 1,
+            "Verifier": 1
+          },
+          "route": "search_again",
+          "run_id": "e2-resource_controlled-run-001",
+          "shared_memory": {
+            "src_budget_sell": "Nigam and Miller (2009), Algorithmic specifications in linear logic with subexponentials; deterministic query='linear resources in agent protocols'",
+            "src_budget_sessions": "Caires and Pfenning (2010), Session types as intuitionistic linear propositions; deterministic query='linear resources in agent protocols'"
+          },
+          "workflow": "resource_controlled"
+        },
+        "interrupts": [],
+        "ns": [],
+        "type": "values"
+      }
+    ],
+    "run_count_for_workflow": 1,
+    "run_count_rationale": "The workflow and local tools are deterministic; one execution tests the sole configured path without inflating the sample count.",
+    "run_id": "e2-resource_controlled-run-001",
+    "stream_modes": [
+      "tasks",
+      "updates",
+      "values"
+    ],
+    "stream_version": "v2",
+    "workflow": "resource_controlled"
+  },
+  {
+    "canonical_event_count": 8,
+    "canonical_event_types": [
+      "answer",
+      "certify",
+      "handoff",
+      "message",
+      "shared_memory_update",
+      "tool_call"
+    ],
+    "canonical_trace": [
+      {
+        "event": "handoff",
+        "framework": {
+          "name": "langgraph",
+          "native_event_id": "e2-shared_memory-run-001:memory_planner:collect",
+          "native_kind": "route",
+          "node": "memory_planner",
+          "run_id": "e2-shared_memory-run-001",
+          "stream_mode": "updates",
+          "stream_version": "v2",
+          "task_id": "14717316-b9ce-84ca-8290-725c20f92e4e",
+          "version": "1.2.11",
+          "workflow": "shared_memory"
+        },
+        "from": "Planner",
+        "payload": "collect a provenance-bearing shared source",
+        "step": 1,
+        "to": "Retriever",
+        "trace": "e2-shared_memory-run-001:001"
+      },
+      {
+        "agent": "Retriever",
+        "event": "tool_call",
+        "framework": {
+          "name": "langgraph",
+          "native_event_id": "e2-shared_memory-run-001:memory_collector:search",
+          "native_kind": "tool_invocation",
+          "node": "memory_collector",
+          "run_id": "e2-shared_memory-run-001",
+          "stream_mode": "updates",
+          "stream_version": "v2",
+          "task_id": "9a041055-2ebd-3dde-231c-4c866ef0e395",
+          "version": "1.2.11",
+          "workflow": "shared_memory"
+        },
+        "query": "provenance for shared agent memory",
+        "step": 2,
+        "tool": "BibliographicSearch",
+        "tool_input": {
+          "query": "provenance for shared agent memory"
+        },
+        "trace": "e2-shared_memory-run-001:002",
+        "writes": [
+          {
+            "key": "src_shared_raw",
+            "provenance": {
+              "agent": "Retriever",
+              "framework": "langgraph",
+              "node": "memory_collector",
+              "operation": "BibliographicSearch",
+              "origin": "deterministic_tool_result",
+              "run_id": "e2-shared_memory-run-001",
+              "trace": "e2-shared_memory-run-001:002",
+              "workflow": "shared_memory"
+            },
+            "scope": "shared",
+            "value": "W3C PROV-DM provenance record for an append-only source; deterministic query='provenance for shared agent memory'"
+          }
+        ]
+      },
+      {
+        "event": "message",
+        "framework": {
+          "name": "langgraph",
+          "native_event_id": "e2-shared_memory-run-001:memory_collector:notify-verifier",
+          "native_kind": "message",
+          "node": "memory_collector",
+          "run_id": "e2-shared_memory-run-001",
+          "stream_mode": "updates",
+          "stream_version": "v2",
+          "task_id": "9a041055-2ebd-3dde-231c-4c866ef0e395",
+          "version": "1.2.11",
+          "workflow": "shared_memory"
+        },
+        "from": "Retriever",
+        "payload": "shared source src_shared_raw is ready for cross-component validation",
+        "step": 3,
+        "to": "Verifier",
+        "trace": "e2-shared_memory-run-001:003"
+      },
+      {
+        "agent": "Verifier",
+        "claim": "Append-only memory retains a derivation link to the source",
+        "event": "tool_call",
+        "framework": {
+          "name": "langgraph",
+          "native_event_id": "e2-shared_memory-run-001:memory_verifier_write:check",
+          "native_kind": "tool_invocation",
+          "node": "memory_verifier_write",
+          "run_id": "e2-shared_memory-run-001",
+          "stream_mode": "updates",
+          "stream_version": "v2",
+          "task_id": "98d4b643-8b2a-0056-05b5-8b7048a3e62b",
+          "version": "1.2.11",
+          "workflow": "shared_memory"
+        },
+        "source": "src_shared_raw",
+        "step": 4,
+        "tool": "ClaimCheck",
+        "tool_input": {
+          "claim": "Append-only memory retains a derivation link to the source",
+          "source": "src_shared_raw"
+        },
+        "trace": "e2-shared_memory-run-001:004",
+        "writes": []
+      },
+      {
+        "agent": "Verifier",
+        "event": "shared_memory_update",
+        "framework": {
+          "name": "langgraph",
+          "native_event_id": "e2-shared_memory-run-001:memory_verifier_write:derive",
+          "native_kind": "state_write",
+          "node": "memory_verifier_write",
+          "run_id": "e2-shared_memory-run-001",
+          "stream_mode": "updates",
+          "stream_version": "v2",
+          "task_id": "98d4b643-8b2a-0056-05b5-8b7048a3e62b",
+          "version": "1.2.11",
+          "workflow": "shared_memory"
+        },
+        "step": 5,
+        "trace": "e2-shared_memory-run-001:005",
+        "writes": [
+          {
+            "key": "src_shared_verified",
+            "provenance": {
+              "agent": "Verifier",
+              "derived_from": [
+                "src_shared_raw"
+              ],
+              "framework": "langgraph",
+              "node": "memory_verifier_write",
+              "operation": "ClaimCheck",
+              "origin": "derived_shared_memory_record",
+              "run_id": "e2-shared_memory-run-001",
+              "trace": "e2-shared_memory-run-001:005",
+              "workflow": "shared_memory"
+            },
+            "scope": "shared",
+            "value": "structurally checked from src_shared_raw: W3C PROV-DM provenance record for an append-only source; deterministic query='provenance for shared agent memory'"
+          }
+        ]
+      },
+      {
+        "agent": "Verifier",
+        "claim": "shared_memory_provenance_is_auditable",
+        "event": "certify",
+        "framework": {
+          "name": "langgraph",
+          "native_event_id": "e2-shared_memory-run-001:memory_verifier_certify:certify",
+          "native_kind": "claim_certificate",
+          "node": "memory_verifier_certify",
+          "run_id": "e2-shared_memory-run-001",
+          "stream_mode": "updates",
+          "stream_version": "v2",
+          "task_id": "a1fa48bf-92fd-3fdf-fbce-1634cfdd4ccd",
+          "version": "1.2.11",
+          "workflow": "shared_memory"
+        },
+        "source": "src_shared_verified",
+        "step": 6,
+        "trace": "e2-shared_memory-run-001:006"
+      },
+      {
+        "event": "handoff",
+        "framework": {
+          "name": "langgraph",
+          "native_event_id": "e2-shared_memory-run-001:memory_verifier_certify:return",
+          "native_kind": "route",
+          "node": "memory_verifier_certify",
+          "run_id": "e2-shared_memory-run-001",
+          "stream_mode": "updates",
+          "stream_version": "v2",
+          "task_id": "a1fa48bf-92fd-3fdf-fbce-1634cfdd4ccd",
+          "version": "1.2.11",
+          "workflow": "shared_memory"
+        },
+        "from": "Verifier",
+        "payload": "return the claim supported by derived shared memory",
+        "step": 7,
+        "to": "Planner",
+        "trace": "e2-shared_memory-run-001:007"
+      },
+      {
+        "agent": "Planner",
+        "claims": [
+          "shared_memory_provenance_is_auditable"
+        ],
+        "event": "answer",
+        "framework": {
+          "name": "langgraph",
+          "native_event_id": "e2-shared_memory-run-001:memory_answer:answer",
+          "native_kind": "final_output",
+          "node": "memory_answer",
+          "run_id": "e2-shared_memory-run-001",
+          "stream_mode": "updates",
+          "stream_version": "v2",
+          "task_id": "e0aaac61-3627-1c55-f81b-20c9794cdc1c",
+          "version": "1.2.11",
+          "workflow": "shared_memory"
+        },
+        "payload": "The answer cites a claim backed by a provenance-bearing shared record.",
+        "step": 8,
+        "trace": "e2-shared_memory-run-001:008"
+      }
+    ],
+    "checker_result": {
+      "accepted": true,
+      "certified_claim_sources": [
+        {
+          "claim": "shared_memory_provenance_is_auditable",
+          "source": "src_shared_verified"
+        }
+      ],
+      "certified_claims": [
+        "shared_memory_provenance_is_auditable"
+      ],
+      "counters": {
+        "answers": 1,
+        "budget_consumed": 3,
+        "certificates": 1,
+        "events": 8,
+        "handoffs": 2,
+        "memory_writes": 2,
+        "messages": 1,
+        "tool_calls": 2,
+        "trace_items": 8
+      },
+      "errors": [],
+      "final_budgets": {
+        "Planner": 3,
+        "Retriever": 3,
+        "Verifier": 1
+      },
+      "shared_memory": [
+        "src_shared_raw",
+        "src_shared_verified"
+      ],
+      "shared_provenance": {
+        "src_shared_raw": {
+          "agent": "Retriever",
+          "event": "tool_call",
+          "provenance": {
+            "agent": "Retriever",
+            "framework": "langgraph",
+            "node": "memory_collector",
+            "operation": "BibliographicSearch",
+            "origin": "deterministic_tool_result",
+            "run_id": "e2-shared_memory-run-001",
+            "trace": "e2-shared_memory-run-001:002",
+            "workflow": "shared_memory"
+          },
+          "step": 2,
+          "tool": "BibliographicSearch",
+          "trace": "e2-shared_memory-run-001:002",
+          "value": "W3C PROV-DM provenance record for an append-only source; deterministic query='provenance for shared agent memory'"
+        },
+        "src_shared_verified": {
+          "agent": "Verifier",
+          "event": "shared_memory_update",
+          "provenance": {
+            "agent": "Verifier",
+            "derived_from": [
+              "src_shared_raw"
+            ],
+            "framework": "langgraph",
+            "node": "memory_verifier_write",
+            "operation": "ClaimCheck",
+            "origin": "derived_shared_memory_record",
+            "run_id": "e2-shared_memory-run-001",
+            "trace": "e2-shared_memory-run-001:005",
+            "workflow": "shared_memory"
+          },
+          "step": 5,
+          "tool": null,
+          "trace": "e2-shared_memory-run-001:005",
+          "value": "structurally checked from src_shared_raw: W3C PROV-DM provenance record for an append-only source; deterministic query='provenance for shared agent memory'"
+        }
+      },
+      "violations": []
+    },
+    "final_state": {
+      "answer": "The answer cites a claim backed by a provenance-bearing shared record.",
+      "certified_claims": [
+        "shared_memory_provenance_is_auditable"
+      ],
+      "emissions": [
+        {
+          "actor": "Planner",
+          "event_id": "e2-shared_memory-run-001:memory_planner:collect",
+          "kind": "route",
+          "payload": "collect a provenance-bearing shared source",
+          "recipient": "Retriever"
+        },
+        {
+          "actor": "Retriever",
+          "event_id": "e2-shared_memory-run-001:memory_collector:search",
+          "inputs": {
+            "query": "provenance for shared agent memory"
+          },
+          "kind": "tool_invocation",
+          "operation": "BibliographicSearch",
+          "writes": [
+            {
+              "address": "src_shared_raw",
+              "content": "W3C PROV-DM provenance record for an append-only source; deterministic query='provenance for shared agent memory'",
+              "namespace": "shared",
+              "provenance": {
+                "agent": "Retriever",
+                "framework": "langgraph",
+                "node": "memory_collector",
+                "operation": "BibliographicSearch",
+                "origin": "deterministic_tool_result",
+                "run_id": "e2-shared_memory-run-001",
+                "workflow": "shared_memory"
+              }
+            }
+          ]
+        },
+        {
+          "actor": "Retriever",
+          "event_id": "e2-shared_memory-run-001:memory_collector:notify-verifier",
+          "kind": "message",
+          "payload": "shared source src_shared_raw is ready for cross-component validation",
+          "recipient": "Verifier"
+        },
+        {
+          "actor": "Verifier",
+          "event_id": "e2-shared_memory-run-001:memory_verifier_write:check",
+          "inputs": {
+            "claim": "Append-only memory retains a derivation link to the source",
+            "source": "src_shared_raw"
+          },
+          "kind": "tool_invocation",
+          "operation": "ClaimCheck",
+          "writes": []
+        },
+        {
+          "actor": "Verifier",
+          "event_id": "e2-shared_memory-run-001:memory_verifier_write:derive",
+          "kind": "state_write",
+          "writes": [
+            {
+              "address": "src_shared_verified",
+              "content": "structurally checked from src_shared_raw: W3C PROV-DM provenance record for an append-only source; deterministic query='provenance for shared agent memory'",
+              "namespace": "shared",
+              "provenance": {
+                "agent": "Verifier",
+                "derived_from": [
+                  "src_shared_raw"
+                ],
+                "framework": "langgraph",
+                "node": "memory_verifier_write",
+                "operation": "ClaimCheck",
+                "origin": "derived_shared_memory_record",
+                "run_id": "e2-shared_memory-run-001",
+                "workflow": "shared_memory"
+              }
+            }
+          ]
+        },
+        {
+          "actor": "Verifier",
+          "claim_id": "shared_memory_provenance_is_auditable",
+          "event_id": "e2-shared_memory-run-001:memory_verifier_certify:certify",
+          "kind": "claim_certificate",
+          "source_key": "src_shared_verified"
+        },
+        {
+          "actor": "Verifier",
+          "event_id": "e2-shared_memory-run-001:memory_verifier_certify:return",
+          "kind": "route",
+          "payload": "return the claim supported by derived shared memory",
+          "recipient": "Planner"
+        },
+        {
+          "actor": "Planner",
+          "event_id": "e2-shared_memory-run-001:memory_answer:answer",
+          "kind": "final_output",
+          "payload": "The answer cites a claim backed by a provenance-bearing shared record.",
+          "supported_claims": [
+            "shared_memory_provenance_is_auditable"
+          ]
+        }
+      ],
+      "query": "provenance for shared agent memory",
+      "remaining_budgets": {
+        "Planner": 3,
+        "Retriever": 3,
+        "Verifier": 1
+      },
+      "route": "",
+      "run_id": "e2-shared_memory-run-001",
+      "shared_memory": {
+        "src_shared_raw": "W3C PROV-DM provenance record for an append-only source; deterministic query='provenance for shared agent memory'",
+        "src_shared_verified": "structurally checked from src_shared_raw: W3C PROV-DM provenance record for an append-only source; deterministic query='provenance for shared agent memory'"
+      },
+      "workflow": "shared_memory"
+    },
+    "langgraph_version": "1.2.11",
+    "native_record_count": 21,
+    "native_stream": [
+      {
+        "data": {
+          "answer": "",
+          "certified_claims": [],
+          "emissions": [],
+          "query": "provenance for shared agent memory",
+          "remaining_budgets": {
+            "Planner": 3,
+            "Retriever": 5,
+            "Verifier": 2
+          },
+          "route": "",
+          "run_id": "e2-shared_memory-run-001",
+          "shared_memory": {},
+          "workflow": "shared_memory"
+        },
+        "interrupts": [],
+        "ns": [],
+        "type": "values"
+      },
+      {
+        "data": {
+          "id": "14717316-b9ce-84ca-8290-725c20f92e4e",
+          "input": {
+            "answer": "",
+            "certified_claims": [],
+            "emissions": [],
+            "query": "provenance for shared agent memory",
+            "remaining_budgets": {
+              "Planner": 3,
+              "Retriever": 5,
+              "Verifier": 2
+            },
+            "route": "",
+            "run_id": "e2-shared_memory-run-001",
+            "shared_memory": {},
+            "workflow": "shared_memory"
+          },
+          "metadata": {
+            "external_run_id": "e2-shared_memory-run-001",
+            "tags": [
+              "deterministic",
+              "array-validation",
+              "shared_memory"
+            ],
+            "workflow": "shared_memory"
+          },
+          "name": "memory_planner",
+          "triggers": [
+            "branch:to:memory_planner"
+          ]
+        },
+        "ns": [],
+        "type": "tasks"
+      },
+      {
+        "data": {
+          "memory_planner": {
+            "emissions": [
+              {
+                "actor": "Planner",
+                "event_id": "e2-shared_memory-run-001:memory_planner:collect",
+                "kind": "route",
+                "payload": "collect a provenance-bearing shared source",
+                "recipient": "Retriever"
+              }
+            ]
+          }
+        },
+        "ns": [],
+        "type": "updates"
+      },
+      {
+        "data": {
+          "error": null,
+          "id": "14717316-b9ce-84ca-8290-725c20f92e4e",
+          "interrupts": [],
+          "name": "memory_planner",
+          "result": {
+            "emissions": [
+              {
+                "actor": "Planner",
+                "event_id": "e2-shared_memory-run-001:memory_planner:collect",
+                "kind": "route",
+                "payload": "collect a provenance-bearing shared source",
+                "recipient": "Retriever"
+              }
+            ]
+          }
+        },
+        "ns": [],
+        "type": "tasks"
+      },
+      {
+        "data": {
+          "answer": "",
+          "certified_claims": [],
+          "emissions": [
+            {
+              "actor": "Planner",
+              "event_id": "e2-shared_memory-run-001:memory_planner:collect",
+              "kind": "route",
+              "payload": "collect a provenance-bearing shared source",
+              "recipient": "Retriever"
+            }
+          ],
+          "query": "provenance for shared agent memory",
+          "remaining_budgets": {
+            "Planner": 3,
+            "Retriever": 5,
+            "Verifier": 2
+          },
+          "route": "",
+          "run_id": "e2-shared_memory-run-001",
+          "shared_memory": {},
+          "workflow": "shared_memory"
+        },
+        "interrupts": [],
+        "ns": [],
+        "type": "values"
+      },
+      {
+        "data": {
+          "id": "9a041055-2ebd-3dde-231c-4c866ef0e395",
+          "input": {
+            "answer": "",
+            "certified_claims": [],
+            "emissions": [
+              {
+                "actor": "Planner",
+                "event_id": "e2-shared_memory-run-001:memory_planner:collect",
+                "kind": "route",
+                "payload": "collect a provenance-bearing shared source",
+                "recipient": "Retriever"
+              }
+            ],
+            "query": "provenance for shared agent memory",
+            "remaining_budgets": {
+              "Planner": 3,
+              "Retriever": 5,
+              "Verifier": 2
+            },
+            "route": "",
+            "run_id": "e2-shared_memory-run-001",
+            "shared_memory": {},
+            "workflow": "shared_memory"
+          },
+          "metadata": {
+            "external_run_id": "e2-shared_memory-run-001",
+            "tags": [
+              "deterministic",
+              "array-validation",
+              "shared_memory"
+            ],
+            "workflow": "shared_memory"
+          },
+          "name": "memory_collector",
+          "triggers": [
+            "branch:to:memory_collector"
+          ]
+        },
+        "ns": [],
+        "type": "tasks"
+      },
+      {
+        "data": {
+          "memory_collector": {
+            "emissions": [
+              {
+                "actor": "Retriever",
+                "event_id": "e2-shared_memory-run-001:memory_collector:search",
+                "inputs": {
+                  "query": "provenance for shared agent memory"
+                },
+                "kind": "tool_invocation",
+                "operation": "BibliographicSearch",
+                "writes": [
+                  {
+                    "address": "src_shared_raw",
+                    "content": "W3C PROV-DM provenance record for an append-only source; deterministic query='provenance for shared agent memory'",
+                    "namespace": "shared",
+                    "provenance": {
+                      "agent": "Retriever",
+                      "framework": "langgraph",
+                      "node": "memory_collector",
+                      "operation": "BibliographicSearch",
+                      "origin": "deterministic_tool_result",
+                      "run_id": "e2-shared_memory-run-001",
+                      "workflow": "shared_memory"
+                    }
+                  }
+                ]
+              },
+              {
+                "actor": "Retriever",
+                "event_id": "e2-shared_memory-run-001:memory_collector:notify-verifier",
+                "kind": "message",
+                "payload": "shared source src_shared_raw is ready for cross-component validation",
+                "recipient": "Verifier"
+              }
+            ],
+            "remaining_budgets": {
+              "Planner": 3,
+              "Retriever": 3,
+              "Verifier": 2
+            },
+            "shared_memory": {
+              "src_shared_raw": "W3C PROV-DM provenance record for an append-only source; deterministic query='provenance for shared agent memory'"
+            }
+          }
+        },
+        "ns": [],
+        "type": "updates"
+      },
+      {
+        "data": {
+          "error": null,
+          "id": "9a041055-2ebd-3dde-231c-4c866ef0e395",
+          "interrupts": [],
+          "name": "memory_collector",
+          "result": {
+            "emissions": [
+              {
+                "actor": "Retriever",
+                "event_id": "e2-shared_memory-run-001:memory_collector:search",
+                "inputs": {
+                  "query": "provenance for shared agent memory"
+                },
+                "kind": "tool_invocation",
+                "operation": "BibliographicSearch",
+                "writes": [
+                  {
+                    "address": "src_shared_raw",
+                    "content": "W3C PROV-DM provenance record for an append-only source; deterministic query='provenance for shared agent memory'",
+                    "namespace": "shared",
+                    "provenance": {
+                      "agent": "Retriever",
+                      "framework": "langgraph",
+                      "node": "memory_collector",
+                      "operation": "BibliographicSearch",
+                      "origin": "deterministic_tool_result",
+                      "run_id": "e2-shared_memory-run-001",
+                      "workflow": "shared_memory"
+                    }
+                  }
+                ]
+              },
+              {
+                "actor": "Retriever",
+                "event_id": "e2-shared_memory-run-001:memory_collector:notify-verifier",
+                "kind": "message",
+                "payload": "shared source src_shared_raw is ready for cross-component validation",
+                "recipient": "Verifier"
+              }
+            ],
+            "remaining_budgets": {
+              "Planner": 3,
+              "Retriever": 3,
+              "Verifier": 2
+            },
+            "shared_memory": {
+              "src_shared_raw": "W3C PROV-DM provenance record for an append-only source; deterministic query='provenance for shared agent memory'"
+            }
+          }
+        },
+        "ns": [],
+        "type": "tasks"
+      },
+      {
+        "data": {
+          "answer": "",
+          "certified_claims": [],
+          "emissions": [
+            {
+              "actor": "Planner",
+              "event_id": "e2-shared_memory-run-001:memory_planner:collect",
+              "kind": "route",
+              "payload": "collect a provenance-bearing shared source",
+              "recipient": "Retriever"
+            },
+            {
+              "actor": "Retriever",
+              "event_id": "e2-shared_memory-run-001:memory_collector:search",
+              "inputs": {
+                "query": "provenance for shared agent memory"
+              },
+              "kind": "tool_invocation",
+              "operation": "BibliographicSearch",
+              "writes": [
+                {
+                  "address": "src_shared_raw",
+                  "content": "W3C PROV-DM provenance record for an append-only source; deterministic query='provenance for shared agent memory'",
+                  "namespace": "shared",
+                  "provenance": {
+                    "agent": "Retriever",
+                    "framework": "langgraph",
+                    "node": "memory_collector",
+                    "operation": "BibliographicSearch",
+                    "origin": "deterministic_tool_result",
+                    "run_id": "e2-shared_memory-run-001",
+                    "workflow": "shared_memory"
+                  }
+                }
+              ]
+            },
+            {
+              "actor": "Retriever",
+              "event_id": "e2-shared_memory-run-001:memory_collector:notify-verifier",
+              "kind": "message",
+              "payload": "shared source src_shared_raw is ready for cross-component validation",
+              "recipient": "Verifier"
+            }
+          ],
+          "query": "provenance for shared agent memory",
+          "remaining_budgets": {
+            "Planner": 3,
+            "Retriever": 3,
+            "Verifier": 2
+          },
+          "route": "",
+          "run_id": "e2-shared_memory-run-001",
+          "shared_memory": {
+            "src_shared_raw": "W3C PROV-DM provenance record for an append-only source; deterministic query='provenance for shared agent memory'"
+          },
+          "workflow": "shared_memory"
+        },
+        "interrupts": [],
+        "ns": [],
+        "type": "values"
+      },
+      {
+        "data": {
+          "id": "98d4b643-8b2a-0056-05b5-8b7048a3e62b",
+          "input": {
+            "answer": "",
+            "certified_claims": [],
+            "emissions": [
+              {
+                "actor": "Planner",
+                "event_id": "e2-shared_memory-run-001:memory_planner:collect",
+                "kind": "route",
+                "payload": "collect a provenance-bearing shared source",
+                "recipient": "Retriever"
+              },
+              {
+                "actor": "Retriever",
+                "event_id": "e2-shared_memory-run-001:memory_collector:search",
+                "inputs": {
+                  "query": "provenance for shared agent memory"
+                },
+                "kind": "tool_invocation",
+                "operation": "BibliographicSearch",
+                "writes": [
+                  {
+                    "address": "src_shared_raw",
+                    "content": "W3C PROV-DM provenance record for an append-only source; deterministic query='provenance for shared agent memory'",
+                    "namespace": "shared",
+                    "provenance": {
+                      "agent": "Retriever",
+                      "framework": "langgraph",
+                      "node": "memory_collector",
+                      "operation": "BibliographicSearch",
+                      "origin": "deterministic_tool_result",
+                      "run_id": "e2-shared_memory-run-001",
+                      "workflow": "shared_memory"
+                    }
+                  }
+                ]
+              },
+              {
+                "actor": "Retriever",
+                "event_id": "e2-shared_memory-run-001:memory_collector:notify-verifier",
+                "kind": "message",
+                "payload": "shared source src_shared_raw is ready for cross-component validation",
+                "recipient": "Verifier"
+              }
+            ],
+            "query": "provenance for shared agent memory",
+            "remaining_budgets": {
+              "Planner": 3,
+              "Retriever": 3,
+              "Verifier": 2
+            },
+            "route": "",
+            "run_id": "e2-shared_memory-run-001",
+            "shared_memory": {
+              "src_shared_raw": "W3C PROV-DM provenance record for an append-only source; deterministic query='provenance for shared agent memory'"
+            },
+            "workflow": "shared_memory"
+          },
+          "metadata": {
+            "external_run_id": "e2-shared_memory-run-001",
+            "tags": [
+              "deterministic",
+              "array-validation",
+              "shared_memory"
+            ],
+            "workflow": "shared_memory"
+          },
+          "name": "memory_verifier_write",
+          "triggers": [
+            "branch:to:memory_verifier_write"
+          ]
+        },
+        "ns": [],
+        "type": "tasks"
+      },
+      {
+        "data": {
+          "memory_verifier_write": {
+            "emissions": [
+              {
+                "actor": "Verifier",
+                "event_id": "e2-shared_memory-run-001:memory_verifier_write:check",
+                "inputs": {
+                  "claim": "Append-only memory retains a derivation link to the source",
+                  "source": "src_shared_raw"
+                },
+                "kind": "tool_invocation",
+                "operation": "ClaimCheck",
+                "writes": []
+              },
+              {
+                "actor": "Verifier",
+                "event_id": "e2-shared_memory-run-001:memory_verifier_write:derive",
+                "kind": "state_write",
+                "writes": [
+                  {
+                    "address": "src_shared_verified",
+                    "content": "structurally checked from src_shared_raw: W3C PROV-DM provenance record for an append-only source; deterministic query='provenance for shared agent memory'",
+                    "namespace": "shared",
+                    "provenance": {
+                      "agent": "Verifier",
+                      "derived_from": [
+                        "src_shared_raw"
+                      ],
+                      "framework": "langgraph",
+                      "node": "memory_verifier_write",
+                      "operation": "ClaimCheck",
+                      "origin": "derived_shared_memory_record",
+                      "run_id": "e2-shared_memory-run-001",
+                      "workflow": "shared_memory"
+                    }
+                  }
+                ]
+              }
+            ],
+            "remaining_budgets": {
+              "Planner": 3,
+              "Retriever": 3,
+              "Verifier": 1
+            },
+            "shared_memory": {
+              "src_shared_raw": "W3C PROV-DM provenance record for an append-only source; deterministic query='provenance for shared agent memory'",
+              "src_shared_verified": "structurally checked from src_shared_raw: W3C PROV-DM provenance record for an append-only source; deterministic query='provenance for shared agent memory'"
+            }
+          }
+        },
+        "ns": [],
+        "type": "updates"
+      },
+      {
+        "data": {
+          "error": null,
+          "id": "98d4b643-8b2a-0056-05b5-8b7048a3e62b",
+          "interrupts": [],
+          "name": "memory_verifier_write",
+          "result": {
+            "emissions": [
+              {
+                "actor": "Verifier",
+                "event_id": "e2-shared_memory-run-001:memory_verifier_write:check",
+                "inputs": {
+                  "claim": "Append-only memory retains a derivation link to the source",
+                  "source": "src_shared_raw"
+                },
+                "kind": "tool_invocation",
+                "operation": "ClaimCheck",
+                "writes": []
+              },
+              {
+                "actor": "Verifier",
+                "event_id": "e2-shared_memory-run-001:memory_verifier_write:derive",
+                "kind": "state_write",
+                "writes": [
+                  {
+                    "address": "src_shared_verified",
+                    "content": "structurally checked from src_shared_raw: W3C PROV-DM provenance record for an append-only source; deterministic query='provenance for shared agent memory'",
+                    "namespace": "shared",
+                    "provenance": {
+                      "agent": "Verifier",
+                      "derived_from": [
+                        "src_shared_raw"
+                      ],
+                      "framework": "langgraph",
+                      "node": "memory_verifier_write",
+                      "operation": "ClaimCheck",
+                      "origin": "derived_shared_memory_record",
+                      "run_id": "e2-shared_memory-run-001",
+                      "workflow": "shared_memory"
+                    }
+                  }
+                ]
+              }
+            ],
+            "remaining_budgets": {
+              "Planner": 3,
+              "Retriever": 3,
+              "Verifier": 1
+            },
+            "shared_memory": {
+              "src_shared_raw": "W3C PROV-DM provenance record for an append-only source; deterministic query='provenance for shared agent memory'",
+              "src_shared_verified": "structurally checked from src_shared_raw: W3C PROV-DM provenance record for an append-only source; deterministic query='provenance for shared agent memory'"
+            }
+          }
+        },
+        "ns": [],
+        "type": "tasks"
+      },
+      {
+        "data": {
+          "answer": "",
+          "certified_claims": [],
+          "emissions": [
+            {
+              "actor": "Planner",
+              "event_id": "e2-shared_memory-run-001:memory_planner:collect",
+              "kind": "route",
+              "payload": "collect a provenance-bearing shared source",
+              "recipient": "Retriever"
+            },
+            {
+              "actor": "Retriever",
+              "event_id": "e2-shared_memory-run-001:memory_collector:search",
+              "inputs": {
+                "query": "provenance for shared agent memory"
+              },
+              "kind": "tool_invocation",
+              "operation": "BibliographicSearch",
+              "writes": [
+                {
+                  "address": "src_shared_raw",
+                  "content": "W3C PROV-DM provenance record for an append-only source; deterministic query='provenance for shared agent memory'",
+                  "namespace": "shared",
+                  "provenance": {
+                    "agent": "Retriever",
+                    "framework": "langgraph",
+                    "node": "memory_collector",
+                    "operation": "BibliographicSearch",
+                    "origin": "deterministic_tool_result",
+                    "run_id": "e2-shared_memory-run-001",
+                    "workflow": "shared_memory"
+                  }
+                }
+              ]
+            },
+            {
+              "actor": "Retriever",
+              "event_id": "e2-shared_memory-run-001:memory_collector:notify-verifier",
+              "kind": "message",
+              "payload": "shared source src_shared_raw is ready for cross-component validation",
+              "recipient": "Verifier"
+            },
+            {
+              "actor": "Verifier",
+              "event_id": "e2-shared_memory-run-001:memory_verifier_write:check",
+              "inputs": {
+                "claim": "Append-only memory retains a derivation link to the source",
+                "source": "src_shared_raw"
+              },
+              "kind": "tool_invocation",
+              "operation": "ClaimCheck",
+              "writes": []
+            },
+            {
+              "actor": "Verifier",
+              "event_id": "e2-shared_memory-run-001:memory_verifier_write:derive",
+              "kind": "state_write",
+              "writes": [
+                {
+                  "address": "src_shared_verified",
+                  "content": "structurally checked from src_shared_raw: W3C PROV-DM provenance record for an append-only source; deterministic query='provenance for shared agent memory'",
+                  "namespace": "shared",
+                  "provenance": {
+                    "agent": "Verifier",
+                    "derived_from": [
+                      "src_shared_raw"
+                    ],
+                    "framework": "langgraph",
+                    "node": "memory_verifier_write",
+                    "operation": "ClaimCheck",
+                    "origin": "derived_shared_memory_record",
+                    "run_id": "e2-shared_memory-run-001",
+                    "workflow": "shared_memory"
+                  }
+                }
+              ]
+            }
+          ],
+          "query": "provenance for shared agent memory",
+          "remaining_budgets": {
+            "Planner": 3,
+            "Retriever": 3,
+            "Verifier": 1
+          },
+          "route": "",
+          "run_id": "e2-shared_memory-run-001",
+          "shared_memory": {
+            "src_shared_raw": "W3C PROV-DM provenance record for an append-only source; deterministic query='provenance for shared agent memory'",
+            "src_shared_verified": "structurally checked from src_shared_raw: W3C PROV-DM provenance record for an append-only source; deterministic query='provenance for shared agent memory'"
+          },
+          "workflow": "shared_memory"
+        },
+        "interrupts": [],
+        "ns": [],
+        "type": "values"
+      },
+      {
+        "data": {
+          "id": "a1fa48bf-92fd-3fdf-fbce-1634cfdd4ccd",
+          "input": {
+            "answer": "",
+            "certified_claims": [],
+            "emissions": [
+              {
+                "actor": "Planner",
+                "event_id": "e2-shared_memory-run-001:memory_planner:collect",
+                "kind": "route",
+                "payload": "collect a provenance-bearing shared source",
+                "recipient": "Retriever"
+              },
+              {
+                "actor": "Retriever",
+                "event_id": "e2-shared_memory-run-001:memory_collector:search",
+                "inputs": {
+                  "query": "provenance for shared agent memory"
+                },
+                "kind": "tool_invocation",
+                "operation": "BibliographicSearch",
+                "writes": [
+                  {
+                    "address": "src_shared_raw",
+                    "content": "W3C PROV-DM provenance record for an append-only source; deterministic query='provenance for shared agent memory'",
+                    "namespace": "shared",
+                    "provenance": {
+                      "agent": "Retriever",
+                      "framework": "langgraph",
+                      "node": "memory_collector",
+                      "operation": "BibliographicSearch",
+                      "origin": "deterministic_tool_result",
+                      "run_id": "e2-shared_memory-run-001",
+                      "workflow": "shared_memory"
+                    }
+                  }
+                ]
+              },
+              {
+                "actor": "Retriever",
+                "event_id": "e2-shared_memory-run-001:memory_collector:notify-verifier",
+                "kind": "message",
+                "payload": "shared source src_shared_raw is ready for cross-component validation",
+                "recipient": "Verifier"
+              },
+              {
+                "actor": "Verifier",
+                "event_id": "e2-shared_memory-run-001:memory_verifier_write:check",
+                "inputs": {
+                  "claim": "Append-only memory retains a derivation link to the source",
+                  "source": "src_shared_raw"
+                },
+                "kind": "tool_invocation",
+                "operation": "ClaimCheck",
+                "writes": []
+              },
+              {
+                "actor": "Verifier",
+                "event_id": "e2-shared_memory-run-001:memory_verifier_write:derive",
+                "kind": "state_write",
+                "writes": [
+                  {
+                    "address": "src_shared_verified",
+                    "content": "structurally checked from src_shared_raw: W3C PROV-DM provenance record for an append-only source; deterministic query='provenance for shared agent memory'",
+                    "namespace": "shared",
+                    "provenance": {
+                      "agent": "Verifier",
+                      "derived_from": [
+                        "src_shared_raw"
+                      ],
+                      "framework": "langgraph",
+                      "node": "memory_verifier_write",
+                      "operation": "ClaimCheck",
+                      "origin": "derived_shared_memory_record",
+                      "run_id": "e2-shared_memory-run-001",
+                      "workflow": "shared_memory"
+                    }
+                  }
+                ]
+              }
+            ],
+            "query": "provenance for shared agent memory",
+            "remaining_budgets": {
+              "Planner": 3,
+              "Retriever": 3,
+              "Verifier": 1
+            },
+            "route": "",
+            "run_id": "e2-shared_memory-run-001",
+            "shared_memory": {
+              "src_shared_raw": "W3C PROV-DM provenance record for an append-only source; deterministic query='provenance for shared agent memory'",
+              "src_shared_verified": "structurally checked from src_shared_raw: W3C PROV-DM provenance record for an append-only source; deterministic query='provenance for shared agent memory'"
+            },
+            "workflow": "shared_memory"
+          },
+          "metadata": {
+            "external_run_id": "e2-shared_memory-run-001",
+            "tags": [
+              "deterministic",
+              "array-validation",
+              "shared_memory"
+            ],
+            "workflow": "shared_memory"
+          },
+          "name": "memory_verifier_certify",
+          "triggers": [
+            "branch:to:memory_verifier_certify"
+          ]
+        },
+        "ns": [],
+        "type": "tasks"
+      },
+      {
+        "data": {
+          "memory_verifier_certify": {
+            "certified_claims": [
+              "shared_memory_provenance_is_auditable"
+            ],
+            "emissions": [
+              {
+                "actor": "Verifier",
+                "claim_id": "shared_memory_provenance_is_auditable",
+                "event_id": "e2-shared_memory-run-001:memory_verifier_certify:certify",
+                "kind": "claim_certificate",
+                "source_key": "src_shared_verified"
+              },
+              {
+                "actor": "Verifier",
+                "event_id": "e2-shared_memory-run-001:memory_verifier_certify:return",
+                "kind": "route",
+                "payload": "return the claim supported by derived shared memory",
+                "recipient": "Planner"
+              }
+            ]
+          }
+        },
+        "ns": [],
+        "type": "updates"
+      },
+      {
+        "data": {
+          "error": null,
+          "id": "a1fa48bf-92fd-3fdf-fbce-1634cfdd4ccd",
+          "interrupts": [],
+          "name": "memory_verifier_certify",
+          "result": {
+            "certified_claims": [
+              "shared_memory_provenance_is_auditable"
+            ],
+            "emissions": [
+              {
+                "actor": "Verifier",
+                "claim_id": "shared_memory_provenance_is_auditable",
+                "event_id": "e2-shared_memory-run-001:memory_verifier_certify:certify",
+                "kind": "claim_certificate",
+                "source_key": "src_shared_verified"
+              },
+              {
+                "actor": "Verifier",
+                "event_id": "e2-shared_memory-run-001:memory_verifier_certify:return",
+                "kind": "route",
+                "payload": "return the claim supported by derived shared memory",
+                "recipient": "Planner"
+              }
+            ]
+          }
+        },
+        "ns": [],
+        "type": "tasks"
+      },
+      {
+        "data": {
+          "answer": "",
+          "certified_claims": [
+            "shared_memory_provenance_is_auditable"
+          ],
+          "emissions": [
+            {
+              "actor": "Planner",
+              "event_id": "e2-shared_memory-run-001:memory_planner:collect",
+              "kind": "route",
+              "payload": "collect a provenance-bearing shared source",
+              "recipient": "Retriever"
+            },
+            {
+              "actor": "Retriever",
+              "event_id": "e2-shared_memory-run-001:memory_collector:search",
+              "inputs": {
+                "query": "provenance for shared agent memory"
+              },
+              "kind": "tool_invocation",
+              "operation": "BibliographicSearch",
+              "writes": [
+                {
+                  "address": "src_shared_raw",
+                  "content": "W3C PROV-DM provenance record for an append-only source; deterministic query='provenance for shared agent memory'",
+                  "namespace": "shared",
+                  "provenance": {
+                    "agent": "Retriever",
+                    "framework": "langgraph",
+                    "node": "memory_collector",
+                    "operation": "BibliographicSearch",
+                    "origin": "deterministic_tool_result",
+                    "run_id": "e2-shared_memory-run-001",
+                    "workflow": "shared_memory"
+                  }
+                }
+              ]
+            },
+            {
+              "actor": "Retriever",
+              "event_id": "e2-shared_memory-run-001:memory_collector:notify-verifier",
+              "kind": "message",
+              "payload": "shared source src_shared_raw is ready for cross-component validation",
+              "recipient": "Verifier"
+            },
+            {
+              "actor": "Verifier",
+              "event_id": "e2-shared_memory-run-001:memory_verifier_write:check",
+              "inputs": {
+                "claim": "Append-only memory retains a derivation link to the source",
+                "source": "src_shared_raw"
+              },
+              "kind": "tool_invocation",
+              "operation": "ClaimCheck",
+              "writes": []
+            },
+            {
+              "actor": "Verifier",
+              "event_id": "e2-shared_memory-run-001:memory_verifier_write:derive",
+              "kind": "state_write",
+              "writes": [
+                {
+                  "address": "src_shared_verified",
+                  "content": "structurally checked from src_shared_raw: W3C PROV-DM provenance record for an append-only source; deterministic query='provenance for shared agent memory'",
+                  "namespace": "shared",
+                  "provenance": {
+                    "agent": "Verifier",
+                    "derived_from": [
+                      "src_shared_raw"
+                    ],
+                    "framework": "langgraph",
+                    "node": "memory_verifier_write",
+                    "operation": "ClaimCheck",
+                    "origin": "derived_shared_memory_record",
+                    "run_id": "e2-shared_memory-run-001",
+                    "workflow": "shared_memory"
+                  }
+                }
+              ]
+            },
+            {
+              "actor": "Verifier",
+              "claim_id": "shared_memory_provenance_is_auditable",
+              "event_id": "e2-shared_memory-run-001:memory_verifier_certify:certify",
+              "kind": "claim_certificate",
+              "source_key": "src_shared_verified"
+            },
+            {
+              "actor": "Verifier",
+              "event_id": "e2-shared_memory-run-001:memory_verifier_certify:return",
+              "kind": "route",
+              "payload": "return the claim supported by derived shared memory",
+              "recipient": "Planner"
+            }
+          ],
+          "query": "provenance for shared agent memory",
+          "remaining_budgets": {
+            "Planner": 3,
+            "Retriever": 3,
+            "Verifier": 1
+          },
+          "route": "",
+          "run_id": "e2-shared_memory-run-001",
+          "shared_memory": {
+            "src_shared_raw": "W3C PROV-DM provenance record for an append-only source; deterministic query='provenance for shared agent memory'",
+            "src_shared_verified": "structurally checked from src_shared_raw: W3C PROV-DM provenance record for an append-only source; deterministic query='provenance for shared agent memory'"
+          },
+          "workflow": "shared_memory"
+        },
+        "interrupts": [],
+        "ns": [],
+        "type": "values"
+      },
+      {
+        "data": {
+          "id": "e0aaac61-3627-1c55-f81b-20c9794cdc1c",
+          "input": {
+            "answer": "",
+            "certified_claims": [
+              "shared_memory_provenance_is_auditable"
+            ],
+            "emissions": [
+              {
+                "actor": "Planner",
+                "event_id": "e2-shared_memory-run-001:memory_planner:collect",
+                "kind": "route",
+                "payload": "collect a provenance-bearing shared source",
+                "recipient": "Retriever"
+              },
+              {
+                "actor": "Retriever",
+                "event_id": "e2-shared_memory-run-001:memory_collector:search",
+                "inputs": {
+                  "query": "provenance for shared agent memory"
+                },
+                "kind": "tool_invocation",
+                "operation": "BibliographicSearch",
+                "writes": [
+                  {
+                    "address": "src_shared_raw",
+                    "content": "W3C PROV-DM provenance record for an append-only source; deterministic query='provenance for shared agent memory'",
+                    "namespace": "shared",
+                    "provenance": {
+                      "agent": "Retriever",
+                      "framework": "langgraph",
+                      "node": "memory_collector",
+                      "operation": "BibliographicSearch",
+                      "origin": "deterministic_tool_result",
+                      "run_id": "e2-shared_memory-run-001",
+                      "workflow": "shared_memory"
+                    }
+                  }
+                ]
+              },
+              {
+                "actor": "Retriever",
+                "event_id": "e2-shared_memory-run-001:memory_collector:notify-verifier",
+                "kind": "message",
+                "payload": "shared source src_shared_raw is ready for cross-component validation",
+                "recipient": "Verifier"
+              },
+              {
+                "actor": "Verifier",
+                "event_id": "e2-shared_memory-run-001:memory_verifier_write:check",
+                "inputs": {
+                  "claim": "Append-only memory retains a derivation link to the source",
+                  "source": "src_shared_raw"
+                },
+                "kind": "tool_invocation",
+                "operation": "ClaimCheck",
+                "writes": []
+              },
+              {
+                "actor": "Verifier",
+                "event_id": "e2-shared_memory-run-001:memory_verifier_write:derive",
+                "kind": "state_write",
+                "writes": [
+                  {
+                    "address": "src_shared_verified",
+                    "content": "structurally checked from src_shared_raw: W3C PROV-DM provenance record for an append-only source; deterministic query='provenance for shared agent memory'",
+                    "namespace": "shared",
+                    "provenance": {
+                      "agent": "Verifier",
+                      "derived_from": [
+                        "src_shared_raw"
+                      ],
+                      "framework": "langgraph",
+                      "node": "memory_verifier_write",
+                      "operation": "ClaimCheck",
+                      "origin": "derived_shared_memory_record",
+                      "run_id": "e2-shared_memory-run-001",
+                      "workflow": "shared_memory"
+                    }
+                  }
+                ]
+              },
+              {
+                "actor": "Verifier",
+                "claim_id": "shared_memory_provenance_is_auditable",
+                "event_id": "e2-shared_memory-run-001:memory_verifier_certify:certify",
+                "kind": "claim_certificate",
+                "source_key": "src_shared_verified"
+              },
+              {
+                "actor": "Verifier",
+                "event_id": "e2-shared_memory-run-001:memory_verifier_certify:return",
+                "kind": "route",
+                "payload": "return the claim supported by derived shared memory",
+                "recipient": "Planner"
+              }
+            ],
+            "query": "provenance for shared agent memory",
+            "remaining_budgets": {
+              "Planner": 3,
+              "Retriever": 3,
+              "Verifier": 1
+            },
+            "route": "",
+            "run_id": "e2-shared_memory-run-001",
+            "shared_memory": {
+              "src_shared_raw": "W3C PROV-DM provenance record for an append-only source; deterministic query='provenance for shared agent memory'",
+              "src_shared_verified": "structurally checked from src_shared_raw: W3C PROV-DM provenance record for an append-only source; deterministic query='provenance for shared agent memory'"
+            },
+            "workflow": "shared_memory"
+          },
+          "metadata": {
+            "external_run_id": "e2-shared_memory-run-001",
+            "tags": [
+              "deterministic",
+              "array-validation",
+              "shared_memory"
+            ],
+            "workflow": "shared_memory"
+          },
+          "name": "memory_answer",
+          "triggers": [
+            "branch:to:memory_answer"
+          ]
+        },
+        "ns": [],
+        "type": "tasks"
+      },
+      {
+        "data": {
+          "memory_answer": {
+            "answer": "The answer cites a claim backed by a provenance-bearing shared record.",
+            "emissions": [
+              {
+                "actor": "Planner",
+                "event_id": "e2-shared_memory-run-001:memory_answer:answer",
+                "kind": "final_output",
+                "payload": "The answer cites a claim backed by a provenance-bearing shared record.",
+                "supported_claims": [
+                  "shared_memory_provenance_is_auditable"
+                ]
+              }
+            ]
+          }
+        },
+        "ns": [],
+        "type": "updates"
+      },
+      {
+        "data": {
+          "error": null,
+          "id": "e0aaac61-3627-1c55-f81b-20c9794cdc1c",
+          "interrupts": [],
+          "name": "memory_answer",
+          "result": {
+            "answer": "The answer cites a claim backed by a provenance-bearing shared record.",
+            "emissions": [
+              {
+                "actor": "Planner",
+                "event_id": "e2-shared_memory-run-001:memory_answer:answer",
+                "kind": "final_output",
+                "payload": "The answer cites a claim backed by a provenance-bearing shared record.",
+                "supported_claims": [
+                  "shared_memory_provenance_is_auditable"
+                ]
+              }
+            ]
+          }
+        },
+        "ns": [],
+        "type": "tasks"
+      },
+      {
+        "data": {
+          "answer": "The answer cites a claim backed by a provenance-bearing shared record.",
+          "certified_claims": [
+            "shared_memory_provenance_is_auditable"
+          ],
+          "emissions": [
+            {
+              "actor": "Planner",
+              "event_id": "e2-shared_memory-run-001:memory_planner:collect",
+              "kind": "route",
+              "payload": "collect a provenance-bearing shared source",
+              "recipient": "Retriever"
+            },
+            {
+              "actor": "Retriever",
+              "event_id": "e2-shared_memory-run-001:memory_collector:search",
+              "inputs": {
+                "query": "provenance for shared agent memory"
+              },
+              "kind": "tool_invocation",
+              "operation": "BibliographicSearch",
+              "writes": [
+                {
+                  "address": "src_shared_raw",
+                  "content": "W3C PROV-DM provenance record for an append-only source; deterministic query='provenance for shared agent memory'",
+                  "namespace": "shared",
+                  "provenance": {
+                    "agent": "Retriever",
+                    "framework": "langgraph",
+                    "node": "memory_collector",
+                    "operation": "BibliographicSearch",
+                    "origin": "deterministic_tool_result",
+                    "run_id": "e2-shared_memory-run-001",
+                    "workflow": "shared_memory"
+                  }
+                }
+              ]
+            },
+            {
+              "actor": "Retriever",
+              "event_id": "e2-shared_memory-run-001:memory_collector:notify-verifier",
+              "kind": "message",
+              "payload": "shared source src_shared_raw is ready for cross-component validation",
+              "recipient": "Verifier"
+            },
+            {
+              "actor": "Verifier",
+              "event_id": "e2-shared_memory-run-001:memory_verifier_write:check",
+              "inputs": {
+                "claim": "Append-only memory retains a derivation link to the source",
+                "source": "src_shared_raw"
+              },
+              "kind": "tool_invocation",
+              "operation": "ClaimCheck",
+              "writes": []
+            },
+            {
+              "actor": "Verifier",
+              "event_id": "e2-shared_memory-run-001:memory_verifier_write:derive",
+              "kind": "state_write",
+              "writes": [
+                {
+                  "address": "src_shared_verified",
+                  "content": "structurally checked from src_shared_raw: W3C PROV-DM provenance record for an append-only source; deterministic query='provenance for shared agent memory'",
+                  "namespace": "shared",
+                  "provenance": {
+                    "agent": "Verifier",
+                    "derived_from": [
+                      "src_shared_raw"
+                    ],
+                    "framework": "langgraph",
+                    "node": "memory_verifier_write",
+                    "operation": "ClaimCheck",
+                    "origin": "derived_shared_memory_record",
+                    "run_id": "e2-shared_memory-run-001",
+                    "workflow": "shared_memory"
+                  }
+                }
+              ]
+            },
+            {
+              "actor": "Verifier",
+              "claim_id": "shared_memory_provenance_is_auditable",
+              "event_id": "e2-shared_memory-run-001:memory_verifier_certify:certify",
+              "kind": "claim_certificate",
+              "source_key": "src_shared_verified"
+            },
+            {
+              "actor": "Verifier",
+              "event_id": "e2-shared_memory-run-001:memory_verifier_certify:return",
+              "kind": "route",
+              "payload": "return the claim supported by derived shared memory",
+              "recipient": "Planner"
+            },
+            {
+              "actor": "Planner",
+              "event_id": "e2-shared_memory-run-001:memory_answer:answer",
+              "kind": "final_output",
+              "payload": "The answer cites a claim backed by a provenance-bearing shared record.",
+              "supported_claims": [
+                "shared_memory_provenance_is_auditable"
+              ]
+            }
+          ],
+          "query": "provenance for shared agent memory",
+          "remaining_budgets": {
+            "Planner": 3,
+            "Retriever": 3,
+            "Verifier": 1
+          },
+          "route": "",
+          "run_id": "e2-shared_memory-run-001",
+          "shared_memory": {
+            "src_shared_raw": "W3C PROV-DM provenance record for an append-only source; deterministic query='provenance for shared agent memory'",
+            "src_shared_verified": "structurally checked from src_shared_raw: W3C PROV-DM provenance record for an append-only source; deterministic query='provenance for shared agent memory'"
+          },
+          "workflow": "shared_memory"
+        },
+        "interrupts": [],
+        "ns": [],
+        "type": "values"
+      }
+    ],
+    "run_count_for_workflow": 1,
+    "run_count_rationale": "The workflow and local tools are deterministic; one execution tests the sole configured path without inflating the sample count.",
+    "run_id": "e2-shared_memory-run-001",
+    "stream_modes": [
+      "tasks",
+      "updates",
+      "values"
+    ],
+    "stream_version": "v2",
+    "workflow": "shared_memory"
+  }
+]

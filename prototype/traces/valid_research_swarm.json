@@ -18,7 +18,8 @@
       {
         "scope": "shared",
         "key": "src_rutten2000",
-        "value": "Rutten 2000 universal coalgebra"
+        "value": "Rutten 2000 universal coalgebra",
+        "provenance": "synthetic fixture: BibliographicSearch result for Rutten 2000"
       }
     ]
   },

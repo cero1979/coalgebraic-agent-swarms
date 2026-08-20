@@ -5,7 +5,7 @@
     "agent": "Retriever",
     "tool": "BibliographicSearch",
     "trace": "tr-b1",
-    "writes": [{"scope": "shared", "key": "src_a", "value": "source A"}]
+    "writes": [{"scope": "shared", "key": "src_a", "value": "source A", "provenance": "synthetic fixture A"}]
   },
   {
     "step": 2,
@@ -13,7 +13,7 @@
     "agent": "Retriever",
     "tool": "BibliographicSearch",
     "trace": "tr-b2",
-    "writes": [{"scope": "shared", "key": "src_b", "value": "source B"}]
+    "writes": [{"scope": "shared", "key": "src_b", "value": "source B", "provenance": "synthetic fixture B"}]
   },
   {
     "step": 3,
@@ -21,6 +21,6 @@
     "agent": "Retriever",
     "tool": "BibliographicSearch",
     "trace": "tr-b3",
-    "writes": [{"scope": "shared", "key": "src_c", "value": "source C"}]
+    "writes": [{"scope": "shared", "key": "src_c", "value": "source C", "provenance": "synthetic fixture C"}]
   }
 ]

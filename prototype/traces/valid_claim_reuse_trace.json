@@ -18,7 +18,8 @@
       {
         "scope": "shared",
         "key": "src_bisimulation",
-        "value": "Bisimulation reference for process equivalence"
+        "value": "Bisimulation reference for process equivalence",
+        "provenance": "synthetic fixture: BibliographicSearch result for coalgebra bisimulation"
       }
     ]
   },

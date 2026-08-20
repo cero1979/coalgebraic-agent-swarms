@@ -1,0 +1,4 @@
+workflow,run_id,langgraph_version,native_records,canonical_events,event_types,accepted
+research,e2-research-run-001,1.2.11,17,7,answer;certify;handoff;message;tool_call,True
+resource_controlled,e2-resource_controlled-run-001,1.2.11,25,8,answer;certify;handoff;message;tool_call,True
+shared_memory,e2-shared_memory-run-001,1.2.11,21,8,answer;certify;handoff;message;shared_memory_update;tool_call,True
