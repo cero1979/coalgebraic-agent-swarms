@@ -1,9 +1,9 @@
 # Array pre-submission status checklist
 
-Status snapshot: 2026-08-20, after the complete automated build and before the
-final clean-result capture and visual inspection. `PASS` records objective
-evidence already present. It does not replace the author's scientific or
-publishing approval.
+Status snapshot: 2026-08-20, after the complete automated build, clean-result
+capture, isolated package validation, and full visual inspection. `PASS` records
+objective evidence already present. It does not replace the author's scientific
+or publishing approval.
 
 ## Author and article metadata
 
@@ -53,14 +53,16 @@ publishing approval.
 - **PASS** - The builder collected a 19-file flat submission package containing
   the manuscript source, bibliography, Elsevier class/style files, flattened
   figure/table sources, highlights, cover letter, PDFs, and integrity manifest.
-- **BLOCKED** - The repository is currently modified and untracked files remain;
-  do not describe the source snapshot as clean until the intended files are
-  committed and `git status --short` is empty.
+- **PASS** - The intended source, generated results, manifests, and checklist are
+  frozen on the local `array-resubmission-2026-08` branch; the final local freeze
+  includes an empty `git status --short` check.
 - **PASS** - `make all` passed 56 tests: 26 checker, five LangGraph integration,
   fourteen experiment, and eleven submission-script tests; it also completed
   all builds and the isolated submission check.
-- **BLOCKED** - Final experiment reproduction is not yet recorded for the frozen
-  source commit. Regenerate all results and tables after the source freeze.
+- **PASS** - Final E1--E4 reproduction was recorded from clean source commit
+  `9c7395f47b293c488e44b1002ef1716b11bed355`; the environment record reports
+  `repository_worktree_dirty: false`. The later diagram-only repair does not
+  alter the checker, integrations, experiment runner, inputs, or measurements.
 - **PASS** - Both result manifests verify all recorded SHA-256 entries, and the
   submission validator verifies every flat-bundle entry against
   `BUILD_MANIFEST.json`.
@@ -156,12 +158,14 @@ publishing approval.
   reported that the package is flat, complete, and independently compilable.
 - **PASS** - `BUILD_MANIFEST.json` matches every recorded flat-bundle file; no
   nested directory or prohibited auxiliary file is present.
-- **BLOCKED** - Visually inspect every page of final `main.pdf` and
-  `cover_letter.pdf` for clipping, blank pages, broken tables, missing figures,
-  unresolved references, and malformed hyperlinks.
-- **BLOCKED** - Confirm the final PDFs match the frozen source in title, author,
-  abstract, keywords, figures, tables, declarations, references, and
-  cover-letter statements.
+- **PASS** - Two visual passes covered all 34 physical manuscript pages and both
+  cover-letter pages. After repairing Figure 1, the independent final pass found
+  no clipping, blank page, overlap, broken table, missing figure, unresolved
+  reference, placeholder, or missing glyph; Ghostscript processed both PDFs
+  without a structural error.
+- **PASS** - The final PDFs were compiled from the frozen editable sources and
+  checked against them for title, author, abstract, keywords, figures, tables,
+  declarations, references, and cover-letter statements.
 - **MANUAL AUTHOR ACTION** - Upload every required LaTeX dependency using the
   classifications in `README_SUBMISSION.md`; upload administrative Markdown and
   the integrity manifest only if requested.
