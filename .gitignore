@@ -27,6 +27,19 @@ __pycache__/
 
 # Local validation and rendered-PDF scratch space
 tmp/
+output/
+
+# Locally built flat submission bundle (authored files remain tracked)
+submission/array/BUILD_MANIFEST.json
+submission/array/*.pdf
+submission/array/main.abs
+submission/array/main.tex
+submission/array/highlights.txt
+submission/array/cas-common.sty
+submission/array/cas-sc.cls
+submission/array/references.bib
+submission/array/unsrtnat.bst
+submission/array/paper__*.tex
 
 # macOS
 .DS_Store

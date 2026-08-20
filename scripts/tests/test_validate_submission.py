@@ -7,8 +7,11 @@ import tempfile
 import unittest
 from contextlib import redirect_stdout
 from pathlib import Path
+from types import SimpleNamespace
+from unittest.mock import patch
 
 from scripts.validate_submission import (
+    compile_in_isolation,
     parse_highlights,
     main as validation_main,
     validate_bundle_layout,
@@ -137,6 +140,31 @@ See Figure~\ref{fig:pipeline} and cite the artifact~\cite{artifact}.
             )
         self.assertEqual(0, valid_status)
         self.assertEqual(1, invalid_status)
+
+    @patch("scripts.validate_submission.subprocess.run")
+    def test_isolated_compile_tolerates_non_utf8_output(self, run) -> None:
+        def fake_compile(arguments, **kwargs):
+            directory = Path(kwargs["cwd"])
+            stem = Path(arguments[-1]).stem
+            (directory / f"{stem}.pdf").write_bytes(b"x" * 2048)
+            (directory / f"{stem}.log").write_text(
+                "Final pass has no unresolved references.\n", encoding="utf-8"
+            )
+            return SimpleNamespace(
+                returncode=0,
+                stdout="transient first pass: There were undefined references. \ufffd",
+                stderr="",
+            )
+
+        run.side_effect = fake_compile
+
+        issues = compile_in_isolation(self.bundle)
+
+        self.assertTrue(run.called)
+        self.assertNotIn("undefined-reference", {issue.code for issue in issues})
+        for call in run.call_args_list:
+            self.assertEqual("utf-8", call.kwargs["encoding"])
+            self.assertEqual("replace", call.kwargs["errors"])
 
 
 if __name__ == "__main__":

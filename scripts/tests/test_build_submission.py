@@ -3,8 +3,9 @@ from __future__ import annotations
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
-from scripts.build_submission import SubmissionBuildError, build_submission
+from scripts.build_submission import SubmissionBuildError, _run_latexmk, build_submission
 
 
 class BuildSubmissionTests(unittest.TestCase):
@@ -87,6 +88,17 @@ class BuildSubmissionTests(unittest.TestCase):
     def test_repository_root_cannot_be_used_as_output(self) -> None:
         with self.assertRaisesRegex(SubmissionBuildError, "refusing an output path"):
             build_submission(root=self.root, output=self.root, compile_pdf=False)
+
+    @patch("scripts.build_submission.subprocess.run")
+    def test_latex_output_tolerates_non_utf8_bytes(self, run) -> None:
+        run.return_value.returncode = 0
+        run.return_value.stdout = "compiler output with replacement: \ufffd"
+        run.return_value.stderr = ""
+
+        _run_latexmk("main.tex", self.root, "latexmk")
+
+        self.assertEqual("utf-8", run.call_args.kwargs["encoding"])
+        self.assertEqual("replace", run.call_args.kwargs["errors"])
 
 
 if __name__ == "__main__":

@@ -4,6 +4,13 @@
     "errors": [
       "step 1: unsupported memory scope 'global'"
     ],
+    "violations": [
+      {
+        "code": "memory_scope",
+        "step": 1,
+        "message": "unsupported memory scope 'global'"
+      }
+    ],
     "final_budgets": {
       "Planner": 3,
       "Retriever": 5,
@@ -35,6 +42,13 @@
     "errors": [
       "step 3: insufficient budget for 'Retriever': required 2, available 1"
     ],
+    "violations": [
+      {
+        "code": "insufficient_budget",
+        "step": 3,
+        "message": "insufficient budget for 'Retriever': required 2, available 1"
+      }
+    ],
     "final_budgets": {
       "Planner": 3,
       "Retriever": 1,
@@ -51,7 +65,8 @@
         "tool": "BibliographicSearch",
         "step": 1,
         "trace": "tr-b1",
-        "value": "source A"
+        "value": "source A",
+        "provenance": "synthetic fixture A"
       },
       "src_b": {
         "event": "tool_call",
@@ -59,7 +74,8 @@
         "tool": "BibliographicSearch",
         "step": 2,
         "trace": "tr-b2",
-        "value": "source B"
+        "value": "source B",
+        "provenance": "synthetic fixture B"
       }
     },
     "certified_claims": [],
@@ -85,6 +101,13 @@
     "accepted": false,
     "errors": [
       "step 1: certificate source 'src_missing' not found in shared memory"
+    ],
+    "violations": [
+      {
+        "code": "certificate_source",
+        "step": 1,
+        "message": "certificate source 'src_missing' not found in shared memory"
+      }
     ],
     "final_budgets": {
       "Planner": 3,
@@ -116,6 +139,13 @@
     "accepted": false,
     "errors": [
       "step 2: duplicate trace id 'tr-dup'"
+    ],
+    "violations": [
+      {
+        "code": "duplicate_audit",
+        "step": 2,
+        "message": "duplicate trace id 'tr-dup'"
+      }
     ],
     "final_budgets": {
       "Planner": 3,
@@ -149,6 +179,13 @@
     "errors": [
       "step 1: handoff edge 'Planner -> Verifier' is not allowed"
     ],
+    "violations": [
+      {
+        "code": "illegal_handoff",
+        "step": 1,
+        "message": "handoff edge 'Planner -> Verifier' is not allowed"
+      }
+    ],
     "final_budgets": {
       "Planner": 3,
       "Retriever": 5,
@@ -179,6 +216,13 @@
     "accepted": false,
     "errors": [
       "step 1: message edge 'Planner -> Verifier' is not allowed"
+    ],
+    "violations": [
+      {
+        "code": "illegal_message",
+        "step": 1,
+        "message": "message edge 'Planner -> Verifier' is not allowed"
+      }
     ],
     "final_budgets": {
       "Planner": 3,
@@ -211,6 +255,13 @@
     "errors": [
       "step 1: event 'tool_call' lacks required audit trace"
     ],
+    "violations": [
+      {
+        "code": "missing_audit",
+        "step": 1,
+        "message": "event 'tool_call' lacks required audit trace"
+      }
+    ],
     "final_budgets": {
       "Planner": 3,
       "Retriever": 5,
@@ -241,6 +292,13 @@
     "accepted": false,
     "errors": [
       "step 1: handoff payload violates configured policy"
+    ],
+    "violations": [
+      {
+        "code": "payload_policy",
+        "step": 1,
+        "message": "handoff payload violates configured policy"
+      }
     ],
     "final_budgets": {
       "Planner": 3,
@@ -273,6 +331,13 @@
     "errors": [
       "step 2: shared memory key 'src_same' already exists"
     ],
+    "violations": [
+      {
+        "code": "memory_overwrite",
+        "step": 2,
+        "message": "shared memory key 'src_same' already exists"
+      }
+    ],
     "final_budgets": {
       "Planner": 3,
       "Retriever": 3,
@@ -288,7 +353,8 @@
         "tool": "BibliographicSearch",
         "step": 1,
         "trace": "tr-o1",
-        "value": "first value"
+        "value": "first value",
+        "provenance": "synthetic fixture: first source"
       }
     },
     "certified_claims": [],
@@ -314,6 +380,13 @@
     "accepted": false,
     "errors": [
       "step 1: agent 'Planner' lacks permission for tool 'BibliographicSearch'"
+    ],
+    "violations": [
+      {
+        "code": "tool_permission",
+        "step": 1,
+        "message": "agent 'Planner' lacks permission for tool 'BibliographicSearch'"
+      }
     ],
     "final_budgets": {
       "Planner": 3,
@@ -346,6 +419,13 @@
     "errors": [
       "step 2: agent 'Planner' is not authorised to certify claims"
     ],
+    "violations": [
+      {
+        "code": "unauthorized_certifier",
+        "step": 2,
+        "message": "agent 'Planner' is not authorised to certify claims"
+      }
+    ],
     "final_budgets": {
       "Planner": 3,
       "Retriever": 3,
@@ -361,7 +441,8 @@
         "tool": "BibliographicSearch",
         "step": 1,
         "trace": "tr-unauth-src",
-        "value": "source for unauthorized certifier test"
+        "value": "source for unauthorized certifier test",
+        "provenance": "synthetic fixture: source for certifier authorization control"
       }
     },
     "certified_claims": [],
@@ -388,6 +469,13 @@
     "accepted": false,
     "errors": [
       "step 1: answer uses uncertified claim 'unsupported_claim'"
+    ],
+    "violations": [
+      {
+        "code": "uncertified_claim",
+        "step": 1,
+        "message": "answer uses uncertified claim 'unsupported_claim'"
+      }
     ],
     "final_budgets": {
       "Planner": 3,
@@ -420,6 +508,13 @@
     "errors": [
       "step 1: unknown source agent 'Ghost'"
     ],
+    "violations": [
+      {
+        "code": "unknown_agent",
+        "step": 1,
+        "message": "unknown source agent 'Ghost'"
+      }
+    ],
     "final_budgets": {
       "Planner": 3,
       "Retriever": 5,
@@ -451,6 +546,13 @@
     "errors": [
       "step 1: unknown tool 'NonexistentTool'"
     ],
+    "violations": [
+      {
+        "code": "unknown_tool",
+        "step": 1,
+        "message": "unknown tool 'NonexistentTool'"
+      }
+    ],
     "final_budgets": {
       "Planner": 3,
       "Retriever": 5,
@@ -480,6 +582,7 @@
   {
     "accepted": true,
     "errors": [],
+    "violations": [],
     "final_budgets": {
       "Planner": 3,
       "Retriever": 3,
@@ -495,7 +598,8 @@
         "tool": "BibliographicSearch",
         "step": 2,
         "trace": "tr-reuse-002",
-        "value": "Bisimulation reference for process equivalence"
+        "value": "Bisimulation reference for process equivalence",
+        "provenance": "synthetic fixture: BibliographicSearch result for coalgebra bisimulation"
       }
     },
     "certified_claims": [
@@ -531,6 +635,7 @@
   {
     "accepted": true,
     "errors": [],
+    "violations": [],
     "final_budgets": {
       "Planner": 3,
       "Retriever": 3,
@@ -546,7 +651,8 @@
         "tool": "BibliographicSearch",
         "step": 2,
         "trace": "tr-lg-002",
-        "value": "Framework documentation describing handoffs"
+        "value": "Framework documentation describing handoffs",
+        "provenance": "synthetic fixture: normalised LangGraph-like tool result"
       }
     },
     "certified_claims": [
@@ -584,6 +690,7 @@
   {
     "accepted": true,
     "errors": [],
+    "violations": [],
     "final_budgets": {
       "Planner": 3,
       "Retriever": 5,
@@ -599,7 +706,8 @@
         "tool": null,
         "step": 2,
         "trace": "tr-mem-002",
-        "value": "PROV-DM W3C recommendation"
+        "value": "PROV-DM W3C recommendation",
+        "provenance": "synthetic fixture: hand-authored W3C PROV-DM reference"
       }
     },
     "certified_claims": [
@@ -635,6 +743,7 @@
   {
     "accepted": true,
     "errors": [],
+    "violations": [],
     "final_budgets": {
       "Planner": 3,
       "Retriever": 3,
@@ -650,7 +759,8 @@
         "tool": "BibliographicSearch",
         "step": 2,
         "trace": "tr-002",
-        "value": "Rutten 2000 universal coalgebra"
+        "value": "Rutten 2000 universal coalgebra",
+        "provenance": "synthetic fixture: BibliographicSearch result for Rutten 2000"
       }
     },
     "certified_claims": [
@@ -686,6 +796,7 @@
   {
     "accepted": true,
     "errors": [],
+    "violations": [],
     "final_budgets": {
       "Planner": 3,
       "Retriever": 1,
@@ -702,7 +813,8 @@
         "tool": "BibliographicSearch",
         "step": 2,
         "trace": "tr-v2-002",
-        "value": "Rutten 2000 universal coalgebra"
+        "value": "Rutten 2000 universal coalgebra",
+        "provenance": "synthetic fixture: BibliographicSearch result for universal coalgebra"
       },
       "src_sell": {
         "event": "tool_call",
@@ -710,7 +822,8 @@
         "tool": "BibliographicSearch",
         "step": 3,
         "trace": "tr-v2-003",
-        "value": "Nigam and Miller 2009 subexponentials"
+        "value": "Nigam and Miller 2009 subexponentials",
+        "provenance": "synthetic fixture: BibliographicSearch result for subexponentials"
       }
     },
     "certified_claims": [

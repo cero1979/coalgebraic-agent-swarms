@@ -1,5 +1,5 @@
 {
-  "captured_at_utc": "2026-08-19T19:08:43.411103+00:00",
+  "captured_at_utc": "2026-08-20T14:30:38.859680+00:00",
   "dependencies": {
     "langchain-core": "1.5.4",
     "langgraph": "1.2.11",
@@ -18,8 +18,8 @@
   "random_seed": null,
   "release": "25.5.0",
   "repository_branch": "array-resubmission-2026-08",
-  "repository_commit": "e4cefb226503a74ae2a25b923c0e17c39c2d3af5",
-  "repository_worktree_dirty": true,
+  "repository_commit": "b1d8b5c4164ec65cca00a0ebac5d8ffb6c746e0b",
+  "repository_worktree_dirty": false,
   "system": "Darwin",
   "timer": "time.perf_counter_ns",
   "timing_scope": "One check_trace call, including rule indexing; trace and rules deep copies are prepared before the timer starts."

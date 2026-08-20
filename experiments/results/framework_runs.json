@@ -19,7 +19,7 @@
           "run_id": "e2-research-run-001",
           "stream_mode": "updates",
           "stream_version": "v2",
-          "task_id": "fe418f5b-8f8a-299a-0987-bf944b4096ce",
+          "task_id": "0d475e27-74ca-9a5a-5070-712c6de27e58",
           "version": "1.2.11",
           "workflow": "research"
         },
@@ -40,7 +40,7 @@
           "run_id": "e2-research-run-001",
           "stream_mode": "updates",
           "stream_version": "v2",
-          "task_id": "7769bc5c-0354-9bd4-c26e-421b4c6e32bf",
+          "task_id": "ad98fbb2-40a6-f7ec-1478-b69b33b24681",
           "version": "1.2.11",
           "workflow": "research"
         },
@@ -79,7 +79,7 @@
           "run_id": "e2-research-run-001",
           "stream_mode": "updates",
           "stream_version": "v2",
-          "task_id": "7769bc5c-0354-9bd4-c26e-421b4c6e32bf",
+          "task_id": "ad98fbb2-40a6-f7ec-1478-b69b33b24681",
           "version": "1.2.11",
           "workflow": "research"
         },
@@ -101,7 +101,7 @@
           "run_id": "e2-research-run-001",
           "stream_mode": "updates",
           "stream_version": "v2",
-          "task_id": "0ebf6a49-8967-c189-0511-160d82763354",
+          "task_id": "f1bd2620-b57a-d2aa-c355-4238c39072c6",
           "version": "1.2.11",
           "workflow": "research"
         },
@@ -127,7 +127,7 @@
           "run_id": "e2-research-run-001",
           "stream_mode": "updates",
           "stream_version": "v2",
-          "task_id": "0ebf6a49-8967-c189-0511-160d82763354",
+          "task_id": "f1bd2620-b57a-d2aa-c355-4238c39072c6",
           "version": "1.2.11",
           "workflow": "research"
         },
@@ -145,7 +145,7 @@
           "run_id": "e2-research-run-001",
           "stream_mode": "updates",
           "stream_version": "v2",
-          "task_id": "0ebf6a49-8967-c189-0511-160d82763354",
+          "task_id": "f1bd2620-b57a-d2aa-c355-4238c39072c6",
           "version": "1.2.11",
           "workflow": "research"
         },
@@ -169,7 +169,7 @@
           "run_id": "e2-research-run-001",
           "stream_mode": "updates",
           "stream_version": "v2",
-          "task_id": "828e7dbd-2585-6293-8e74-b59ecd797287",
+          "task_id": "cb277d3a-f30a-0565-015e-03fafb9f4f04",
           "version": "1.2.11",
           "workflow": "research"
         },
@@ -349,7 +349,7 @@
       },
       {
         "data": {
-          "id": "fe418f5b-8f8a-299a-0987-bf944b4096ce",
+          "id": "0d475e27-74ca-9a5a-5070-712c6de27e58",
           "input": {
             "answer": "",
             "certified_claims": [],
@@ -402,7 +402,7 @@
       {
         "data": {
           "error": null,
-          "id": "fe418f5b-8f8a-299a-0987-bf944b4096ce",
+          "id": "0d475e27-74ca-9a5a-5070-712c6de27e58",
           "interrupts": [],
           "name": "research_planner",
           "result": {
@@ -450,7 +450,7 @@
       },
       {
         "data": {
-          "id": "7769bc5c-0354-9bd4-c26e-421b4c6e32bf",
+          "id": "ad98fbb2-40a6-f7ec-1478-b69b33b24681",
           "input": {
             "answer": "",
             "certified_claims": [],
@@ -544,7 +544,7 @@
       {
         "data": {
           "error": null,
-          "id": "7769bc5c-0354-9bd4-c26e-421b4c6e32bf",
+          "id": "ad98fbb2-40a6-f7ec-1478-b69b33b24681",
           "interrupts": [],
           "name": "research_retriever",
           "result": {
@@ -659,7 +659,7 @@
       },
       {
         "data": {
-          "id": "0ebf6a49-8967-c189-0511-160d82763354",
+          "id": "f1bd2620-b57a-d2aa-c355-4238c39072c6",
           "input": {
             "answer": "",
             "certified_claims": [],
@@ -780,7 +780,7 @@
       {
         "data": {
           "error": null,
-          "id": "0ebf6a49-8967-c189-0511-160d82763354",
+          "id": "f1bd2620-b57a-d2aa-c355-4238c39072c6",
           "interrupts": [],
           "name": "research_verifier",
           "result": {
@@ -915,7 +915,7 @@
       },
       {
         "data": {
-          "id": "828e7dbd-2585-6293-8e74-b59ecd797287",
+          "id": "cb277d3a-f30a-0565-015e-03fafb9f4f04",
           "input": {
             "answer": "",
             "certified_claims": [
@@ -1040,7 +1040,7 @@
       {
         "data": {
           "error": null,
-          "id": "828e7dbd-2585-6293-8e74-b59ecd797287",
+          "id": "cb277d3a-f30a-0565-015e-03fafb9f4f04",
           "interrupts": [],
           "name": "research_answer",
           "result": {
@@ -1191,7 +1191,7 @@
           "run_id": "e2-resource_controlled-run-001",
           "stream_mode": "updates",
           "stream_version": "v2",
-          "task_id": "ad03e1b0-c237-ed27-ce58-f5b2594e51e0",
+          "task_id": "bdd9f547-61c0-d574-02ec-e14417a0b869",
           "version": "1.2.11",
           "workflow": "resource_controlled"
         },
@@ -1212,7 +1212,7 @@
           "run_id": "e2-resource_controlled-run-001",
           "stream_mode": "updates",
           "stream_version": "v2",
-          "task_id": "1a6c73bd-e69d-c652-11f9-5c377adee499",
+          "task_id": "6d624d0c-0766-1001-8192-e6589f8e0dda",
           "version": "1.2.11",
           "workflow": "resource_controlled"
         },
@@ -1253,7 +1253,7 @@
           "run_id": "e2-resource_controlled-run-001",
           "stream_mode": "updates",
           "stream_version": "v2",
-          "task_id": "1ae9ad43-79cb-70b8-51f6-b4714c5c5cb5",
+          "task_id": "223cbc62-920a-f96f-bd73-7f54db2f8b75",
           "version": "1.2.11",
           "workflow": "resource_controlled"
         },
@@ -1293,7 +1293,7 @@
           "run_id": "e2-resource_controlled-run-001",
           "stream_mode": "updates",
           "stream_version": "v2",
-          "task_id": "1ae9ad43-79cb-70b8-51f6-b4714c5c5cb5",
+          "task_id": "223cbc62-920a-f96f-bd73-7f54db2f8b75",
           "version": "1.2.11",
           "workflow": "resource_controlled"
         },
@@ -1315,7 +1315,7 @@
           "run_id": "e2-resource_controlled-run-001",
           "stream_mode": "updates",
           "stream_version": "v2",
-          "task_id": "412b6aa4-c37b-5428-ed63-07b99f1b5e21",
+          "task_id": "47e47f22-1704-7282-6876-6c3620c335d9",
           "version": "1.2.11",
           "workflow": "resource_controlled"
         },
@@ -1341,7 +1341,7 @@
           "run_id": "e2-resource_controlled-run-001",
           "stream_mode": "updates",
           "stream_version": "v2",
-          "task_id": "412b6aa4-c37b-5428-ed63-07b99f1b5e21",
+          "task_id": "47e47f22-1704-7282-6876-6c3620c335d9",
           "version": "1.2.11",
           "workflow": "resource_controlled"
         },
@@ -1359,7 +1359,7 @@
           "run_id": "e2-resource_controlled-run-001",
           "stream_mode": "updates",
           "stream_version": "v2",
-          "task_id": "412b6aa4-c37b-5428-ed63-07b99f1b5e21",
+          "task_id": "47e47f22-1704-7282-6876-6c3620c335d9",
           "version": "1.2.11",
           "workflow": "resource_controlled"
         },
@@ -1383,7 +1383,7 @@
           "run_id": "e2-resource_controlled-run-001",
           "stream_mode": "updates",
           "stream_version": "v2",
-          "task_id": "9f205600-a670-5ab8-e62e-5ee0ef51e6ba",
+          "task_id": "89d60498-50b9-3a1b-1100-0af408ccc410",
           "version": "1.2.11",
           "workflow": "resource_controlled"
         },
@@ -1610,7 +1610,7 @@
       },
       {
         "data": {
-          "id": "ad03e1b0-c237-ed27-ce58-f5b2594e51e0",
+          "id": "bdd9f547-61c0-d574-02ec-e14417a0b869",
           "input": {
             "answer": "",
             "certified_claims": [],
@@ -1663,7 +1663,7 @@
       {
         "data": {
           "error": null,
-          "id": "ad03e1b0-c237-ed27-ce58-f5b2594e51e0",
+          "id": "bdd9f547-61c0-d574-02ec-e14417a0b869",
           "interrupts": [],
           "name": "resource_planner",
           "result": {
@@ -1711,7 +1711,7 @@
       },
       {
         "data": {
-          "id": "1a6c73bd-e69d-c652-11f9-5c377adee499",
+          "id": "6d624d0c-0766-1001-8192-e6589f8e0dda",
           "input": {
             "answer": "",
             "certified_claims": [],
@@ -1799,7 +1799,7 @@
       {
         "data": {
           "error": null,
-          "id": "1a6c73bd-e69d-c652-11f9-5c377adee499",
+          "id": "6d624d0c-0766-1001-8192-e6589f8e0dda",
           "interrupts": [],
           "name": "resource_search_primary",
           "result": {
@@ -1902,7 +1902,7 @@
       },
       {
         "data": {
-          "id": "a21a5aa9-d920-2bec-10e1-57dad91101c1",
+          "id": "4bd4ce87-9071-248e-80d1-3e7d733b30ee",
           "input": {
             "answer": "",
             "certified_claims": [],
@@ -1983,7 +1983,7 @@
       {
         "data": {
           "error": null,
-          "id": "a21a5aa9-d920-2bec-10e1-57dad91101c1",
+          "id": "4bd4ce87-9071-248e-80d1-3e7d733b30ee",
           "interrupts": [],
           "name": "resource_budget_gate",
           "result": {
@@ -2051,7 +2051,7 @@
       },
       {
         "data": {
-          "id": "1ae9ad43-79cb-70b8-51f6-b4714c5c5cb5",
+          "id": "223cbc62-920a-f96f-bd73-7f54db2f8b75",
           "input": {
             "answer": "",
             "certified_claims": [],
@@ -2175,7 +2175,7 @@
       {
         "data": {
           "error": null,
-          "id": "1ae9ad43-79cb-70b8-51f6-b4714c5c5cb5",
+          "id": "223cbc62-920a-f96f-bd73-7f54db2f8b75",
           "interrupts": [],
           "name": "resource_search_secondary",
           "result": {
@@ -2320,7 +2320,7 @@
       },
       {
         "data": {
-          "id": "412b6aa4-c37b-5428-ed63-07b99f1b5e21",
+          "id": "47e47f22-1704-7282-6876-6c3620c335d9",
           "input": {
             "answer": "",
             "certified_claims": [],
@@ -2469,7 +2469,7 @@
       {
         "data": {
           "error": null,
-          "id": "412b6aa4-c37b-5428-ed63-07b99f1b5e21",
+          "id": "47e47f22-1704-7282-6876-6c3620c335d9",
           "interrupts": [],
           "name": "resource_verifier",
           "result": {
@@ -2632,7 +2632,7 @@
       },
       {
         "data": {
-          "id": "9f205600-a670-5ab8-e62e-5ee0ef51e6ba",
+          "id": "89d60498-50b9-3a1b-1100-0af408ccc410",
           "input": {
             "answer": "",
             "certified_claims": [
@@ -2785,7 +2785,7 @@
       {
         "data": {
           "error": null,
-          "id": "9f205600-a670-5ab8-e62e-5ee0ef51e6ba",
+          "id": "89d60498-50b9-3a1b-1100-0af408ccc410",
           "interrupts": [],
           "name": "resource_answer",
           "result": {
@@ -2965,7 +2965,7 @@
           "run_id": "e2-shared_memory-run-001",
           "stream_mode": "updates",
           "stream_version": "v2",
-          "task_id": "14717316-b9ce-84ca-8290-725c20f92e4e",
+          "task_id": "498a2cde-1fb3-e8bb-4521-d085b7f03e66",
           "version": "1.2.11",
           "workflow": "shared_memory"
         },
@@ -2986,7 +2986,7 @@
           "run_id": "e2-shared_memory-run-001",
           "stream_mode": "updates",
           "stream_version": "v2",
-          "task_id": "9a041055-2ebd-3dde-231c-4c866ef0e395",
+          "task_id": "dfb60e61-a453-588f-e31c-09d68dd948ef",
           "version": "1.2.11",
           "workflow": "shared_memory"
         },
@@ -3025,7 +3025,7 @@
           "run_id": "e2-shared_memory-run-001",
           "stream_mode": "updates",
           "stream_version": "v2",
-          "task_id": "9a041055-2ebd-3dde-231c-4c866ef0e395",
+          "task_id": "dfb60e61-a453-588f-e31c-09d68dd948ef",
           "version": "1.2.11",
           "workflow": "shared_memory"
         },
@@ -3047,7 +3047,7 @@
           "run_id": "e2-shared_memory-run-001",
           "stream_mode": "updates",
           "stream_version": "v2",
-          "task_id": "98d4b643-8b2a-0056-05b5-8b7048a3e62b",
+          "task_id": "84bf9a26-3dc7-14d8-ffbd-d06efa72ae41",
           "version": "1.2.11",
           "workflow": "shared_memory"
         },
@@ -3072,7 +3072,7 @@
           "run_id": "e2-shared_memory-run-001",
           "stream_mode": "updates",
           "stream_version": "v2",
-          "task_id": "98d4b643-8b2a-0056-05b5-8b7048a3e62b",
+          "task_id": "84bf9a26-3dc7-14d8-ffbd-d06efa72ae41",
           "version": "1.2.11",
           "workflow": "shared_memory"
         },
@@ -3111,7 +3111,7 @@
           "run_id": "e2-shared_memory-run-001",
           "stream_mode": "updates",
           "stream_version": "v2",
-          "task_id": "a1fa48bf-92fd-3fdf-fbce-1634cfdd4ccd",
+          "task_id": "f00485e2-c74a-94e8-c1e7-41c34d05c65c",
           "version": "1.2.11",
           "workflow": "shared_memory"
         },
@@ -3129,7 +3129,7 @@
           "run_id": "e2-shared_memory-run-001",
           "stream_mode": "updates",
           "stream_version": "v2",
-          "task_id": "a1fa48bf-92fd-3fdf-fbce-1634cfdd4ccd",
+          "task_id": "f00485e2-c74a-94e8-c1e7-41c34d05c65c",
           "version": "1.2.11",
           "workflow": "shared_memory"
         },
@@ -3153,7 +3153,7 @@
           "run_id": "e2-shared_memory-run-001",
           "stream_mode": "updates",
           "stream_version": "v2",
-          "task_id": "e0aaac61-3627-1c55-f81b-20c9794cdc1c",
+          "task_id": "9a50ddb0-a5e4-7d41-433b-a45c39d3238c",
           "version": "1.2.11",
           "workflow": "shared_memory"
         },
@@ -3380,7 +3380,7 @@
       },
       {
         "data": {
-          "id": "14717316-b9ce-84ca-8290-725c20f92e4e",
+          "id": "498a2cde-1fb3-e8bb-4521-d085b7f03e66",
           "input": {
             "answer": "",
             "certified_claims": [],
@@ -3433,7 +3433,7 @@
       {
         "data": {
           "error": null,
-          "id": "14717316-b9ce-84ca-8290-725c20f92e4e",
+          "id": "498a2cde-1fb3-e8bb-4521-d085b7f03e66",
           "interrupts": [],
           "name": "memory_planner",
           "result": {
@@ -3481,7 +3481,7 @@
       },
       {
         "data": {
-          "id": "9a041055-2ebd-3dde-231c-4c866ef0e395",
+          "id": "dfb60e61-a453-588f-e31c-09d68dd948ef",
           "input": {
             "answer": "",
             "certified_claims": [],
@@ -3575,7 +3575,7 @@
       {
         "data": {
           "error": null,
-          "id": "9a041055-2ebd-3dde-231c-4c866ef0e395",
+          "id": "dfb60e61-a453-588f-e31c-09d68dd948ef",
           "interrupts": [],
           "name": "memory_collector",
           "result": {
@@ -3690,7 +3690,7 @@
       },
       {
         "data": {
-          "id": "98d4b643-8b2a-0056-05b5-8b7048a3e62b",
+          "id": "84bf9a26-3dc7-14d8-ffbd-d06efa72ae41",
           "input": {
             "answer": "",
             "certified_claims": [],
@@ -3822,7 +3822,7 @@
       {
         "data": {
           "error": null,
-          "id": "98d4b643-8b2a-0056-05b5-8b7048a3e62b",
+          "id": "84bf9a26-3dc7-14d8-ffbd-d06efa72ae41",
           "interrupts": [],
           "name": "memory_verifier_write",
           "result": {
@@ -3977,7 +3977,7 @@
       },
       {
         "data": {
-          "id": "a1fa48bf-92fd-3fdf-fbce-1634cfdd4ccd",
+          "id": "f00485e2-c74a-94e8-c1e7-41c34d05c65c",
           "input": {
             "answer": "",
             "certified_claims": [],
@@ -4118,7 +4118,7 @@
       {
         "data": {
           "error": null,
-          "id": "a1fa48bf-92fd-3fdf-fbce-1634cfdd4ccd",
+          "id": "f00485e2-c74a-94e8-c1e7-41c34d05c65c",
           "interrupts": [],
           "name": "memory_verifier_certify",
           "result": {
@@ -4262,7 +4262,7 @@
       },
       {
         "data": {
-          "id": "e0aaac61-3627-1c55-f81b-20c9794cdc1c",
+          "id": "9a50ddb0-a5e4-7d41-433b-a45c39d3238c",
           "input": {
             "answer": "",
             "certified_claims": [
@@ -4412,7 +4412,7 @@
       {
         "data": {
           "error": null,
-          "id": "e0aaac61-3627-1c55-f81b-20c9794cdc1c",
+          "id": "9a50ddb0-a5e4-7d41-433b-a45c39d3238c",
           "interrupts": [],
           "name": "memory_answer",
           "result": {

@@ -226,15 +226,15 @@ def validate_content(bundle: Path) -> list[ValidationIssue]:
 
     lower_main = main.lower()
     declaration_terms = {
-        "data-availability": "data availability",
-        "funding-statement": "funding",
-        "competing-interests": "competing interests",
-        "credit-statement": "credit authorship",
-        "ai-declaration": "generative ai",
+        "data-availability": ("data availability", "data and code availability"),
+        "funding-statement": ("funding",),
+        "competing-interests": ("competing interests",),
+        "credit-statement": ("credit authorship",),
+        "ai-declaration": ("generative ai",),
     }
-    for code, term in declaration_terms.items():
-        if term not in lower_main:
-            issues.append(ValidationIssue("ERROR", code, f"manuscript is missing a {term} statement"))
+    for code, terms in declaration_terms.items():
+        if not any(term in lower_main for term in terms):
+            issues.append(ValidationIssue("ERROR", code, f"manuscript is missing a {terms[0]} statement"))
     if "jlamp" in lower_main or "journal of logical and algebraic methods" in lower_main:
         issues.append(
             ValidationIssue("ERROR", "stale-journal", "manuscript still contains JLAMP-specific text")
@@ -331,14 +331,18 @@ def compile_in_isolation(bundle: Path, latexmk: str = "latexmk") -> list[Validat
                     check=False,
                     capture_output=True,
                     text=True,
+                    encoding="utf-8",
+                    errors="replace",
                 )
             except OSError as error:
                 issues.append(ValidationIssue("ERROR", "latex-unavailable", f"cannot execute {latexmk!r}: {error}"))
                 return issues
             combined = completed.stdout + "\n" + completed.stderr
             log_path = isolated / f"{Path(tex_name).stem}.log"
+            final_log = ""
             if log_path.is_file():
-                combined += "\n" + log_path.read_text(encoding="utf-8", errors="replace")
+                final_log = log_path.read_text(encoding="utf-8", errors="replace")
+                combined += "\n" + final_log
             if completed.returncode:
                 tail = " | ".join(combined.splitlines()[-25:])
                 issues.append(ValidationIssue("ERROR", "latex-compile", f"isolated compilation failed for {tex_name}: {tail}"))
@@ -351,8 +355,9 @@ def compile_in_isolation(bundle: Path, latexmk: str = "latexmk") -> list[Validat
                 "undefined-citation": r"(?:Citation .* undefined|There were undefined citations)",
                 "missing-file": r"LaTeX Error: File `[^']+' not found",
             }
+            diagnostic_text = final_log or combined
             for code, pattern in warning_patterns.items():
-                if re.search(pattern, combined, flags=re.IGNORECASE):
+                if re.search(pattern, diagnostic_text, flags=re.IGNORECASE):
                     issues.append(ValidationIssue("ERROR", code, f"{tex_name} log contains {code.replace('-', ' ')}"))
     return issues
 

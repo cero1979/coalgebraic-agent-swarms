@@ -318,6 +318,8 @@ def _run_latexmk(tex_name: str, directory: Path, latexmk: str) -> None:
             check=False,
             capture_output=True,
             text=True,
+            encoding="utf-8",
+            errors="replace",
         )
     except OSError as error:
         raise SubmissionBuildError(f"cannot execute {latexmk!r}: {error}") from error

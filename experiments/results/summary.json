@@ -184,9 +184,9 @@
           "message": 5
         },
         "events": 10,
-        "events_per_second": 384615.3846153846,
-        "iqr_seconds": 5.420000000000026e-07,
-        "median_seconds": 2.6e-05
+        "events_per_second": 417397.11161198764,
+        "iqr_seconds": 6.460000000000003e-07,
+        "median_seconds": 2.3958e-05
       },
       {
         "event_type_counts": {
@@ -194,9 +194,9 @@
           "message": 50
         },
         "events": 100,
-        "events_per_second": 535713.3290833409,
-        "iqr_seconds": 5.208500000000016e-06,
-        "median_seconds": 0.000186667
+        "events_per_second": 558138.4964865182,
+        "iqr_seconds": 9.87500000000001e-06,
+        "median_seconds": 0.000179167
       },
       {
         "event_type_counts": {
@@ -204,9 +204,9 @@
           "message": 500
         },
         "events": 1000,
-        "events_per_second": 536061.385461372,
-        "iqr_seconds": 9.250500000000097e-06,
-        "median_seconds": 0.001865458
+        "events_per_second": 550837.6312439512,
+        "iqr_seconds": 1.2479500000000306e-05,
+        "median_seconds": 0.001815417
       },
       {
         "event_type_counts": {
@@ -214,9 +214,9 @@
           "message": 2500
         },
         "events": 5000,
-        "events_per_second": 528783.4269121365,
-        "iqr_seconds": 6.0478499999998964e-05,
-        "median_seconds": 0.009455667
+        "events_per_second": 538744.6860917887,
+        "iqr_seconds": 0.00017504150000000052,
+        "median_seconds": 0.009280834
       },
       {
         "event_type_counts": {
@@ -224,14 +224,14 @@
           "message": 5000
         },
         "events": 10000,
-        "events_per_second": 518760.7759582186,
-        "iqr_seconds": 0.00018224949999999518,
-        "median_seconds": 0.019276708
+        "events_per_second": 549601.5388843089,
+        "iqr_seconds": 0.00048610450000000083,
+        "median_seconds": 0.018195
       }
     ],
     "warmups": 1,
     "workload": "Accepted communication-only traces alternating message and handoff events over permitted graph edges, with unique audit identifiers."
   },
-  "generated_at_utc": "2026-08-19T19:08:43.411103+00:00",
+  "generated_at_utc": "2026-08-20T14:30:38.859680+00:00",
   "schema_version": 1
 }
