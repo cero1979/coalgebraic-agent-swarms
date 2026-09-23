@@ -1,0 +1,142 @@
+{
+  "environment": {
+    "captured_at_utc": "2026-09-23T15:51:41.389479+00:00",
+    "deterministic_inputs": true,
+    "host_machine": "arm64",
+    "logical_cpu_count": 11,
+    "machine": "x86_64",
+    "platform": "macOS-27.0-x86_64-i386-64bit",
+    "process_machine": "x86_64",
+    "process_translated": true,
+    "processor": "Apple M3 Pro",
+    "python_implementation": "CPython",
+    "python_version": "3.12.10",
+    "random_seed": null,
+    "release": "27.0.0",
+    "system": "Darwin",
+    "timer": "time.perf_counter_ns"
+  },
+  "experiment": "E4_scaling",
+  "lengths": [
+    10,
+    100,
+    1000,
+    5000,
+    10000
+  ],
+  "repetitions": 7,
+  "samples": [
+    {
+      "durations_seconds": [
+        2.85e-05,
+        2.8625e-05,
+        2.9e-05,
+        2.9125e-05,
+        2.925e-05,
+        2.975e-05,
+        3.0708e-05
+      ],
+      "event_type_counts": {
+        "handoff": 5,
+        "message": 5
+      },
+      "events": 10,
+      "events_per_second": 343347.6394849785,
+      "iqr_seconds": 6.874999999999964e-07,
+      "median_seconds": 2.9125e-05,
+      "q1_seconds": 2.8812500000000002e-05,
+      "q3_seconds": 2.95e-05,
+      "repetitions": 7
+    },
+    {
+      "durations_seconds": [
+        0.000212583,
+        0.000212833,
+        0.000214,
+        0.000215208,
+        0.000216042,
+        0.000231625,
+        0.000245
+      ],
+      "event_type_counts": {
+        "handoff": 50,
+        "message": 50
+      },
+      "events": 100,
+      "events_per_second": 464666.74101334525,
+      "iqr_seconds": 1.0417000000000005e-05,
+      "median_seconds": 0.000215208,
+      "q1_seconds": 0.0002134165,
+      "q3_seconds": 0.0002238335,
+      "repetitions": 7
+    },
+    {
+      "durations_seconds": [
+        0.002091416,
+        0.00210275,
+        0.00212925,
+        0.002182083,
+        0.002190625,
+        0.002232542,
+        0.00225025
+      ],
+      "event_type_counts": {
+        "handoff": 500,
+        "message": 500
+      },
+      "events": 1000,
+      "events_per_second": 458277.7098762971,
+      "iqr_seconds": 9.558350000000038e-05,
+      "median_seconds": 0.002182083,
+      "q1_seconds": 0.002116,
+      "q3_seconds": 0.0022115835,
+      "repetitions": 7
+    },
+    {
+      "durations_seconds": [
+        0.010611375,
+        0.01074425,
+        0.010745125,
+        0.0107755,
+        0.0108265,
+        0.01085075,
+        0.010858958
+      ],
+      "event_type_counts": {
+        "handoff": 2500,
+        "message": 2500
+      },
+      "events": 5000,
+      "events_per_second": 464015.590923855,
+      "iqr_seconds": 9.393750000000027e-05,
+      "median_seconds": 0.0107755,
+      "q1_seconds": 0.010744687499999999,
+      "q3_seconds": 0.010838625,
+      "repetitions": 7
+    },
+    {
+      "durations_seconds": [
+        0.021496709,
+        0.021508416,
+        0.021522834,
+        0.021630334,
+        0.021641041,
+        0.021703625,
+        0.022459416
+      ],
+      "event_type_counts": {
+        "handoff": 5000,
+        "message": 5000
+      },
+      "events": 10000,
+      "events_per_second": 462313.7118455961,
+      "iqr_seconds": 0.00015670800000000193,
+      "median_seconds": 0.021630334,
+      "q1_seconds": 0.021515625,
+      "q3_seconds": 0.021672333000000002,
+      "repetitions": 7
+    }
+  ],
+  "warmups": 1,
+  "workload": "Accepted communication-only traces alternating message and handoff events over permitted graph edges, with unique audit identifiers."
+}

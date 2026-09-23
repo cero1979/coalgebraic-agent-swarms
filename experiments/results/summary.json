@@ -1,0 +1,237 @@
+{
+  "E1_conformance": {
+    "accepted": 5,
+    "events": 55,
+    "expectation_matches": 19,
+    "rejected": 14,
+    "rejection_codes_covered": [
+      "certificate_source",
+      "duplicate_audit",
+      "illegal_handoff",
+      "illegal_message",
+      "insufficient_budget",
+      "memory_overwrite",
+      "memory_scope",
+      "missing_audit",
+      "payload_policy",
+      "tool_permission",
+      "unauthorized_certifier",
+      "uncertified_claim",
+      "unknown_agent",
+      "unknown_tool"
+    ],
+    "traces": 19
+  },
+  "E2_framework_validation": {
+    "accepted": 3,
+    "canonical_events": 23,
+    "framework": "LangGraph",
+    "native_records": 63,
+    "runs": 3,
+    "valid_trace_acceptance_rate": 1.0,
+    "workflows": 3
+  },
+  "E3_mutation_testing": {
+    "by_category": [
+      {
+        "correctly_rejected": 3,
+        "generated": 3,
+        "mutation": "unauthorised_tool",
+        "obligation_code": "tool_permission",
+        "strictly_detected": 3,
+        "unexpectedly_accepted": 0
+      },
+      {
+        "correctly_rejected": 3,
+        "generated": 3,
+        "mutation": "overspend",
+        "obligation_code": "insufficient_budget",
+        "strictly_detected": 3,
+        "unexpectedly_accepted": 0
+      },
+      {
+        "correctly_rejected": 3,
+        "generated": 3,
+        "mutation": "illegal_handoff",
+        "obligation_code": "illegal_handoff",
+        "strictly_detected": 3,
+        "unexpectedly_accepted": 0
+      },
+      {
+        "correctly_rejected": 3,
+        "generated": 3,
+        "mutation": "invalid_message",
+        "obligation_code": "illegal_message",
+        "strictly_detected": 3,
+        "unexpectedly_accepted": 0
+      },
+      {
+        "correctly_rejected": 3,
+        "generated": 3,
+        "mutation": "payload_policy",
+        "obligation_code": "payload_policy",
+        "strictly_detected": 3,
+        "unexpectedly_accepted": 0
+      },
+      {
+        "correctly_rejected": 3,
+        "generated": 3,
+        "mutation": "missing_provenance",
+        "obligation_code": "missing_provenance",
+        "strictly_detected": 3,
+        "unexpectedly_accepted": 0
+      },
+      {
+        "correctly_rejected": 3,
+        "generated": 3,
+        "mutation": "missing_certificate_source",
+        "obligation_code": "certificate_source",
+        "strictly_detected": 3,
+        "unexpectedly_accepted": 0
+      },
+      {
+        "correctly_rejected": 3,
+        "generated": 3,
+        "mutation": "unauthorised_certifier",
+        "obligation_code": "unauthorized_certifier",
+        "strictly_detected": 3,
+        "unexpectedly_accepted": 0
+      },
+      {
+        "correctly_rejected": 3,
+        "generated": 3,
+        "mutation": "duplicate_audit",
+        "obligation_code": "duplicate_audit",
+        "strictly_detected": 3,
+        "unexpectedly_accepted": 0
+      },
+      {
+        "correctly_rejected": 3,
+        "generated": 3,
+        "mutation": "missing_audit",
+        "obligation_code": "missing_audit",
+        "strictly_detected": 3,
+        "unexpectedly_accepted": 0
+      },
+      {
+        "correctly_rejected": 3,
+        "generated": 3,
+        "mutation": "memory_overwrite",
+        "obligation_code": "memory_overwrite",
+        "strictly_detected": 3,
+        "unexpectedly_accepted": 0
+      },
+      {
+        "correctly_rejected": 3,
+        "generated": 3,
+        "mutation": "uncertified_answer",
+        "obligation_code": "uncertified_claim",
+        "strictly_detected": 3,
+        "unexpectedly_accepted": 0
+      },
+      {
+        "correctly_rejected": 3,
+        "generated": 3,
+        "mutation": "unknown_tool",
+        "obligation_code": "unknown_tool",
+        "strictly_detected": 3,
+        "unexpectedly_accepted": 0
+      },
+      {
+        "correctly_rejected": 3,
+        "generated": 3,
+        "mutation": "unknown_agent",
+        "obligation_code": "unknown_agent",
+        "strictly_detected": 3,
+        "unexpectedly_accepted": 0
+      }
+    ],
+    "categories_per_source": 14,
+    "generated": 42,
+    "obligation_codes_covered": [
+      "certificate_source",
+      "duplicate_audit",
+      "illegal_handoff",
+      "illegal_message",
+      "insufficient_budget",
+      "memory_overwrite",
+      "missing_audit",
+      "missing_provenance",
+      "payload_policy",
+      "tool_permission",
+      "unauthorized_certifier",
+      "uncertified_claim",
+      "unknown_agent",
+      "unknown_tool"
+    ],
+    "source_traces": 3,
+    "strict_detection_rate": 1.0,
+    "strictly_detected": 42
+  },
+  "E4_scaling": {
+    "lengths": [
+      10,
+      100,
+      1000,
+      5000,
+      10000
+    ],
+    "repetitions": 7,
+    "samples": [
+      {
+        "event_type_counts": {
+          "handoff": 5,
+          "message": 5
+        },
+        "events": 10,
+        "events_per_second": 343347.6394849785,
+        "iqr_seconds": 6.874999999999964e-07,
+        "median_seconds": 2.9125e-05
+      },
+      {
+        "event_type_counts": {
+          "handoff": 50,
+          "message": 50
+        },
+        "events": 100,
+        "events_per_second": 464666.74101334525,
+        "iqr_seconds": 1.0417000000000005e-05,
+        "median_seconds": 0.000215208
+      },
+      {
+        "event_type_counts": {
+          "handoff": 500,
+          "message": 500
+        },
+        "events": 1000,
+        "events_per_second": 458277.7098762971,
+        "iqr_seconds": 9.558350000000038e-05,
+        "median_seconds": 0.002182083
+      },
+      {
+        "event_type_counts": {
+          "handoff": 2500,
+          "message": 2500
+        },
+        "events": 5000,
+        "events_per_second": 464015.590923855,
+        "iqr_seconds": 9.393750000000027e-05,
+        "median_seconds": 0.0107755
+      },
+      {
+        "event_type_counts": {
+          "handoff": 5000,
+          "message": 5000
+        },
+        "events": 10000,
+        "events_per_second": 462313.7118455961,
+        "iqr_seconds": 0.00015670800000000193,
+        "median_seconds": 0.021630334
+      }
+    ],
+    "warmups": 1,
+    "workload": "Accepted communication-only traces alternating message and handoff events over permitted graph edges, with unique audit identifiers."
+  },
+  "generated_at_utc": "2026-09-23T15:51:41.389479+00:00",
+  "schema_version": 1
+}

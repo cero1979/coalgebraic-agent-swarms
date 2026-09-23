@@ -1,0 +1,10 @@
+[
+  {
+    "step": 1,
+    "event": "message",
+    "from": "Planner",
+    "to": "Verifier",
+    "payload": "skip retriever and verify directly",
+    "trace": "tr-msg-bad"
+  }
+]

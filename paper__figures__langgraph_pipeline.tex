@@ -1,0 +1,18 @@
+\begin{tikzpicture}[
+  node distance=4.5mm,
+  box/.style={draw, rounded corners=1.5pt, align=center, minimum height=7.5mm,
+              text width=0.18\linewidth, font=\small},
+  arrow/.style={-{Latex[length=2mm]}, thick}
+]
+\node[box] (graph) {Compiled\\\texttt{StateGraph}};
+\node[box, right=of graph] (stream) {v2 \texttt{tasks},\\\texttt{updates}, \texttt{values}};
+\node[box, right=of stream] (events) {Instrumented\\node emissions};
+\node[box, right=of events] (canonical) {Canonical\\events};
+\node[box, below=of canonical] (checker) {Indexed ledger\\checker};
+\node[box, left=of checker] (result) {Accepted state\\or violation code};
+\draw[arrow] (graph) -- node[above,font=\scriptsize]{execute} (stream);
+\draw[arrow] (stream) -- node[above,font=\scriptsize]{retain} (events);
+\draw[arrow] (events) -- node[above,font=\scriptsize]{map} (canonical);
+\draw[arrow] (canonical) -- (checker);
+\draw[arrow] (checker) -- node[above,font=\scriptsize]{validate} (result);
+\end{tikzpicture}

@@ -1,0 +1,10 @@
+[
+  {
+    "step": 1,
+    "event": "handoff",
+    "from": "Ghost",
+    "to": "Retriever",
+    "payload": "unknown source agent",
+    "trace": "tr-unknown-agent"
+  }
+]

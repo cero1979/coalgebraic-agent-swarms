@@ -1,0 +1,26 @@
+{
+  "captured_at_utc": "2026-09-23T15:51:41.389479+00:00",
+  "dependencies": {
+    "langchain-core": "1.5.4",
+    "langgraph": "1.2.11",
+    "pydantic": "2.13.4"
+  },
+  "deterministic_inputs": true,
+  "host_machine": "arm64",
+  "logical_cpu_count": 11,
+  "machine": "x86_64",
+  "platform": "macOS-27.0-x86_64-i386-64bit",
+  "process_machine": "x86_64",
+  "process_translated": true,
+  "processor": "Apple M3 Pro",
+  "python_implementation": "CPython",
+  "python_version": "3.12.10",
+  "random_seed": null,
+  "release": "27.0.0",
+  "repository_branch": "withheld-for-anonymous-review",
+  "repository_commit": "withheld-for-anonymous-review",
+  "repository_worktree_dirty": false,
+  "system": "Darwin",
+  "timer": "time.perf_counter_ns",
+  "timing_scope": "One check_trace call, including rule indexing; trace and rules deep copies are prepared before the timer starts."
+}

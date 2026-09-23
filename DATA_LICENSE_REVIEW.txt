@@ -1,0 +1,4 @@
+The original synthetic data under prototype/, experiments/results/, and
+paper/generated/ are provided under CC BY 4.0 by Anonymous Authors for
+peer review. Public attribution metadata will be restored after review.
+https://creativecommons.org/licenses/by/4.0/legalcode

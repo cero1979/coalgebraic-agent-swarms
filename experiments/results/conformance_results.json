@@ -1,0 +1,1004 @@
+[
+  {
+    "checker_result": {
+      "accepted": false,
+      "certified_claim_sources": [],
+      "certified_claims": [],
+      "counters": {
+        "answers": 0,
+        "budget_consumed": 0,
+        "certificates": 0,
+        "events": 1,
+        "handoffs": 0,
+        "memory_writes": 0,
+        "messages": 0,
+        "tool_calls": 0,
+        "trace_items": 0
+      },
+      "errors": [
+        "step 1: unsupported memory scope 'global'"
+      ],
+      "final_budgets": {
+        "Planner": 3,
+        "Retriever": 5,
+        "Verifier": 2
+      },
+      "shared_memory": [],
+      "shared_provenance": {},
+      "violations": [
+        {
+          "code": "memory_scope",
+          "message": "unsupported memory scope 'global'",
+          "step": 1
+        }
+      ]
+    },
+    "event_count": 1,
+    "event_types": [
+      "shared_memory_update"
+    ],
+    "expectation_matched": true,
+    "expected_status": "rejected",
+    "observed_status": "rejected",
+    "trace": "invalid_bad_memory_scope.json",
+    "violation_codes": [
+      "memory_scope"
+    ]
+  },
+  {
+    "checker_result": {
+      "accepted": false,
+      "certified_claim_sources": [],
+      "certified_claims": [],
+      "counters": {
+        "answers": 0,
+        "budget_consumed": 4,
+        "certificates": 0,
+        "events": 3,
+        "handoffs": 0,
+        "memory_writes": 2,
+        "messages": 0,
+        "tool_calls": 2,
+        "trace_items": 2
+      },
+      "errors": [
+        "step 3: insufficient budget for 'Retriever': required 2, available 1"
+      ],
+      "final_budgets": {
+        "Planner": 3,
+        "Retriever": 1,
+        "Verifier": 2
+      },
+      "shared_memory": [
+        "src_a",
+        "src_b"
+      ],
+      "shared_provenance": {
+        "src_a": {
+          "agent": "Retriever",
+          "event": "tool_call",
+          "provenance": "synthetic fixture A",
+          "step": 1,
+          "tool": "BibliographicSearch",
+          "trace": "tr-b1",
+          "value": "source A"
+        },
+        "src_b": {
+          "agent": "Retriever",
+          "event": "tool_call",
+          "provenance": "synthetic fixture B",
+          "step": 2,
+          "tool": "BibliographicSearch",
+          "trace": "tr-b2",
+          "value": "source B"
+        }
+      },
+      "violations": [
+        {
+          "code": "insufficient_budget",
+          "message": "insufficient budget for 'Retriever': required 2, available 1",
+          "step": 3
+        }
+      ]
+    },
+    "event_count": 3,
+    "event_types": [
+      "tool_call"
+    ],
+    "expectation_matched": true,
+    "expected_status": "rejected",
+    "observed_status": "rejected",
+    "trace": "invalid_budget_violation.json",
+    "violation_codes": [
+      "insufficient_budget"
+    ]
+  },
+  {
+    "checker_result": {
+      "accepted": false,
+      "certified_claim_sources": [],
+      "certified_claims": [],
+      "counters": {
+        "answers": 0,
+        "budget_consumed": 0,
+        "certificates": 0,
+        "events": 1,
+        "handoffs": 0,
+        "memory_writes": 0,
+        "messages": 0,
+        "tool_calls": 0,
+        "trace_items": 0
+      },
+      "errors": [
+        "step 1: certificate source 'src_missing' not found in shared memory"
+      ],
+      "final_budgets": {
+        "Planner": 3,
+        "Retriever": 5,
+        "Verifier": 2
+      },
+      "shared_memory": [],
+      "shared_provenance": {},
+      "violations": [
+        {
+          "code": "certificate_source",
+          "message": "certificate source 'src_missing' not found in shared memory",
+          "step": 1
+        }
+      ]
+    },
+    "event_count": 1,
+    "event_types": [
+      "certify"
+    ],
+    "expectation_matched": true,
+    "expected_status": "rejected",
+    "observed_status": "rejected",
+    "trace": "invalid_certificate_source.json",
+    "violation_codes": [
+      "certificate_source"
+    ]
+  },
+  {
+    "checker_result": {
+      "accepted": false,
+      "certified_claim_sources": [],
+      "certified_claims": [],
+      "counters": {
+        "answers": 0,
+        "budget_consumed": 0,
+        "certificates": 0,
+        "events": 2,
+        "handoffs": 1,
+        "memory_writes": 0,
+        "messages": 0,
+        "tool_calls": 0,
+        "trace_items": 1
+      },
+      "errors": [
+        "step 2: duplicate trace id 'tr-dup'"
+      ],
+      "final_budgets": {
+        "Planner": 3,
+        "Retriever": 5,
+        "Verifier": 2
+      },
+      "shared_memory": [],
+      "shared_provenance": {},
+      "violations": [
+        {
+          "code": "duplicate_audit",
+          "message": "duplicate trace id 'tr-dup'",
+          "step": 2
+        }
+      ]
+    },
+    "event_count": 2,
+    "event_types": [
+      "handoff",
+      "message"
+    ],
+    "expectation_matched": true,
+    "expected_status": "rejected",
+    "observed_status": "rejected",
+    "trace": "invalid_duplicate_trace.json",
+    "violation_codes": [
+      "duplicate_audit"
+    ]
+  },
+  {
+    "checker_result": {
+      "accepted": false,
+      "certified_claim_sources": [],
+      "certified_claims": [],
+      "counters": {
+        "answers": 0,
+        "budget_consumed": 0,
+        "certificates": 0,
+        "events": 1,
+        "handoffs": 0,
+        "memory_writes": 0,
+        "messages": 0,
+        "tool_calls": 0,
+        "trace_items": 0
+      },
+      "errors": [
+        "step 1: handoff edge 'Planner -> Verifier' is not allowed"
+      ],
+      "final_budgets": {
+        "Planner": 3,
+        "Retriever": 5,
+        "Verifier": 2
+      },
+      "shared_memory": [],
+      "shared_provenance": {},
+      "violations": [
+        {
+          "code": "illegal_handoff",
+          "message": "handoff edge 'Planner -> Verifier' is not allowed",
+          "step": 1
+        }
+      ]
+    },
+    "event_count": 1,
+    "event_types": [
+      "handoff"
+    ],
+    "expectation_matched": true,
+    "expected_status": "rejected",
+    "observed_status": "rejected",
+    "trace": "invalid_handoff_violation.json",
+    "violation_codes": [
+      "illegal_handoff"
+    ]
+  },
+  {
+    "checker_result": {
+      "accepted": false,
+      "certified_claim_sources": [],
+      "certified_claims": [],
+      "counters": {
+        "answers": 0,
+        "budget_consumed": 0,
+        "certificates": 0,
+        "events": 1,
+        "handoffs": 0,
+        "memory_writes": 0,
+        "messages": 0,
+        "tool_calls": 0,
+        "trace_items": 0
+      },
+      "errors": [
+        "step 1: message edge 'Planner -> Verifier' is not allowed"
+      ],
+      "final_budgets": {
+        "Planner": 3,
+        "Retriever": 5,
+        "Verifier": 2
+      },
+      "shared_memory": [],
+      "shared_provenance": {},
+      "violations": [
+        {
+          "code": "illegal_message",
+          "message": "message edge 'Planner -> Verifier' is not allowed",
+          "step": 1
+        }
+      ]
+    },
+    "event_count": 1,
+    "event_types": [
+      "message"
+    ],
+    "expectation_matched": true,
+    "expected_status": "rejected",
+    "observed_status": "rejected",
+    "trace": "invalid_message_violation.json",
+    "violation_codes": [
+      "illegal_message"
+    ]
+  },
+  {
+    "checker_result": {
+      "accepted": false,
+      "certified_claim_sources": [],
+      "certified_claims": [],
+      "counters": {
+        "answers": 0,
+        "budget_consumed": 0,
+        "certificates": 0,
+        "events": 1,
+        "handoffs": 0,
+        "memory_writes": 0,
+        "messages": 0,
+        "tool_calls": 0,
+        "trace_items": 0
+      },
+      "errors": [
+        "step 1: event 'tool_call' lacks required audit trace"
+      ],
+      "final_budgets": {
+        "Planner": 3,
+        "Retriever": 5,
+        "Verifier": 2
+      },
+      "shared_memory": [],
+      "shared_provenance": {},
+      "violations": [
+        {
+          "code": "missing_audit",
+          "message": "event 'tool_call' lacks required audit trace",
+          "step": 1
+        }
+      ]
+    },
+    "event_count": 1,
+    "event_types": [
+      "tool_call"
+    ],
+    "expectation_matched": true,
+    "expected_status": "rejected",
+    "observed_status": "rejected",
+    "trace": "invalid_missing_trace.json",
+    "violation_codes": [
+      "missing_audit"
+    ]
+  },
+  {
+    "checker_result": {
+      "accepted": false,
+      "certified_claim_sources": [],
+      "certified_claims": [],
+      "counters": {
+        "answers": 0,
+        "budget_consumed": 0,
+        "certificates": 0,
+        "events": 1,
+        "handoffs": 0,
+        "memory_writes": 0,
+        "messages": 0,
+        "tool_calls": 0,
+        "trace_items": 0
+      },
+      "errors": [
+        "step 1: handoff payload violates configured policy"
+      ],
+      "final_budgets": {
+        "Planner": 3,
+        "Retriever": 5,
+        "Verifier": 2
+      },
+      "shared_memory": [],
+      "shared_provenance": {},
+      "violations": [
+        {
+          "code": "payload_policy",
+          "message": "handoff payload violates configured policy",
+          "step": 1
+        }
+      ]
+    },
+    "event_count": 1,
+    "event_types": [
+      "handoff"
+    ],
+    "expectation_matched": true,
+    "expected_status": "rejected",
+    "observed_status": "rejected",
+    "trace": "invalid_payload_policy.json",
+    "violation_codes": [
+      "payload_policy"
+    ]
+  },
+  {
+    "checker_result": {
+      "accepted": false,
+      "certified_claim_sources": [],
+      "certified_claims": [],
+      "counters": {
+        "answers": 0,
+        "budget_consumed": 2,
+        "certificates": 0,
+        "events": 2,
+        "handoffs": 0,
+        "memory_writes": 1,
+        "messages": 0,
+        "tool_calls": 1,
+        "trace_items": 1
+      },
+      "errors": [
+        "step 2: shared memory key 'src_same' already exists"
+      ],
+      "final_budgets": {
+        "Planner": 3,
+        "Retriever": 3,
+        "Verifier": 2
+      },
+      "shared_memory": [
+        "src_same"
+      ],
+      "shared_provenance": {
+        "src_same": {
+          "agent": "Retriever",
+          "event": "tool_call",
+          "provenance": "synthetic fixture: first source",
+          "step": 1,
+          "tool": "BibliographicSearch",
+          "trace": "tr-o1",
+          "value": "first value"
+        }
+      },
+      "violations": [
+        {
+          "code": "memory_overwrite",
+          "message": "shared memory key 'src_same' already exists",
+          "step": 2
+        }
+      ]
+    },
+    "event_count": 2,
+    "event_types": [
+      "tool_call"
+    ],
+    "expectation_matched": true,
+    "expected_status": "rejected",
+    "observed_status": "rejected",
+    "trace": "invalid_shared_memory_overwrite.json",
+    "violation_codes": [
+      "memory_overwrite"
+    ]
+  },
+  {
+    "checker_result": {
+      "accepted": false,
+      "certified_claim_sources": [],
+      "certified_claims": [],
+      "counters": {
+        "answers": 0,
+        "budget_consumed": 0,
+        "certificates": 0,
+        "events": 1,
+        "handoffs": 0,
+        "memory_writes": 0,
+        "messages": 0,
+        "tool_calls": 0,
+        "trace_items": 0
+      },
+      "errors": [
+        "step 1: agent 'Planner' lacks permission for tool 'BibliographicSearch'"
+      ],
+      "final_budgets": {
+        "Planner": 3,
+        "Retriever": 5,
+        "Verifier": 2
+      },
+      "shared_memory": [],
+      "shared_provenance": {},
+      "violations": [
+        {
+          "code": "tool_permission",
+          "message": "agent 'Planner' lacks permission for tool 'BibliographicSearch'",
+          "step": 1
+        }
+      ]
+    },
+    "event_count": 1,
+    "event_types": [
+      "tool_call"
+    ],
+    "expectation_matched": true,
+    "expected_status": "rejected",
+    "observed_status": "rejected",
+    "trace": "invalid_tool_permission.json",
+    "violation_codes": [
+      "tool_permission"
+    ]
+  },
+  {
+    "checker_result": {
+      "accepted": false,
+      "certified_claim_sources": [],
+      "certified_claims": [],
+      "counters": {
+        "answers": 0,
+        "budget_consumed": 2,
+        "certificates": 0,
+        "events": 2,
+        "handoffs": 0,
+        "memory_writes": 1,
+        "messages": 0,
+        "tool_calls": 1,
+        "trace_items": 1
+      },
+      "errors": [
+        "step 2: agent 'Planner' is not authorised to certify claims"
+      ],
+      "final_budgets": {
+        "Planner": 3,
+        "Retriever": 3,
+        "Verifier": 2
+      },
+      "shared_memory": [
+        "src_for_unauth"
+      ],
+      "shared_provenance": {
+        "src_for_unauth": {
+          "agent": "Retriever",
+          "event": "tool_call",
+          "provenance": "synthetic fixture: source for certifier authorization control",
+          "step": 1,
+          "tool": "BibliographicSearch",
+          "trace": "tr-unauth-src",
+          "value": "source for unauthorized certifier test"
+        }
+      },
+      "violations": [
+        {
+          "code": "unauthorized_certifier",
+          "message": "agent 'Planner' is not authorised to certify claims",
+          "step": 2
+        }
+      ]
+    },
+    "event_count": 2,
+    "event_types": [
+      "certify",
+      "tool_call"
+    ],
+    "expectation_matched": true,
+    "expected_status": "rejected",
+    "observed_status": "rejected",
+    "trace": "invalid_unauthorized_certifier.json",
+    "violation_codes": [
+      "unauthorized_certifier"
+    ]
+  },
+  {
+    "checker_result": {
+      "accepted": false,
+      "certified_claim_sources": [],
+      "certified_claims": [],
+      "counters": {
+        "answers": 0,
+        "budget_consumed": 0,
+        "certificates": 0,
+        "events": 1,
+        "handoffs": 0,
+        "memory_writes": 0,
+        "messages": 0,
+        "tool_calls": 0,
+        "trace_items": 0
+      },
+      "errors": [
+        "step 1: answer uses uncertified claim 'unsupported_claim'"
+      ],
+      "final_budgets": {
+        "Planner": 3,
+        "Retriever": 5,
+        "Verifier": 2
+      },
+      "shared_memory": [],
+      "shared_provenance": {},
+      "violations": [
+        {
+          "code": "uncertified_claim",
+          "message": "answer uses uncertified claim 'unsupported_claim'",
+          "step": 1
+        }
+      ]
+    },
+    "event_count": 1,
+    "event_types": [
+      "answer"
+    ],
+    "expectation_matched": true,
+    "expected_status": "rejected",
+    "observed_status": "rejected",
+    "trace": "invalid_uncertified_answer.json",
+    "violation_codes": [
+      "uncertified_claim"
+    ]
+  },
+  {
+    "checker_result": {
+      "accepted": false,
+      "certified_claim_sources": [],
+      "certified_claims": [],
+      "counters": {
+        "answers": 0,
+        "budget_consumed": 0,
+        "certificates": 0,
+        "events": 1,
+        "handoffs": 0,
+        "memory_writes": 0,
+        "messages": 0,
+        "tool_calls": 0,
+        "trace_items": 0
+      },
+      "errors": [
+        "step 1: unknown source agent 'Ghost'"
+      ],
+      "final_budgets": {
+        "Planner": 3,
+        "Retriever": 5,
+        "Verifier": 2
+      },
+      "shared_memory": [],
+      "shared_provenance": {},
+      "violations": [
+        {
+          "code": "unknown_agent",
+          "message": "unknown source agent 'Ghost'",
+          "step": 1
+        }
+      ]
+    },
+    "event_count": 1,
+    "event_types": [
+      "handoff"
+    ],
+    "expectation_matched": true,
+    "expected_status": "rejected",
+    "observed_status": "rejected",
+    "trace": "invalid_unknown_agent.json",
+    "violation_codes": [
+      "unknown_agent"
+    ]
+  },
+  {
+    "checker_result": {
+      "accepted": false,
+      "certified_claim_sources": [],
+      "certified_claims": [],
+      "counters": {
+        "answers": 0,
+        "budget_consumed": 0,
+        "certificates": 0,
+        "events": 1,
+        "handoffs": 0,
+        "memory_writes": 0,
+        "messages": 0,
+        "tool_calls": 0,
+        "trace_items": 0
+      },
+      "errors": [
+        "step 1: unknown tool 'NonexistentTool'"
+      ],
+      "final_budgets": {
+        "Planner": 3,
+        "Retriever": 5,
+        "Verifier": 2
+      },
+      "shared_memory": [],
+      "shared_provenance": {},
+      "violations": [
+        {
+          "code": "unknown_tool",
+          "message": "unknown tool 'NonexistentTool'",
+          "step": 1
+        }
+      ]
+    },
+    "event_count": 1,
+    "event_types": [
+      "tool_call"
+    ],
+    "expectation_matched": true,
+    "expected_status": "rejected",
+    "observed_status": "rejected",
+    "trace": "invalid_unknown_tool.json",
+    "violation_codes": [
+      "unknown_tool"
+    ]
+  },
+  {
+    "checker_result": {
+      "accepted": true,
+      "certified_claim_sources": [
+        {
+          "claim": "bisimulation_supports_equivalence",
+          "source": "src_bisimulation"
+        }
+      ],
+      "certified_claims": [
+        "bisimulation_supports_equivalence"
+      ],
+      "counters": {
+        "answers": 2,
+        "budget_consumed": 2,
+        "certificates": 1,
+        "events": 7,
+        "handoffs": 2,
+        "memory_writes": 1,
+        "messages": 1,
+        "tool_calls": 1,
+        "trace_items": 7
+      },
+      "errors": [],
+      "final_budgets": {
+        "Planner": 3,
+        "Retriever": 3,
+        "Verifier": 2
+      },
+      "shared_memory": [
+        "src_bisimulation"
+      ],
+      "shared_provenance": {
+        "src_bisimulation": {
+          "agent": "Retriever",
+          "event": "tool_call",
+          "provenance": "synthetic fixture: BibliographicSearch result for coalgebra bisimulation",
+          "step": 2,
+          "tool": "BibliographicSearch",
+          "trace": "tr-reuse-002",
+          "value": "Bisimulation reference for process equivalence"
+        }
+      },
+      "violations": []
+    },
+    "event_count": 7,
+    "event_types": [
+      "answer",
+      "certify",
+      "handoff",
+      "message",
+      "tool_call"
+    ],
+    "expectation_matched": true,
+    "expected_status": "accepted",
+    "observed_status": "accepted",
+    "trace": "valid_claim_reuse_trace.json",
+    "violation_codes": []
+  },
+  {
+    "checker_result": {
+      "accepted": true,
+      "certified_claim_sources": [
+        {
+          "claim": "framework_handoffs_as_graph_events",
+          "source": "src_handoff_docs"
+        }
+      ],
+      "certified_claims": [
+        "framework_handoffs_as_graph_events"
+      ],
+      "counters": {
+        "answers": 1,
+        "budget_consumed": 3,
+        "certificates": 1,
+        "events": 7,
+        "handoffs": 2,
+        "memory_writes": 1,
+        "messages": 1,
+        "tool_calls": 2,
+        "trace_items": 7
+      },
+      "errors": [],
+      "final_budgets": {
+        "Planner": 3,
+        "Retriever": 3,
+        "Verifier": 1
+      },
+      "shared_memory": [
+        "src_handoff_docs"
+      ],
+      "shared_provenance": {
+        "src_handoff_docs": {
+          "agent": "Retriever",
+          "event": "tool_call",
+          "provenance": "synthetic fixture: normalised LangGraph-like tool result",
+          "step": 2,
+          "tool": "BibliographicSearch",
+          "trace": "tr-lg-002",
+          "value": "Framework documentation describing handoffs"
+        }
+      },
+      "violations": []
+    },
+    "event_count": 7,
+    "event_types": [
+      "answer",
+      "certify",
+      "handoff",
+      "message",
+      "tool_call"
+    ],
+    "expectation_matched": true,
+    "expected_status": "accepted",
+    "observed_status": "accepted",
+    "trace": "valid_langgraph_like_trace.json",
+    "violation_codes": []
+  },
+  {
+    "checker_result": {
+      "accepted": true,
+      "certified_claim_sources": [
+        {
+          "claim": "provenance_records_support_audit",
+          "source": "src_prov_dm"
+        }
+      ],
+      "certified_claims": [
+        "provenance_records_support_audit"
+      ],
+      "counters": {
+        "answers": 1,
+        "budget_consumed": 0,
+        "certificates": 1,
+        "events": 6,
+        "handoffs": 2,
+        "memory_writes": 1,
+        "messages": 1,
+        "tool_calls": 0,
+        "trace_items": 6
+      },
+      "errors": [],
+      "final_budgets": {
+        "Planner": 3,
+        "Retriever": 5,
+        "Verifier": 2
+      },
+      "shared_memory": [
+        "src_prov_dm"
+      ],
+      "shared_provenance": {
+        "src_prov_dm": {
+          "agent": "Retriever",
+          "event": "shared_memory_update",
+          "provenance": "synthetic fixture: hand-authored W3C PROV-DM reference",
+          "step": 2,
+          "tool": null,
+          "trace": "tr-mem-002",
+          "value": "PROV-DM W3C recommendation"
+        }
+      },
+      "violations": []
+    },
+    "event_count": 6,
+    "event_types": [
+      "answer",
+      "certify",
+      "handoff",
+      "message",
+      "shared_memory_update"
+    ],
+    "expectation_matched": true,
+    "expected_status": "accepted",
+    "observed_status": "accepted",
+    "trace": "valid_memory_update_reuse_trace.json",
+    "violation_codes": []
+  },
+  {
+    "checker_result": {
+      "accepted": true,
+      "certified_claim_sources": [
+        {
+          "claim": "coalgebra_behavioural_equivalence",
+          "source": "src_rutten2000"
+        }
+      ],
+      "certified_claims": [
+        "coalgebra_behavioural_equivalence"
+      ],
+      "counters": {
+        "answers": 1,
+        "budget_consumed": 3,
+        "certificates": 1,
+        "events": 7,
+        "handoffs": 2,
+        "memory_writes": 1,
+        "messages": 1,
+        "tool_calls": 2,
+        "trace_items": 7
+      },
+      "errors": [],
+      "final_budgets": {
+        "Planner": 3,
+        "Retriever": 3,
+        "Verifier": 1
+      },
+      "shared_memory": [
+        "src_rutten2000"
+      ],
+      "shared_provenance": {
+        "src_rutten2000": {
+          "agent": "Retriever",
+          "event": "tool_call",
+          "provenance": "synthetic fixture: BibliographicSearch result for Rutten 2000",
+          "step": 2,
+          "tool": "BibliographicSearch",
+          "trace": "tr-002",
+          "value": "Rutten 2000 universal coalgebra"
+        }
+      },
+      "violations": []
+    },
+    "event_count": 7,
+    "event_types": [
+      "answer",
+      "certify",
+      "handoff",
+      "message",
+      "tool_call"
+    ],
+    "expectation_matched": true,
+    "expected_status": "accepted",
+    "observed_status": "accepted",
+    "trace": "valid_research_swarm.json",
+    "violation_codes": []
+  },
+  {
+    "checker_result": {
+      "accepted": true,
+      "certified_claim_sources": [
+        {
+          "claim": "coalgebra_for_behaviour",
+          "source": "src_coalgebra"
+        },
+        {
+          "claim": "sell_for_resources",
+          "source": "src_sell"
+        }
+      ],
+      "certified_claims": [
+        "coalgebra_for_behaviour",
+        "sell_for_resources"
+      ],
+      "counters": {
+        "answers": 1,
+        "budget_consumed": 5,
+        "certificates": 2,
+        "events": 9,
+        "handoffs": 2,
+        "memory_writes": 2,
+        "messages": 1,
+        "tool_calls": 3,
+        "trace_items": 9
+      },
+      "errors": [],
+      "final_budgets": {
+        "Planner": 3,
+        "Retriever": 1,
+        "Verifier": 1
+      },
+      "shared_memory": [
+        "src_coalgebra",
+        "src_sell"
+      ],
+      "shared_provenance": {
+        "src_coalgebra": {
+          "agent": "Retriever",
+          "event": "tool_call",
+          "provenance": "synthetic fixture: BibliographicSearch result for universal coalgebra",
+          "step": 2,
+          "tool": "BibliographicSearch",
+          "trace": "tr-v2-002",
+          "value": "Rutten 2000 universal coalgebra"
+        },
+        "src_sell": {
+          "agent": "Retriever",
+          "event": "tool_call",
+          "provenance": "synthetic fixture: BibliographicSearch result for subexponentials",
+          "step": 3,
+          "tool": "BibliographicSearch",
+          "trace": "tr-v2-003",
+          "value": "Nigam and Miller 2009 subexponentials"
+        }
+      },
+      "violations": []
+    },
+    "event_count": 9,
+    "event_types": [
+      "answer",
+      "certify",
+      "handoff",
+      "message",
+      "tool_call"
+    ],
+    "expectation_matched": true,
+    "expected_status": "accepted",
+    "observed_status": "accepted",
+    "trace": "valid_two_source_research_swarm.json",
+    "violation_codes": []
+  }
+]

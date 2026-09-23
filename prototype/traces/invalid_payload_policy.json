@@ -1,0 +1,10 @@
+[
+  {
+    "step": 1,
+    "event": "handoff",
+    "from": "Planner",
+    "to": "Retriever",
+    "payload": "",
+    "trace": "tr-empty-payload"
+  }
+]
