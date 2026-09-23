@@ -58,7 +58,9 @@ make paper
 ```
 
 The two editorial targets below are run separately on the author's local
-checkout after supplying the identified title-page and cover-letter files:
+checkout after supplying the identified title-page and cover-letter files and
+an ignored `.anonymous-review-url` file containing the verified anonymous
+review URL on one line:
 
 ```bash
 make submission
@@ -227,8 +229,9 @@ make submission-check
 ```
 
 These editorial targets require local `title_page.tex` and `title_page.docx`
-files, plus the identified `submission/array/cover_letter.tex`. They are not
-required by the public `make all` target or the continuous-integration check.
+files, the identified `submission/array/cover_letter.tex`, and the ignored
+`.anonymous-review-url` file. They are not required by the public `make all`
+target or the continuous-integration check.
 The generated `submission/array/` directory is a local staging artefact. The
 portal-ready files are under `output/submission/`: a flat anonymous LaTeX source
 ZIP, anonymous manuscript preview, separate identified editable Word title
@@ -245,11 +248,15 @@ supplement removes repository commit/branch identifiers and refreshes both
 integrity manifests after that transformation.
 
 The local anonymous supplement provides reviewer access to the revised code,
-synthetic inputs, and results without relying on a remote mirror. Before
-inserting any external mirror URL into reviewer-facing files, regenerate that
-mirror from the revised repository and check it in a signed-out browser for
-accessibility, current contents, and direct or indirect author identifiers.
-The older anonymous mirror is not a suitable reference for the revised package.
+synthetic inputs, and results without relying on a remote mirror. The
+author-side editorial builder requires the local review URL and cites both the
+pinned, sanitised mirror and the supplementary archive. A public clone can run
+`make all` without this configuration but cannot build the editorial package.
+The mirror excludes identity, editorial, and repository-history files and is not
+auto-updated. Before changing its snapshot or URL, repeat signed-out access,
+direct/indirect identity, integrity, and version-match checks. Its URL must
+not be committed to the identified public repository. Direct-identifier
+removal cannot guarantee unlinkability from older public work.
 
 ## 9. Release Integrity
 

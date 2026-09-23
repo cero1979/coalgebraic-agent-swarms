@@ -26,6 +26,7 @@ from typing import Iterable, Sequence
 REPOSITORY_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_OUTPUT = REPOSITORY_ROOT / "submission" / "array"
 DEFAULT_UPLOAD_OUTPUT = REPOSITORY_ROOT / "output" / "submission"
+ANONYMOUS_REPOSITORY_URL = "ANONYMOUS_REVIEW_REPOSITORY"
 AUTHOR_MAINTAINED = (
     "cover_letter.tex",
     "title_page.tex",
@@ -67,11 +68,13 @@ ANONYMOUS_MAIN_REPLACEMENTS = {
     ),
     "reproducibility-release": (
         "The exact software and original synthetic data snapshot accompanying "
-        "this revised manuscript is supplied in the separately uploaded "
-        "anonymous replication archive~\\cite{artifact2026,artifactdata2026}. "
+        "this revised manuscript is available from the anonymous review "
+        "repository~\\cite{artifact2026,artifactdata2026} at "
+        f"\\url{{{ANONYMOUS_REPOSITORY_URL}}}. The separately uploaded anonymous "
+        "replication archive supplies the same research code and data. "
         "It contains source code, traces, generated results, and SHA-256 "
-        "manifests. No archival DOI or public mirror for this revision is "
-        "claimed during peer review.\n"
+        "manifests. Author-identifying metadata and editorial files are "
+        "excluded from the review snapshot. No archival DOI is claimed.\n"
     ),
     "credit-statement": (
         "\\section*{CRediT authorship contribution statement}\n"
@@ -83,8 +86,9 @@ ANONYMOUS_MAIN_REPLACEMENTS = {
         "All research data reported in this article are original synthetic data "
         "generated for the study. The conformance traces, framework-derived "
         "records, mutation cases, scaling observations, source code, and integrity "
-        "manifests are supplied in the separately uploaded anonymous "
-        "supplementary archive for peer review. No reference or third-party "
+        "manifests are available at "
+        f"\\url{{{ANONYMOUS_REPOSITORY_URL}}} and supplied in the separately "
+        "uploaded anonymous supplementary archive for peer review. No reference or third-party "
         "dataset was analysed.\n"
     ),
 }
@@ -95,7 +99,8 @@ ANONYMOUS_BIBLIOGRAPHY_REPLACEMENTS = {
         "  author       = {{Anonymous}},\n"
         "  title        = {Anonymous Software Artifact Accompanying This Submission},\n"
         "  year         = {2026},\n"
-        "  howpublished = {Supplementary archive supplied with this submission},\n"
+        "  howpublished = {Anonymous review repository and supplementary archive},\n"
+        f"  url          = {{{ANONYMOUS_REPOSITORY_URL}}},\n"
         "  note         = {Version-matched software for anonymous peer review}\n"
         "}\n"
     ),
@@ -104,7 +109,8 @@ ANONYMOUS_BIBLIOGRAPHY_REPLACEMENTS = {
         "  author       = {{Anonymous}},\n"
         "  title        = {{[dataset]} Anonymous Synthetic Validation Data Accompanying This Submission},\n"
         "  year         = {2026},\n"
-        "  howpublished = {Dataset in supplementary archive supplied with this submission},\n"
+        "  howpublished = {Dataset in anonymous review repository and supplementary archive},\n"
+        f"  url          = {{{ANONYMOUS_REPOSITORY_URL}}},\n"
         "  note         = {Version-matched original synthetic data for anonymous peer review}\n"
         "}\n"
     ),
@@ -659,9 +665,9 @@ def build_editorial_uploads(
             "  array-cover-letter.pdf\n\n"
             "Anonymous supplementary software and synthetic data:\n"
             "  array-anonymous-supplement.zip\n\n"
-            "No public anonymous repository URL is included until a verified,\n"
-            "identity-free mirror of this exact revision is available. The\n"
-            "anonymous supplementary archive is the version-matched artifact.\n\n"
+            "Anonymous review repository:\n"
+            "  Use the link in the manuscript's Data and code availability section.\n"
+            "  The mirror and supplementary archive contain the same research code/data.\n\n"
             "Highlights:\n"
             "  array-highlights.txt\n\n"
             "Do not upload the entire submission/array directory as one manuscript item.\n"
@@ -700,6 +706,19 @@ def build_submission(
         staging = Path(temp_name)
         _copy_author_files(root, output, staging)
         collect_and_copy_sources(root, staging)
+        review_url_file = root / ".anonymous-review-url"
+        if not review_url_file.is_file():
+            raise SubmissionBuildError("missing local .anonymous-review-url configuration")
+        review_url = review_url_file.read_text(encoding="utf-8").strip()
+        if not re.fullmatch(r"https://anonymous\.4open\.science/r/[A-Za-z0-9_-]+/", review_url):
+            raise SubmissionBuildError("invalid anonymous review URL in .anonymous-review-url")
+        # Keep the mirror-to-author link out of the public repository.
+        for filename in ("main.tex", "references.bib"):
+            path = staging / filename
+            path.write_text(
+                path.read_text(encoding="utf-8").replace(ANONYMOUS_REPOSITORY_URL, review_url),
+                encoding="utf-8",
+            )
         copy_standard_bibliography_styles(staging)
         highlights = read_highlights(root / "HIGHLIGHTS.md")
         (staging / "highlights.txt").write_text(

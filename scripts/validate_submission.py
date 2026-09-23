@@ -21,7 +21,6 @@ REPOSITORY_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_BUNDLE = REPOSITORY_ROOT / "submission" / "array"
 UNSAFE_REVIEW_REPOSITORY_URLS = (
     "https://anonymous.4open.science/r/coalgebraic-agent-swarms-0CD6/",
-    "https://anonymous.4open.science/r/coalgebraic-agent-swarms-D37C/",
 )
 REQUIRED_FILES = (
     "main.tex",

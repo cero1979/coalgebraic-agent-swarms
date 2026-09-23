@@ -113,8 +113,8 @@ The revision does not claim:
 - validation beyond the three included LangGraph workflows;
 - production throughput or platform-independent timing; or
 - an archival DOI or Zenodo record for release `v1.0.0`; or
-- identity-safe or snapshot-exact access through an anonymous mirror until that
-  mirror is rebuilt from the revised repository and checked without login.
+- a guarantee that a sanitised review snapshot is unlinkable from older
+  public versions of related work.
 
 ## Reproducibility and Submission Gates
 
@@ -147,11 +147,14 @@ passes, and the flat package compiles in isolation.
 - [ ] Review APC or institutional-agreement implications.
 - [x] Publish the earlier repository snapshot as `v1.0.0` with versioned
       manuscript/data assets and their SHA-256 inventory.
-- [ ] Verify that the revised source and regenerated evidence have been pushed
-      to the public repository; do not identify them as `v1.0.0` assets.
-- [ ] Rebuild the anonymous mirror from the revised repository, inspect its
-      manuscript, bibliography, and README without login for author identifiers,
-      and verify that it matches the submitted revision before citing it.
+- [x] Push the revised research source and regenerated evidence to the public
+      repository; do not identify them as `v1.0.0` assets.
+- [x] Build and audit a pinned, sanitised review snapshot without identity,
+      editorial, or repository-history files. Keep its URL out of the
+      identified public repository.
+- [ ] Before changing the pinned snapshot or reviewer-facing URL, repeat the
+      signed-out accessibility, direct/indirect identity, integrity, and
+      version-match audit.
 - [ ] Run `make verify` and `make all` again after the final source freeze.
 - [ ] Optionally archive a future version in Zenodo and add its DOI only after
       the identifier genuinely exists.
@@ -169,5 +172,5 @@ passes, and the flat package compiles in isolation.
   `v1.0.0`, attached the manuscript and separately licensed synthetic data,
   and retained the absence of an archival DOI as an explicit limitation.
 - 2026-09-23: distinguished that historical release from the substantially
-  revised manuscript, regenerated evidence, and pending anonymous mirror for
-  the current resubmission.
+  revised manuscript and regenerated evidence for the current resubmission;
+  subsequently prepared a pinned, sanitised review snapshot.

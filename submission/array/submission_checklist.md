@@ -58,9 +58,11 @@ It does not replace the author's scientific or publishing approval.
   snapshot. The anonymous Editorial Manager packaging is generated locally from
   the same scientific sources and is intentionally not represented as part of
   that already-published immutable release.
-- **PASS** - `make all` passed 57 tests: 26 checker, five LangGraph integration,
-  fourteen experiment, and twelve submission-script tests; it also completed
-  all builds and the isolated submission check.
+- **PASS** - The anonymous review snapshot passed 45 research tests: 26 checker,
+  five LangGraph integration, and fourteen experiment tests. The identified
+  public checkout passed 57 tests including twelve submission-script tests;
+  the author-side editorial checkout also completed the isolated submission
+  check with its required local inputs.
 - **HISTORICAL** - The August 20 E1--E4 release-candidate reproduction was
   recorded from clean commit `f4653a379471905cae2697eb35eb99f1d8eb3507`.
   The September 23 reviewer revision regenerated E1--E4 in the current working
@@ -79,8 +81,9 @@ It does not replace the author's scientific or publishing approval.
   `title_page.tex` remains an editable LaTeX alternative.
 - **PASS** - The anonymous manuscript source and bibliography contain no author
   name, email, ORCID, affiliation, repository username, or public self-release
-  URL; they cite the separately uploaded anonymous supplement instead. The PDF
-  uses the CAS `doubleblind` option and an empty author metadata field.
+  URL; the author-side review copy cites a pinned mirror and the separately
+  uploaded supplement. The PDF uses the CAS `doubleblind` option and an empty
+  author metadata field.
 - **PASS** - The flat-bundle builder and objective submission validator are
   present in `scripts/`, and their intended commands are documented in
   `README_SUBMISSION.md`.
@@ -122,19 +125,26 @@ It does not replace the author's scientific or publishing approval.
   contain this revision's regenerated E4 timings or revised manuscript. No
   archival DOI is claimed.
 - **PASS** - The identified manuscript and bibliography cite the historical
-  release accurately; the anonymous manuscript cites the version-matched
-  supplementary archive instead. `CITATION.cff` describes release `v1.0.0`.
+  release accurately; the author-side anonymous copy cites the pinned mirror
+  and version-matched supplementary archive. `CITATION.cff` describes release
+  `v1.0.0`.
 - **PASS** - A clean public release-candidate checkout passed committed-manifest
   verification and the complete documented pipeline without a private file,
   local-only path, LLM key, commercial API, or external research dataset.
 - **PASS** - Repository visibility, release assets, SHA-256 inventory, software
   licence, data licence, and release attestation were verified after publication.
-- **PASS** - The anonymous manuscript and cover letter currently rely on the
-  locally generated, version-matched supplementary ZIP rather than an
-  unavailable or identifying external mirror. Upload this ZIP as a separate
-  supplementary item. The former `0CD6` mirror returned HTTP 401; the `D37C`
-  mirror exposed author-identifying source content. Add a new URL only after
-  signed-out accessibility, identity, and version checks all pass.
+- **PASS** - The author-side anonymous manuscript and cover letter cite a
+  pinned, sanitised review mirror plus the locally generated, version-matched
+  supplementary ZIP. Upload the ZIP as a separate supplementary item. The
+  signed-out mirror download contained 81 files and matched the audited review
+  template after resolving its URL token; all eleven manuscript-source and
+  67 supplementary files matched the final local upload ZIPs byte-for-byte.
+  It excludes identity, editorial, repository-history, and compiled-PDF files;
+  its unique URL remains outside tracked public files.
+- **MANUAL AUTHOR ACTION** - Before changing or renewing the pinned mirror,
+  repeat signed-out accessibility, direct/indirect identity, integrity, and
+  version checks. Direct-identifier removal cannot guarantee unlinkability
+  from older public versions of related work.
 - **PASS** - The author explicitly authorised the remote update and publication
   of the final repository state and constructed artefacts.
 - **MANUAL AUTHOR ACTION** - A future Zenodo deposit is recommended for FAIR

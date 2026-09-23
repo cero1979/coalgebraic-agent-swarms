@@ -22,6 +22,8 @@ class BuildSubmissionTests(unittest.TestCase):
         (self.root / "paper" / "generated").mkdir(parents=True)
         (self.root / "paper" / "figures").mkdir(parents=True)
         self.output.mkdir(parents=True)
+        self.review_url = "https://anonymous.4open.science/r/review-fixture/"
+        (self.root / ".anonymous-review-url").write_text(self.review_url + "\n", encoding="utf-8")
         (self.root / "cas-sc.cls").write_text("% class\n", encoding="utf-8")
         (self.root / "cas-common.sty").write_text("% style\n", encoding="utf-8")
         (self.root / "HIGHLIGHTS.md").write_text(
@@ -100,10 +102,13 @@ class BuildSubmissionTests(unittest.TestCase):
         self.assertNotIn("Named Author", rewritten)
         blinded_bib = (self.output / "references.bib").read_text(encoding="utf-8")
         self.assertIn("Anonymous Software Artifact", blinded_bib)
-        self.assertIn("Supplementary archive supplied", blinded_bib)
-        self.assertIn("separately uploaded anonymous replication archive", rewritten)
-        self.assertNotIn("anonymous.4open.science", blinded_bib)
-        self.assertNotIn("anonymous.4open.science", rewritten)
+        self.assertIn("Anonymous review repository and supplementary archive", blinded_bib)
+        self.assertIn("replication archive supplies the same research code and data", rewritten)
+        self.assertIn(self.review_url, blinded_bib)
+        self.assertIn(self.review_url, rewritten)
+        self.assertNotIn("ANONYMOUS_REVIEW_REPOSITORY", rewritten)
+        self.assertNotIn(".anonymous-review-url", names)
+        self.assertNotIn("coalgebraic-agent-swarms-0CD6", rewritten)
         self.assertNotIn("Named Author", blinded_bib)
         self.assertIn("unsrtnat.bst", names)
         self.assertIn(r"% \input{missing-commented-file}", rewritten)
@@ -132,6 +137,14 @@ class BuildSubmissionTests(unittest.TestCase):
 
         (self.output / "README_SUBMISSION.md").unlink()
         with self.assertRaisesRegex(SubmissionBuildError, "README_SUBMISSION.md"):
+            build_submission(root=self.root, output=self.output, compile_pdf=False)
+
+        (self.output / "README_SUBMISSION.md").write_text("# Submission\n", encoding="utf-8")
+        (self.root / ".anonymous-review-url").unlink()
+        with self.assertRaisesRegex(SubmissionBuildError, "anonymous-review-url"):
+            build_submission(root=self.root, output=self.output, compile_pdf=False)
+        (self.root / ".anonymous-review-url").write_text("https://github.com/identified/repo", encoding="utf-8")
+        with self.assertRaisesRegex(SubmissionBuildError, "anonymous review URL"):
             build_submission(root=self.root, output=self.output, compile_pdf=False)
 
     def test_missing_live_dependency_is_an_error(self) -> None:

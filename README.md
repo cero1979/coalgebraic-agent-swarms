@@ -110,8 +110,9 @@ manifests. `make paper` builds the identified `main.pdf`.
 Editorial Manager files under `output/submission/`, including an editable Word
 title page supplied locally by the author; `make submission-check` validates
 anonymity, dependency paths, checksums, and isolated compilation. These
-editorial targets require the local identified title page and cover letter and
-are not part of `make all` on a public clone. See
+editorial targets require the local identified title page and cover letter,
+plus the ignored `.anonymous-review-url` file containing the verified review
+mirror URL. They are not part of `make all` on a public clone. See
 `REPRODUCIBILITY.md` for prerequisites, individual experiment targets, and
 interpretation limits.
 
@@ -128,12 +129,16 @@ revised source and results. E4 wall-clock measurements may change when rerun.
 Because the live submission portal requests a manuscript without author
 identifiers, the local upload builder produces a separate anonymous review copy
 and an anonymous supplementary archive. These review-only files do not replace
-or alter the identified public repository or its historical release. A new
-anonymous mirror must be generated from the revised state and verified without
-sign-in for both accessibility and author-identity leaks before its URL is
-used in reviewer-facing material; the earlier mirror is not a valid reference
-for this revision. The local anonymous supplement is available independently
-of a remote mirror.
+or alter the identified public repository or its historical release. The
+author-side builder requires a locally configured, pinned anonymous mirror
+URL; a public clone can reproduce the research pipeline with `make all`, but
+cannot build the editorial package without that local configuration and the
+separate identified files. The mirror's URL is deliberately absent from this
+identified public README. The sanitised review snapshot excludes
+identity, editorial, and repository-history material, and is not
+auto-updated. Before changing it, repeat the signed-out access, identity, and
+version-match audit. Removing direct identifiers cannot guarantee
+unlinkability from older public versions of related work.
 
 No archival DOI has been assigned. The historical release has no DOI, and the
 revised manuscript identifies its artifact without inventing one. A future

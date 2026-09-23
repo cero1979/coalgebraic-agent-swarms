@@ -2067,7 +2067,7 @@ trace to an execution of a concrete raw coalgebra.
 
 \subsection{Reproducibility artefact}
 
-The replication package has five connected parts. The directory
+The replication package contains the following research components. The directory
 \texttt{prototype/} contains the finite rule specification, 19 fixed traces,
 the transactional checker, unit tests, and a SHA-256 manifest.
 \texttt{integrations/langgraph/} contains the three version-pinned
@@ -2075,8 +2075,9 @@ the transactional checker, unit tests, and a SHA-256 manifest.
 \texttt{experiments/} contains the E1--E4 runner, mutation operators,
 benchmark generator, tests, machine-readable outputs, and a second manifest.
 The files under \texttt{paper/generated/} are produced directly from those
-outputs. Finally, \texttt{scripts/} validates the evidence, manuscript
-constraints, and independently compilable flat submission package.
+outputs. Separate author-side scripts validate manuscript constraints and the
+independently compilable flat submission package; editorial files and
+identity-specific packaging tests are excluded from the anonymous snapshot.
 
 All evaluation inputs and outputs are original synthetic data created for this
 study. E1 uses manually designed conformance fixtures; E2 records deterministic
@@ -2094,11 +2095,12 @@ python3.12 -m venv .venv
 python -m pip install -r requirements.txt
 make all
 \end{verbatim}
-The target runs 57 unit tests, regenerates both result sets, verifies their
-SHA-256 manifests, and compiles the paper. The separate
-\texttt{make submission-check} target builds and compiles the flat Elsevier
-source bundle using locally supplied editorial files, including the identified
-title page; these are not needed to reproduce the research evidence. No model
+The anonymous snapshot's target runs 45 research tests, regenerates both
+result sets, verifies their SHA-256 manifests, and compiles the paper.
+The author-side checkout additionally runs 12 submission-packaging tests;
+its separate \texttt{make submission-check} target builds and compiles the
+flat Elsevier source bundle using locally supplied editorial files, including
+the identified title page. These files are not needed to reproduce the research evidence. No model
 endpoint, network service, or commercial API is used by the tests or
 experiments. E1--E3 are deterministic. E4 records new timing
 observations on each machine; the supplied JSON and CSV files retain all seven

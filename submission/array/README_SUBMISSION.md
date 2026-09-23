@@ -18,6 +18,11 @@ compiles all three TeX documents again in an isolated temporary directory and
 checks the manuscript, references, highlights, declarations, anonymity, layout,
 and manifest.
 
+Before either editorial target, the author must supply the ignored
+`.anonymous-review-url` file with the verified review mirror URL on one line,
+plus the separate identified title-page and cover-letter sources. The local
+review URL and title page are intentionally absent from the public checkout.
+
 The builder also creates the exact portal-ready files under
 `output/submission/`. Generated files in either location must not be edited
 manually because the next build will replace them.
@@ -46,15 +51,20 @@ author identifiers. The generated review manuscript follows the stricter live
 portal instruction; the title page preserves the complete author metadata in a
 separate file.
 
-The review manuscript cites the version-matched
+The review manuscript always cites the version-matched
 `array-anonymous-supplement.zip`, which must be uploaded separately as
-supplementary software/data. No external anonymous mirror is cited at present.
-The earlier `0CD6` mirror returned HTTP 401 on 23 September 2026. A second
-mirror (`D37C`) displayed the author's name and public GitHub URL inside files.
-Before adding a replacement URL, verify signed-out access, inspect the entire
-mirrored tree for author identifiers, and confirm that its source and results
-match this revision. A newly generated URL alone does not anonymise file
-contents.
+supplementary software/data. The required author-side local configuration
+adds the pinned, sanitised anonymous mirror URL. The final signed-out mirror
+download contained 81 files; after resolving its review-URL token, its
+research contents matched the audited template. All 11 flat
+manuscript-source files and 67 supplementary files matched the final local
+upload ZIPs byte-for-byte. The mirror omits compiled PDFs, which are supplied
+separately for the portal. It excludes identity, editorial, and
+repository-history files and is not auto-updated. Keep the unique review URL
+out of tracked public files. Before changing the snapshot or URL, repeat
+signed-out access, direct/indirect identity, integrity, and version-match
+checks. A sanitised mirror cannot guarantee unlinkability from older public
+versions of related work.
 
 The point-by-point reviewer response is compiled separately from
 `response_to_reviewers.tex` at the repository root. Upload
@@ -92,7 +102,8 @@ workflows. Checker acceptance certifies the stated structural obligations; it
 does not establish factual truth, cryptographic authenticity, adversarial
 security, full SELL proof search, or a mechanised proof.
 
-The local submission builder performs no remote write. The immutable GitHub
-release `v1.0.0` is an earlier baseline, not the version-matched revised
-supplement. A future release or archival deposit remains an explicit
-author-controlled action.
+The local submission builder performs no remote write. The revised public
+research files and the pinned anonymous review snapshot were published by
+separate author-controlled actions. The immutable GitHub release `v1.0.0` is
+an earlier baseline, not the version-matched revised supplement. A future
+release or archival deposit remains an explicit author-controlled action.
