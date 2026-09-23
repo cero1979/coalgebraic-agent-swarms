@@ -61,6 +61,7 @@
 \title[mode=title]{Resource-Sensitive Certification of Tool-Augmented Agent Swarms: Coalgebraic Semantics and LangGraph Validation}
 
 \shorttitle{Resource-Sensitive Certification of Agent Swarms}
+% ARRAY-ANON-BEGIN author-metadata
 \shortauthors{C.R. Ovalle}
 
 \author[1]{Carlos Ram\'irez Ovalle}
@@ -78,6 +79,7 @@ Writing -- original draft, Writing -- review and editing}
             country={Colombia}}
 
 \cortext[1]{Corresponding author}
+% ARRAY-ANON-END author-metadata
 
 \begin{document}
 \let\WriteBookmarks\relax
@@ -90,13 +92,15 @@ execution logs, but a recorded run does not by itself establish that
 permissions, budgets, provenance, and audit obligations were respected. We
 present a certification architecture for agent swarms in which coalgebra models
 observable state-based execution and a Subexponential Linear Logic-labelled
-ledger classifies reusable and consumable evidence. Raw executions are separated
-from certified executions that satisfy graph, permission, budget, append-only
-memory, provenance, audit-freshness, and answer-support conditions. For the
-implemented six-rule fragment, certified finite paths form a prefix-closed
-sublanguage of raw behaviour, and locally sound paths preserve the stated
-resource invariants. We implement an indexed, transactional trace checker and
-an adapter that captures native version-2 streams from three deterministic
+ledger classifies reusable and consumable evidence. The contribution is the
+connection between these layers: certification filters raw executions into
+those satisfying graph, permission, budget, append-only memory, provenance,
+audit-freshness, and answer-support conditions. For the implemented six-rule
+fragment, certified finite paths form a prefix-closed
+sublanguage of raw behaviour; local rule soundness yields finite-run resource
+preservation. We implement an indexed, transactional trace checker for that
+certificate language, along with an adapter that captures native version-2
+streams from three deterministic
 LangGraph 1.2.11 StateGraph workflows without a language model or commercial
 API. The checker matched all expectations in a 19-trace conformance suite,
 accepting five positive traces and rejecting fourteen negative controls. It
@@ -127,33 +131,41 @@ LangGraph
 
 \section{Introduction}
 
-Tool-augmented agent systems increasingly execute as graphs of specialised
-components. A planner routes work, workers invoke external tools, intermediate
-results enter shared state, and later components use those results to justify a
-final answer. AutoGen, LangGraph, and related orchestration systems make these
-operations explicit~\cite{wu2024autogen,li2024survey,langgraph2026handoffs}.
-Empirical studies also show that multi-agent workflows fail through faulty
-coordination, unverified outputs, and poor termination or state-management
-decisions~\cite{cemri2025mast}.
+Tool-augmented agent systems increasingly divide a task among specialised
+components. A planner delegates work, a worker invokes an external tool, a
+verifier examines a result, and a later component may use shared state to
+produce an answer. Such components form an agent swarm when their interactions
+are routed through a workflow rather than a single sequential agent. AutoGen,
+LangGraph, and related systems expose tool calls, state updates, and handoffs as
+execution records~\cite{wu2024autogen,li2024survey,langgraph2026handoffs}.
+Failures in coordination, unverified outputs, and state management have also
+been observed in multi-agent workflows~\cite{cemri2025mast}.
 
-A framework trace is useful operational evidence, but it is not yet a
-certificate. A recorded tool call need not have been authorised or affordable;
-a shared-state entry may lack provenance; a handoff may violate the declared
-topology; and a final answer may cite a claim that no authorised component
-linked to a source. Recent systems address important parts of this problem with
-runtime policy enforcement, temporal constraints, privilege control, and
-information-flow control~\cite{wang2026agentspec,kamath2025agentc,
-shi2025progent,debenedetti2026camel,costa2025fides}. The question studied here
-is narrower and complementary: given an observed multi-agent execution, which
-explicit evidence makes its resource-sensitive trace admissible?
+An execution record says what the framework reported; it does not by itself
+show that the run complied with a resource policy. A tool call may exceed an
+agent's permission or remaining budget. A handoff may use an undeclared edge;
+a memory entry may carry no provenance; an audit identifier may be reused; and
+the final answer may cite a claim with no previously certified source. Runtime
+enforcement, temporal constraints, privilege control, and information-flow
+systems address important aspects of agent safety~\cite{wang2026agentspec,
+kamath2025agentc,shi2025progent,
+debenedetti2026camel,costa2025fides}. Our question concerns the evidence needed
+to certify a completed, observable, resource-sensitive execution under one
+explicit policy.
 
-We separate two layers. A coalgebra describes the events a state-based swarm
-may emit. A side-conditioned, SELL-labelled certificate calculus checks whether
-each emitted event is justified by reusable permissions and policies,
-consumable budgets and audit obligations, append-only provenance records, and
-previously certified claim-source pairs. Certification therefore recognises a
-subcollection of raw finite paths; it does not alter the framework execution or
-assert that a tool result is true.
+We connect two existing techniques at the event-and-ledger interface. A
+coalgebra describes the raw events a state-based swarm may emit. A
+side-conditioned calculus interprets SELL labels as a distinction between
+reusable permissions, policies, and recorded evidence and consumable budgets
+and audit obligations. Each emitted tool call, write, handoff, message,
+certification, or answer becomes a candidate certificate step whose premises
+are checked against the current ledger. Successful steps select a certified
+safety sublanguage of raw finite paths, and a transactional checker recognises
+the fixed six-rule certificate language. The framework adapter supplies
+candidate events from independently executed workflows. Neither coalgebra,
+SELL, nor trace validation is claimed to be novel in isolation; the proposed
+result is their specified relationship for these resource obligations. It does
+not assert the factual truth of a tool result or final answer.
 
 \begin{figure}[tbp]
 \centering
@@ -344,11 +356,47 @@ The executable part of this paper is closer to a proof checker or certifying alg
 
 Several neighbouring formalisms solve different parts of the problem. Dynamic epistemic logic is a natural language for announcements, belief change, and information update \cite{vanditmarsch2007}; it is less directly aimed at linear budgets or tool permissions. Separation logic gives precise reasoning principles for mutable heap ownership and frame conditions \cite{reynolds2002}, but its native objects are heaplets rather than multi-agent handoff traces. Type-and-effect systems can statically approximate which tools or effects a program may use \cite{lucassen1988,nielson1999}, and algebraic effects give a semantic account of operations and handlers \cite{plotkin2003}, but these approaches usually abstract away from run-time provenance and audit obligations. Provenance models such as W3C PROV and database provenance give a vocabulary for source history and derivation \cite{moreau2013prov,buneman2001,cheney2009}; the present framework uses that intuition inside a resource-sensitive transition discipline rather than as a standalone metadata model. MDPs and POMDPs model optimal action under uncertainty \cite{puterman1994,kaelbling1998}; they are essential for policy and planning questions, but do not by themselves provide proof objects for resource use. Guardrails and tracing in engineering frameworks are operational checks and records; the aim here is to connect such checks to compositional obligations whose preservation follows across certified executions. The present framework should therefore be read as complementary to these approaches: coalgebra supplies observable dynamics, while SELL supplies labelled resource control over executions.
 
+\subsection{Limitations of Existing Approaches and Rationale for the Proposed Architecture}
+
+The comparison in Tables~\ref{tab:agent-safety-comparison}
+and~\ref{tab:formal-comparison} concerns verification targets rather than a
+ranking of methods. Live policy systems can stop disallowed tool actions as
+they occur, whereas the present checker evaluates a completed canonical trace
+after execution. Information-flow systems can provide guarantees beyond the
+presence of a provenance field; a provenance-capture system records origins,
+whereas our certificate rules additionally check permissions, budget changes,
+fresh audit identifiers, and claim-source links against one ledger. Those
+checks do not authenticate the captured origins or replace live enforcement.
+
+Process calculi and session types provide established accounts of
+communication, mobility, protocol fidelity, and sometimes quantitative cost.
+Our target is different: the execution framework already supplies a raw event
+sequence, and certification asks whether each observed step has admissible
+reusable evidence and sufficient consumable resources. Thus the graph check in
+this paper is weaker than session fidelity, while the ledger records source
+provenance and answer support that a basic channel type does not express by
+itself. Generic proof search could explore a broader logical language; the
+implemented checker instead recognises ground instances of six specified
+schemas with explicit side conditions.
+
+The resulting gap is an independently checkable connection between an observed
+multi-agent run and a finite resource certificate. The coalgebra supplies the
+candidate behaviour, the SELL-labelled ledger defines admissibility, the
+preservation argument transfers local obligations across a finite run, and the
+checker decides the implemented certificate language. Actual LangGraph streams
+test that a framework execution can reach this interface. These claims are
+conditional on trustworthy instrumentation and the stated deterministic
+specification; they do not imply protocol progress, factual validity, or
+security against fabricated but internally consistent evidence.
+
 \section{Preliminaries}
 
 \subsection{Agents as external behaviours}
 
-Let \(\Obs\) be a set of observations and \(\Act\) a set of actions. A classical extensional representation of an agent is a function
+Let \(\Obs\) be a set of observations and \(\Act\) a set of actions. Write
+\(\Obs^{*}\) for finite observation words, \(\varepsilon\) for the empty
+word, and juxtaposition for word concatenation. A classical extensional
+representation of an agent is a function
 \[
   f:\Obs^{*}\to\Act,
 \]
@@ -401,7 +449,9 @@ with coalgebra structure \(\zeta:B\to\Act\times B^{\Obs}\) defined by
   \qquad
   b_p(w)=b(pw),
 \]
-is a final \(F\)-coalgebra. Hence every \(F\)-coalgebra \(c:X\to\Act\times X^{\Obs}\) induces a unique behaviour map
+for \(b\in B\), \(p\in\Obs\), and \(w\in\Obs^*\). This is a final
+\(F\)-coalgebra. Hence every \(F\)-coalgebra
+\(c:X\to\Act\times X^{\Obs}\) induces a unique behaviour map
 \[
   \sem{-}:X\to\Act^{\Obs^{*}}.
 \]
@@ -433,7 +483,9 @@ Thus \(\Delta\) carries consumable resources, while \(\Theta\) carries resources
 The preceding account must be refined for modern agents, since their observable outputs are not merely ordinary actions. They may call tools, send messages, delegate control, emit a final answer, update memory, or emit audit evidence. We therefore distinguish between \emph{raw events}, which may occur in an implementation trace, and \emph{well-typed events}, which are compatible with the swarm interface.
 
 \begin{definition}[Local event interface]
-For an agent \(i\), let
+For an agent \(i\), let \(\Obs_i\) be its local observations and
+\(\Act_i\) its ordinary actions. Each remaining summand below is a set of
+events of the indicated kind, and \(+\) denotes tagged disjoint union. Let
 \[
   \Ev_i
   =
@@ -488,6 +540,12 @@ An interaction graph is a directed graph
 where \(V\) is the set of agents and \((i,j)\in E_{\Gamma}\) means that agent \(i\) may send a message or hand off control to agent \(j\).
 \end{definition}
 
+Fix universes \(\Tool\), \(\Key\), \(\Val\), \(\Prov\), \(\Claim\), and
+\(\Trace\) of tool identifiers, shared-memory keys, stored values, provenance
+records, claim identifiers, and audit identifiers, respectively. The
+executable specification later takes both \(V\) and \(\Tool\) to be finite.
+For each \(i,j\in V\), the tagged event sets
+\(\Msg_{ij}\) and \(\Handoff_{ij}\) record source \(i\) and target \(j\).
 For a fixed graph \(\Gamma\), define the raw event interface
 \[
 \begin{aligned}
@@ -499,25 +557,31 @@ For a fixed graph \(\Gamma\), define the raw event interface
   +\mathsf{Certify}_i+\mathsf{Answer}_i+\mathsf{TraceItem}_i).
 \end{aligned}
 \]
-The well-typed graph-compatible events form a subset \(\Ev_{\Gamma}\subseteq\RawEv_{\Gamma}\) obtained by retaining only those message and handoff events whose endpoints lie in \(E_{\Gamma}\). Tool permissions and budgets are not built into this type: they are checked by the resource layer.
+Here \(\sum\) denotes indexed tagged disjoint union. The well-typed
+graph-compatible events form a subset \(\Ev_{\Gamma}\subseteq\RawEv_{\Gamma}\)
+obtained by retaining only those message and handoff events whose endpoints
+lie in \(E_{\Gamma}\). Tool permissions and budgets are not built into this
+type: they are checked by the resource layer.
 
-Shared memory is treated as a provenance-carrying finite partial map
+Let \(\Mem\) be the set of provenance-carrying finite partial maps
 \[
   M:\Key\rightharpoonup \Val\times\Prov.
 \]
 If \(M(k)=(v,p)\), then key \(k\) stores value \(v\) together with provenance record \(p\), for instance the tool call, source identifier, and trace item by which the value entered the shared context. We write \(M\sqsubseteq M'\) when \(M'\) extends \(M\) without changing any previously recorded binding. The deterministic core uses this append-only discipline for shared source keys; mutable scratchpads and overwritten local state remain inside the local state spaces \(X_i\).
 
-Let the global state space be
+Let \(\Env\) be an environment-state set, and let \(\Obs_{\Gamma}\) be the
+global observation alphabet supplied with the swarm model. Let \(\Res\) be
+the set of resource ledgers of the following shape. The global state space is
 \[
   X_{\Gamma}=Y_{\Gamma}\times\Res,
   \qquad
-  Y_{\Gamma}=\prod_{i\in V}X_i\times \Mem\times\Env.
+  Y_{\Gamma}=\Bigl(\prod_{i\in V}X_i\Bigr)\times \Mem\times\Env.
 \]
 The component \(Y_{\Gamma}\) contains local agent states, shared memory, and environment state; the \(\Res\) component stores the resource ledger. We use a ledger of the form
 \[
   R=(\beta,\pi,\tau,\kappa),
 \]
-where \(\beta:V\to\Nat\) gives the available linear budget per agent, \(\pi\subseteq V\times\Tool\) records reusable tool permissions, \(\tau\subseteq\Trace\) is the emitted audit log, and \(\kappa\subseteq\Claim\times\Key\) records certified claims together with the shared-memory key that supports each claim. Thus certification is not just a Boolean flag on a sentence: it binds a claim to a source in the shared memory.
+where \(\beta:V\to\Nat\) gives the available linear budget per agent, \(\pi\subseteq V\times\Tool\) records reusable tool permissions, \(\tau\subseteq\Trace\) is the set of emitted audit identifiers, and \(\kappa\subseteq\Claim\times\Key\) records certified claims together with the shared-memory key that supports each claim. Thus certification is not just a Boolean flag on a sentence: it binds a claim to a source in the shared memory.
 
 \begin{definition}[Raw swarm coalgebra]
 Given an interaction graph \(\Gamma\), a deterministic raw swarm coalgebra is a map
@@ -585,6 +649,8 @@ where \(\Obs_{\Gamma}^{+}\) is the set of non-empty finite observation words. He
 
 This is the standard final coalgebra of the deterministic Mealy
 functor~\cite{rutten2000,bonsangue2008,jacobs2016}. Concretely,
+write \((B_{\Gamma},\zeta_{\Gamma})\) for this final coalgebra, with
+\(B_{\Gamma}=\RawEv_{\Gamma}^{\Obs_{\Gamma}^{+}}\). Then
 \(\sem{-}_{\Gamma}\) is the unique function such that, whenever
 \(C(x)(o)=(e,x')\),
 \[
@@ -662,7 +728,7 @@ For~(2), let \(x\in X_{\cert}\) and \(o\in\Obs_{\Gamma}\), and write \(C_{\cert}
 \]
 Since this holds for every \(x\in X_{\cert}\) and \(o\in\Obs_{\Gamma}\), the diagram \(S_{\Gamma}(\iota)\circ C_{\cert}=C\circ\iota\) commutes, so \(\iota\) is a coalgebra morphism.
 
-For~(3), by Proposition~\ref{prop:final-swarm-semantics}, the unique behaviour map \(\sem{-}_{\Gamma}\) is the unique morphism to the final \(S_{\Gamma}\)-coalgebra \((B_{\Gamma},\zeta)\). Since \(\iota\) is a coalgebra morphism from \((X_{\cert},C_{\cert})\) to \((X_{\Gamma},C)\), the composition \(\sem{-}_{\Gamma}\circ\iota:X_{\cert}\to B_{\Gamma}\) is a coalgebra morphism from \((X_{\cert},C_{\cert})\) to \((B_{\Gamma},\zeta)\). By finality this equals \(\sem{-}_{C_{\cert}}\), giving \(\sem{x}_{C_{\cert}}=\sem{\iota(x)}_{\Gamma}\) for every \(x\in X_{\cert}\).
+For~(3), by Proposition~\ref{prop:final-swarm-semantics}, the unique behaviour map \(\sem{-}_{\Gamma}\) is the unique morphism to the final \(S_{\Gamma}\)-coalgebra \((B_{\Gamma},\zeta_{\Gamma})\). Since \(\iota\) is a coalgebra morphism from \((X_{\cert},C_{\cert})\) to \((X_{\Gamma},C)\), the composition \(\sem{-}_{\Gamma}\circ\iota:X_{\cert}\to B_{\Gamma}\) is a coalgebra morphism from \((X_{\cert},C_{\cert})\) to \((B_{\Gamma},\zeta_{\Gamma})\). By finality this equals \(\sem{-}_{C_{\cert}}\), giving \(\sem{x}_{C_{\cert}}=\sem{\iota(x)}_{\Gamma}\) for every \(x\in X_{\cert}\).
 \end{proof}
 
 Certification always filters finite paths. Under the total-certifiability and
@@ -819,6 +885,9 @@ schemas below use direct graph edges as explicit side conditions and do not
 inspect another agent's private zone. The reachability order is therefore an
 extension point for future cross-agent context rules, not an experimentally
 exercised feature of the current checker.
+These choices fix \(\Sigma_{\Gamma}=(I_{\Gamma},\preceq_{\Gamma},U_{\Gamma})\).
+The set \(U_{\Gamma}\) is upward closed: every generator whose left-hand
+label is in \(U_{\Gamma}\) has its right-hand label in \(U_{\Gamma}\).
 
 \subsection{From SELL Sequents to Executable Certificates}\label{subsec:sell-sequents-certificates}
 
@@ -857,11 +926,26 @@ where \(\Delta\) is a multiset of linear tokens and \(\Theta\) is a labelled sub
    \Theta_{\mathsf{tool}_i}).
 \end{aligned}
 \]
-The reusable components of \(\Theta\) contain program and policy facts such as \(!^{\mathsf{tool}_i}\mathsf{mayUse}(i,t)\), \(!^{\mathsf{shared}}\mathsf{source}(k,v,p)\), \(!^{\mathsf{trace}}\mathsf{emitted}(q)\), and \(!^{\mathsf{mem}}\mathsf{remembered}(k)\). Linear components of \(\Delta\) contain consumable budget tokens and audit obligations. Expressions such as \(F@\mathsf{budget}_i\) below are label annotations on these linear tokens, not an assertion that they may be contracted. The bridge to the executable checker is obtained by reading each successful side-condition check and rule instance as a certificate object whose conclusion fixes the next ledger \(R'\). Failed premises become checker rejections.
+Here \(\uplus\) denotes multiset union. The reusable components of
+\(\Theta\) contain program and policy facts such as
+\(!^{\mathsf{tool}_i}\mathsf{mayUse}(i,t)\),
+\(!^{\mathsf{shared}}\mathsf{source}(k,v,p)\),
+\(!^{\mathsf{trace}}\mathsf{emitted}(q)\), and
+\(!^{\mathsf{mem}}\mathsf{remembered}(k)\). Linear components of
+\(\Delta\) contain consumable budget tokens and audit obligations.
+Expressions such as \(F@\mathsf{budget}_i\) below are label annotations on
+these linear tokens, not an assertion that they may be contracted. The bridge
+to the executable checker is obtained by reading each successful
+side-condition check and rule instance as a certificate object whose
+conclusion fixes the next ledger \(R'\). Failed premises become checker
+rejections.
 
-For a finite swarm specification \(\mathcal S\), fix a finite tool set
-\(\Tool\), a permission relation \(\pi\subseteq V\times\Tool\), and an
-authorised-certifier set \(\mathsf{Certifiers}\subseteq V\). Let
+For a finite swarm specification \(\mathcal S\), assume \(V\) and \(\Tool\)
+are finite, and fix a permission relation \(\pi\subseteq V\times\Tool\), a cost map
+\(\cost:\Tool\to\Nat\), and an authorised-certifier set
+\(\mathsf{Certifiers}\subseteq V\). For each directed edge \((i,j)\), let
+\(\mathsf{policy}_{ij}\) and \(\mathsf{msgPolicy}_{ij}\) be the configured
+Boolean predicates on handoff and message payloads, respectively. Let
 \(K_{\mathcal S}\) denote the reusable static facts for known agents, graph
 edges, payload policies, tool costs and permissions, authorised certifiers, and
 the six rule schemas. The
@@ -876,7 +960,8 @@ dynamic ledger-to-context interpretation is:
   &\{!^{\mathsf{shared}}\mathsf{certified}(a,k)\mid (a,k)\in\kappa\}.
 \end{aligned}
 \]
-For an auditable event with identifier \(q\), the admissible linear source
+Here \(M(y)\) denotes the shared-memory projection of \(y\in Y_{\Gamma}\).
+For an auditable event with identifier \(q\in\Trace\), the admissible linear source
 context additionally contains exactly one token
 \(\mathsf{obl}(q)@\mathsf{obl}\). Thus
 \(\mathsf{AdmCtx}_{\mathcal S}((y,R),\Delta,\Theta)\) means that the dynamic facts
@@ -893,9 +978,11 @@ To state the executable predicates exactly, define
 \[
   \mathsf{NonBlank}(z)
   \quad\Longleftrightarrow\quad
-  z\text{ is a string and }\operatorname{strip}(z)\ne\epsilon.
+  z\text{ is a string and }\operatorname{strip}(z)\ne\text{the empty string}.
 \]
-For a JSON provenance value, define \(\mathsf{ExplicitProv}\) recursively: a
+Here \(\operatorname{strip}\) removes leading and trailing whitespace.
+For the executable six-rule instance, \(\Prov\) consists of JSON provenance
+values. Define \(\mathsf{ExplicitProv}\) recursively: a
 string is explicit exactly when it is \(\mathsf{NonBlank}\); an object or list
 is explicit exactly when it is non-empty and at least one of its values or
 elements is explicit; and another JSON scalar is explicit exactly when it is
@@ -904,7 +991,21 @@ elements is explicit; and another JSON scalar is explicit exactly when it is
 only from such values are not explicit. This is the predicate implemented by
 \texttt{has\_explicit\_provenance}.
 
-For a tool call by agent \(i\) using tool \(t\), let \(q\) be a fresh trace identifier, let \(r=\cost(t)\), and let \(W\) be a finite list of writes \((s,k,v,p)\), where \(s\in\{\mathsf{shared},\mathsf{local}\}\). Let \(W_{\mathsf{sh}}\) be the shared writes. Every shared key in \(W_{\mathsf{sh}}\) must be fresh (also within the batch), and its submitted provenance value \(p\) must satisfy \(\mathsf{ExplicitProv}(p)\). The checker treats \(p\) as an opaque record: it preserves but does not authenticate it. Write \(M[W_{\mathsf{sh}}]\) for simultaneous extension by the shared writes; local effects remain in the opaque non-ledger component of \(y'\). The rule is sound only when \((i,t)\in\pi\), \(\beta(i)\ge r\), the write conditions hold, and
+For a tool call by agent \(i\) using tool \(t\), let \(q\in\Trace\) be a fresh
+trace identifier, let \(r=\cost(t)\), and let \(W\) be a finite list of writes
+\((s,k,v,p)\), where \(s\in\{\mathsf{shared},\mathsf{local}\}\),
+\(k\in\Key\), \(v\in\Val\), and \(p\in\Prov\) for shared writes. Let
+\(W_{\mathsf{sh}}\) be the shared sublist, and let
+\(\mathsf{keys}(W_{\mathsf{sh}})\) list its keys. The predicate
+\(\operatorname{pairwiseDistinct}\) says that no two entries in this key list
+are equal. Every shared key in
+\(W_{\mathsf{sh}}\) must be fresh (also within the batch), and its submitted
+provenance value \(p\) must satisfy \(\mathsf{ExplicitProv}(p)\). The checker
+treats \(p\) as an opaque record: it preserves but does not authenticate it.
+Write \(M[W_{\mathsf{sh}}]\) for simultaneous extension by the shared writes;
+local effects remain in the opaque non-ledger component of \(y'\). The rule is
+sound only when \((i,t)\in\pi\), \(\beta(i)\ge r\), the write conditions hold,
+and
 \[
   R'=(\beta[i\mapsto\beta(i)-r],\pi,\tau\cup\{q\},\kappa).
 \]
@@ -928,7 +1029,8 @@ At the certificate-calculus level this is represented by the schema
 \]
 The budget premise is linear: the certificate consumes the old budget token and produces the reduced one. The write premises give append-only provenance, and trace freshness prevents one identifier from witnessing two obligations. We abbreviate \(\mathsf{call}(i,t,\emptyset,q)\) as \(\mathsf{call}(i,t,q)\); the JSON field \texttt{writes} supplies \(W\) in the executable schema.
 
-A resource-level SELL reading of the same schema is the following transformer:
+A resource-level SELL reading of the same schema, with
+\(n\in\Nat\) denoting the current budget of \(i\), is the following transformer:
 \[
 \begin{aligned}
   &\mathsf{budget}(i,n)@\mathsf{budget}_i,
@@ -986,7 +1088,8 @@ The corresponding schema is
   \quad\text{with }M(y')=M(y)
 }.
 \]
-Messages use the same graph-and-audit discipline, without transferring control:
+For a message payload \(m\), messages use the same graph-and-audit discipline,
+without transferring control:
 \[
 \frac{
   (i,j)\in E_{\Gamma}
@@ -1016,7 +1119,10 @@ Here again \(R'=(\beta,\pi,\tau\cup\{q\},\kappa)\). For certification, a verifie
   \quad\text{with }M(y')=M(y)
 },
 \]
-where \(R'=(\beta,\pi,\tau\cup\{q\},\kappa\cup\{(a,k)\})\). Finally, an answer rule can cite only already certified claims:
+where \(R'=(\beta,\pi,\tau\cup\{q\},\kappa\cup\{(a,k)\})\). Finally, let
+\(A\subseteq\Claim\) be the finite set of claims cited by an answer and
+\(k_a\in\Key\) a source key witnessing support for claim \(a\). An answer
+rule can cite only already certified claims:
 \[
 \frac{
   i\in V
@@ -1031,6 +1137,8 @@ where \(R'=(\beta,\pi,\tau\cup\{q\},\kappa\cup\{(a,k)\})\). Finally, an answer r
 },
 \]
 where \(R'=(\beta,\pi,\tau\cup\{q\},\kappa)\). These six schemas are the minimal calculus used in the preservation theorem and in the prototype: tool calls spend budget, memory writes create provenance-carrying source keys, handoffs and messages enforce the graph policy, certification binds claims to those keys, and answers use only certified evidence.
+Raw event constructors without one of these six schemas are outside the
+certified language of this implementation.
 
 The six schemas have a uniform SELL-indexed resource reading. Formulas under
 labels in \(U_{\Gamma}\) represent reusable policy or evidence facts, whereas
@@ -1072,12 +1180,15 @@ governed by three explicit boundaries.
   submitted trace.
 
 \item \textbf{Decidability.}
-  Because each premise reduces to a membership or freshness test over sets derived from the finite
-  specification \(\mathcal{S}\), the fragment is decidable.
+  For a finite ground JSON trace, each premise is decidable by finite
+  specification membership and freshness tests, integer arithmetic on finite encodings,
+  JSON type and payload checks, and finite scans of the submitted write,
+  claim, and provenance values. This establishes decidability of the fixed
+  six-schema fragment, not of arbitrary SELL proof search.
   The decision procedure is the abstract checker \(\TraceCheck_{\mathcal{S}}\) defined in
   Section~\ref{sec:prototype} (Definition~\ref{def:tracecheck} and Algorithm~\ref{alg:tracecheck}):
-  it processes a finite event sequence from left to right in a single pass, performing only
-  finite membership and freshness tests at each step.
+  it processes a finite event sequence from left to right in a single pass,
+  performing these finite checks at each step.
 \end{enumerate}
 
 These boundaries support the correspondence result
@@ -1175,7 +1286,19 @@ unchanged, so the budget equation is \(\beta'(i)=\beta(i)-0\). These cases
 exhaust the calculus, proving the lemma.
 \end{proof}
 
-The purpose of Lemma~\ref{lem:calculus-local-soundness} is not to establish a new metatheorem of SELL. Its role is \emph{architectural}: it is the precise bridge between the six labelled rule schemas of Section~\ref{subsec:sell-sequents-certificates} and the global resource-preservation statement of Theorem~\ref{thm:resource-preservation}. Without it, the preservation theorem would depend on informally assumed rule correctness. With it, the proof obligations are finitely enumerated and each case is independently verifiable. This structure mirrors compiler correctness proofs~\cite{leroy2009compcert}, where local instruction-preservation lemmas are stated case by case before they are composed into a global simulation argument. The explicit case decomposition also delineates the mechanisation target: encoding each case as a goal in Coq or Agda would replace the present paper proof with a mechanically checked one, upgrading the bridge from informal to formal without changing the statement of Theorem~\ref{thm:resource-preservation}.
+The proof dependencies are explicit. The six operational schemas discharge
+Definition~\ref{def:local-soundness} by
+Lemma~\ref{lem:calculus-local-soundness};
+Theorem~\ref{thm:resource-preservation} then composes locally sound steps
+along a finite raw execution. Proposition~\ref{prop:prototype-soundness}
+shows that an accepted checker trace determines such a ledger run, and
+Proposition~\ref{prop:checker-adequacy} adds the converse for ground,
+JSON-admissible instances of the same six schemas. Applying the preservation
+theorem to a checker trace additionally requires evidence that a raw
+coalgebra emitted it. None of these statements is a completeness theorem for
+SELL. The case decomposition also delineates a possible mechanisation target:
+each case could be encoded as a goal in a proof assistant, but that
+mechanisation is not part of the present results.
 
 \subsection{Logical status of the resource interpretation}
 
@@ -1288,7 +1411,7 @@ certification, and audit conclusions of Theorem~\ref{thm:resource-preservation}.
 Apply Theorem~\ref{thm:resource-preservation} to an arbitrary finite prefix. Since the prefix was arbitrary, the property holds for all finite prefixes.
 \end{proof}
 
-For a fixed raw coalgebra \(C\) and initial state \(x_0=(y_0,R_0)\), let \(\mathcal{L}_{\mathrm{raw}}(C,x_0)\) be the set of finite words
+For a fixed raw coalgebra \(C\) and initial state \(x_0=(y_0,R_0)\), let \(\mathcal{L}_{\mathrm{raw}}(C,x_0)\) be the set of finite words, for \(n\ge0\),
 \[
   (o_0,e_0)\cdots(o_{n-1},e_{n-1})
 \]
@@ -1319,6 +1442,17 @@ The theorem is conditional on explicit local soundness assumptions. This is the 
 
 Proposition~\ref{prop:certified-safety-sublanguage} collects three useful closure properties. First, the certified sublanguage is \emph{prefix-closed}: any truncation of a certified word remains certified. Second, certified paths \emph{compose} when their boundary state and ledger agree. Third, rejected prefixes act as finite bad prefixes in the safety-monitoring sense of Alpern and Schneider~\cite{alpern1987safety}. These properties explain why the side-conditioned certificate calculus supports incremental monitoring; they are not presented as a new characterisation theorem for safety languages in general.
 \end{remark}
+
+The prefix argument uses the stepwise definition of certification: every
+prefix of a certified sequence begins at the same initial state and consists
+only of transitions already certified under the fixed specification
+\(\mathcal S\). It does not require all raw paths to be certifiable. A model
+with nondeterministic choices would need its own behavioural functor and
+certificate relation before this argument could be restated for its selected
+paths. If graph edges or policies change during execution, those changes must
+be represented in state or in a per-step specification, and each certificate
+must be checked against the version effective at that step. Neither extension
+is part of Proposition~\ref{prop:certified-safety-sublanguage}.
 
 \subsection{Disjoint composition of certified ledger traces}
 
@@ -1496,12 +1630,34 @@ The prototype is not intended to be a complete SELL proof-search engine. Instead
 For a finite swarm specification \(\mathcal{S}\) with agents, graph edges, tools, costs, permissions, certifiers, initial budgets, and auditable event kinds, define
 \[
   \TraceCheck_{\mathcal{S}}
-  : \mathsf{JSONTrace}_{\mathcal{S}}^{*}
+  : \mathsf{JSONEvent}_{\mathcal{S}}^{*}
   \longrightarrow
   (\{\Accept\}\times\mathsf{CheckState})
   + (\{\mathsf{Reject}\}\times\mathsf{Diag}^{*}).
 \]
-The function processes a finite event list \(T=e_1\cdots e_n\) from left to right. Its state is \((\beta,M,\kappa,\tau,D)\), consisting of the current budgets, shared memory, certified claim-source pairs, trace identifiers, and diagnostics. It starts from \((\beta_0,\varnothing,\varnothing,\varnothing,\varnothing)\). At step \(r\), it validates the canonical step and event shape and applies the corresponding one of the six certificate clauses. Tool calls require a known agent and tool, permission, sufficient budget, a fresh audit item, and valid batched writes. Memory updates require a known writer, a non-empty write list, admissible scopes, fresh shared keys, explicit provenance for shared writes, and a fresh audit item. Handoffs and messages require known endpoints, a graph edge, policy admissibility, and a fresh audit item. Certifications require an authorised certifier, a non-empty claim, a pre-existing source key, and a fresh audit item. Answers require a known author, a list of already certified claims, and a fresh audit item. Validation first constructs a pending event plan. If any premise fails, all its diagnostics are appended to \(D\) and no ledger effect of that event is committed; otherwise the plan is committed atomically. The result is \(\Accept\) with the final state iff \(D\) is empty, and \(\mathsf{Reject}\) with diagnostics otherwise.
+Here \(\mathsf{JSONEvent}_{\mathcal S}\) is the set of candidate JSON event
+records, including records whose fields may fail validation.
+\(\mathsf{CheckState}\) is the set of projected
+ledger states \((\beta,M,\kappa,\tau)\), and \(\mathsf{Diag}^{*}\) is the set
+of finite diagnostic lists. The function processes a finite event list
+\(T=e_1\cdots e_n\) from left to right. Its working state adds a diagnostic
+list \(D\) to the projected ledger state and starts from
+\((\beta_0,\varnothing,\varnothing,\varnothing,\varnothing)\). At step \(r\),
+it validates the canonical step and event shape and applies the corresponding
+one of the six certificate clauses. Tool calls require a known agent and tool,
+permission, sufficient budget, a fresh audit item, and valid batched writes.
+Memory updates require a known writer, a non-empty write list, admissible
+scopes, fresh shared keys, explicit provenance for shared writes, and a fresh
+audit item. Handoffs and messages require known endpoints, a graph edge,
+policy admissibility, and a fresh audit item. Certifications require an
+authorised certifier, a non-empty claim, a pre-existing source key, and a fresh
+audit item. Answers require a known author, a list of already certified claims,
+and a fresh audit item. Validation first constructs a pending event plan \(P\)
+using an index \(I\) of the static specification. If any premise fails, all
+diagnostics of \(P\) are appended to \(D\) and no ledger effect of that event
+is committed; otherwise \(P\) is committed atomically. The result is
+\(\Accept\) with the final projected ledger state iff \(D\) is empty, and
+\(\mathsf{Reject}\) with diagnostics otherwise.
 \end{definition}
 
 \begin{algorithm}[t]
@@ -1540,13 +1696,24 @@ The function \(\TraceCheck_{\mathcal{S}}\) processes a trace from left to right 
 
 First, for every auditable event, the trace clause checks that a trace identifier is present and has not previously appeared. Thus the transition from the current trace set \(\tau\) to the next trace set \(\tau'\) satisfies \(\tau\subseteq\tau'\), and for auditable events there is a fresh \(q\in\tau'\setminus\tau\).
 
-Second, if the event is a tool call, the tool-call clause verifies that the acting agent is known, that the tool exists, that the agent belongs to the tool's allowed-agent list, and that the current budget is at least the tool cost. If these checks pass, \(\TraceCheck_{\mathcal{S}}\) subtracts exactly \(\mathsf{spend}_i(e)\) from the acting agent's budget and leaves other agents' budgets unchanged. Hence the permission and budget clauses of Definition~\ref{def:local-soundness} hold. Shared-memory writes are processed by the memory-write clause, which rejects missing keys, unsupported scopes, missing explicit provenance, and attempts to overwrite an existing shared key; accepted writes therefore extend memory monotonically with the submitted provenance record.
+Second, if the event is a tool call, the tool-call clause verifies that the acting agent is known, that the tool exists, that the agent belongs to the tool's allowed-agent list, and that the current budget is at least the tool cost. If these checks pass, \(\TraceCheck_{\mathcal{S}}\) subtracts exactly \(\mathsf{spend}_i(e)\) from the acting agent's budget and leaves other agents' budgets unchanged. Hence the permission and budget clauses of Definition~\ref{def:local-soundness} hold. The write validator is applied both to tool-call batches and to separate memory-update events; it rejects missing keys, unsupported scopes, missing explicit provenance, duplicate shared keys within a batch, and attempts to overwrite an existing shared key. Accepted writes therefore extend memory monotonically with the submitted provenance records.
 
 Third, if the event is a handoff or message, the corresponding clause verifies that both endpoint agents are known, the directed edge belongs to the interaction graph, and the payload satisfies the configured policy. Hence the graph and payload-policy conditions hold.
 
 Fourth, if the event certifies a claim, the certification clause verifies that the certifying agent is authorised and that the cited source is already present in shared memory before adding the claim to the certified-claim set. Hence every newly certified claim is source-supported. If the event is a final answer, the answer clause verifies that each cited claim is already certified, so the answer condition holds. Every successful event keeps the permission ledger fixed, never removes a certified claim, and leaves non-acting budgets unchanged. The empty initial memory and claim set are source-well-formed, and the accepted updates preserve that property.
 
-The abstract checker records a diagnostic whenever one of these obligations fails. Therefore an accepted trace has no failed local-soundness obligation. Reading each accepted event as the corresponding operational schema yields the required finite certified ledger run. Connecting that run to a raw coalgebra requires independent evidence that the framework or implementation emitted the candidate trace; Section~\ref{sec:external-validation} supplies such evidence for the LangGraph cases.
+For each event, validation reads the ledger produced by the preceding
+successful commits. A failed event leaves budgets, memory, certified claims,
+and audit identifiers unchanged; a successful event commits all its validated
+updates together. Thus no partially applied event can be used as the premise
+of a later certificate. The abstract checker records a diagnostic whenever
+one of the obligations above fails. An accepted trace has no failed
+local-soundness obligation, and reading each accepted event as its
+corresponding operational schema yields the required finite certified ledger
+run. Connecting that run to a raw coalgebra requires independent evidence
+that the framework or implementation emitted the candidate trace;
+Section~\ref{sec:external-validation} supplies such evidence for the
+LangGraph cases.
 \end{proof}
 
 The accepted handcrafted traces are minimal research-assistant conformance
@@ -1555,27 +1722,28 @@ budget, provenance, certification, and audit failures. Section~\ref{sec:external
 reports their regenerated outcomes as E1 and keeps them distinct from traces
 emitted by the external framework.
 
-Table~\ref{tab:obligation-checker-map} makes the correspondence explicit. Each formal obligation is discharged by one of the certificate schemas, implemented by a checker routine, and exercised by at least one positive or negative trace.
+Table~\ref{tab:obligation-checker-map} makes the correspondence explicit. Each listed obligation is discharged by a certificate schema, implemented by a checker routine, and exercised by at least one E1 or E3 evaluation case.
 
 \begin{table}[htbp]
 \centering
 \scriptsize
 \begin{tabular}{>{\raggedright\arraybackslash}p{0.20\linewidth}>{\raggedright\arraybackslash}p{0.19\linewidth}>{\raggedright\arraybackslash}p{0.20\linewidth}>{\raggedright\arraybackslash}p{0.29\linewidth}}
 \toprule
-Formal obligation & Certificate rule & Checker routine & Exercising traces \\
+Formal obligation & Certificate rule & Checker routine & Exercising E1/E3 cases \\
 \midrule
 Graph edge for handoffs/messages & \(\mathsf{handoff}\), \(\mathsf{message}\) & \texttt{validate\_handoff}, \texttt{validate\_message} & \texttt{valid\_research\_swarm}; \texttt{invalid\_handoff\_violation}, \texttt{invalid\_message\_violation} \\
 Payload policy for handoffs/messages & \(\mathsf{handoff}\), \(\mathsf{message}\) & \texttt{payload\_allowed} & \texttt{valid\_research\_swarm}; \texttt{invalid\_payload\_policy} \\
 Tool permission and known tool & \(\mathsf{call}\) & \texttt{validate\_tool\_call} & \texttt{valid\_two\_source\_research\_swarm}; \texttt{invalid\_tool\_permission}, \texttt{invalid\_unknown\_tool} \\
 Linear budget consumption & \(\mathsf{call}\) & \texttt{validate\_tool\_call} & \texttt{valid\_research\_swarm}; \texttt{invalid\_budget\_violation} \\
 Append-only source memory & \(\mathsf{writeMemory}\) & \texttt{validate\_writes} & \texttt{valid\_research\_swarm}; \texttt{invalid\_shared\_memory\_overwrite}, \texttt{invalid\_bad\_memory\_scope} \\
+Explicit shared-write provenance & \(\mathsf{call}\), \(\mathsf{writeMemory}\) & \texttt{validate\_writes} & E1: provenance-bearing valid traces; E3: \texttt{missing\_provenance} mutation \\
 Fresh audit evidence & all auditable rules & \texttt{validate\_trace} & \texttt{valid\_research\_swarm}; \texttt{invalid\_missing\_trace}, \texttt{invalid\_duplicate\_trace} \\
 Claim-source certification & \(\mathsf{certify}\) & \texttt{validate\_certify} & \texttt{valid\_two\_source\_research\_swarm}; \texttt{invalid\_certificate\_source}, \texttt{invalid\_unauthorized\_certifier} \\
 Answer cites certified claims & \(\mathsf{answer}\) & \texttt{validate\_answer} & \texttt{valid\_research\_swarm}; \texttt{invalid\_uncertified\_answer} \\
 Known participating agents & all agent-indexed rules & \texttt{require\_known\_agent} & valid traces; \texttt{invalid\_unknown\_agent} \\
 \bottomrule
 \end{tabular}
-\caption{Correspondence between formal obligations, certificate rules, checker routines, and conformance traces.}
+\caption{Correspondence between formal obligations, certificate rules, checker routines, and E1 conformance or E3 mutation cases.}
 \label{tab:obligation-checker-map}
 \end{table}
 
@@ -1738,12 +1906,25 @@ detected} only if it is rejected with exactly that code at that step and no
 additional diagnostic. This protocol measures seeded obligation detection; it
 does not estimate real attack frequency or general security accuracy.
 
+The mutation design follows the checker obligations in
+Table~\ref{tab:obligation-checker-map}. Thirteen targeted failure classes
+occur in both the negative E1 fixtures and E3 operators; E1 additionally
+tests an invalid memory scope, while E3 additionally tests missing
+provenance on a framework-derived trace. Each E3 operator is applied once
+to each of the three independently executed E2 source traces. Thus the 42
+cases are the Cartesian product of fourteen selected violation classes and
+three source traces, not 42 independent draws from a population of failures.
+Positive E1 fixtures and the unmodified E2 runs check that the rules do not
+reject the intended admissible paths. This is obligation coverage for the
+implemented six-schema fragment, not exhaustive coverage of event values,
+rule interactions, framework behaviours, or attack strategies.
+
 E4 generates accepted traces alternating permitted \texttt{message} and
 \texttt{handoff} events with unique audit identifiers at lengths 10, 100,
 1,000, 5,000, and 10,000. It times \texttt{check\_trace}, including rule
 indexing but excluding input copying, for seven runs after one warmup. The
 recorded environment was CPython 3.12.10 in a translated x86-64 process on an
-arm64 Apple M3 Pro host running macOS 26.5.2. This restricted workload is an
+arm64 Apple M3 Pro host running macOS 27.0. This restricted workload is an
 implementation sanity check, not a proof of asymptotic complexity or a
 production benchmark.
 
@@ -1757,8 +1938,9 @@ recorded outputs rather than from generated prose.
 
 \subsection{Results}
 
-All tables in this subsection are generated by
-\texttt{experiments/run\_all.py} from committed JSON and CSV outputs.
+The tables and machine-readable JSON and CSV files in this subsection are
+generated together from the same E1--E4 result objects by
+\texttt{experiments/run\_all.py}.
 
 \input{paper/generated/conformance_table.tex}
 
@@ -1780,6 +1962,17 @@ mutations were strictly detected, so there were no false acceptances within the
 generated set. The result shows exact agreement with the seeded obligations; it
 does not show resistance to mutations outside the event schema or to an
 adaptive adversary.
+
+In particular, changing a recorded tool, actor, edge, cost-bearing call,
+shared-memory key, claim source, or audit identifier so that an explicit rule
+premise fails is detectable by the present checker. A fabricated provenance
+record that remains well formed and internally consistent is not: the checker
+tests the presence and linkage of evidence, not its origin or truth. It also
+does not authenticate timestamps or detect replay when an attacker can replace
+audit identifiers with fresh ones and produce an otherwise admissible trace.
+Tampering with the rule specification itself lies outside the trace-only
+adversary considered here. These are limits of the trust model, not missed
+cases counted in Table~\ref{tab:e3-mutations}.
 
 \input{paper/generated/runtime_table.tex}
 
@@ -1824,7 +2017,10 @@ Thus a global state and a global observation determine one raw event and one nex
 motivates the product state used by the global swarm coalgebra. The global map
 \(C\) is nevertheless supplied as part of the model; this paper does not prove
 a generic construction of \(C\) from an arbitrary family of local maps
-\(c_i\). A probabilistic variant would replace \(\RawEv_{\Gamma}\times X\) by \(\D(\RawEv_{\Gamma}\times X)\), but no theorem in this paper depends on that variant.
+\(c_i\). A probabilistic variant would replace \(\RawEv_{\Gamma}\times X\) by
+\(\D(\RawEv_{\Gamma}\times X)\), as suggested by probabilistic coalgebraic
+and decision-process semantics~\cite{sokolova2011,feys2018}; no theorem in
+this paper depends on that variant.
 
 The genericity boundary is as follows. Existence of a behaviour map and
 bisimulation invariance use only the chosen functor and its final coalgebra.
@@ -1833,6 +2029,10 @@ coalgebra structure factors through that inclusion is a subcoalgebra. The paper
 instantiates this standard pattern for the deterministic Mealy functor because
 its certificate rules inspect concrete events and ledgers. The distributional
 shape above is an extension point, not a probabilistic theorem claimed here.
+The graph \(\Gamma\) and its payload policies are fixed by \(\mathcal S\)
+throughout a certified run. Dynamic routing that changes the authorised
+interaction graph would require recording the effective topology and policy
+version at each step and revising the certificate rules accordingly.
 
 \paragraph{Assumption 3: SELL is used as a certification discipline.}
 The paper fixes a concrete subexponential preorder \(\preceq_{\Gamma}\), a labelled context shape \(\Delta;\Theta\), and rule schemas for tool calls, memory writes, handoffs, messages, certification, and answers. These ingredients use SELL-labelled contexts to distinguish reusable, local, consumable, and auditable resources. Table~\ref{tab:certificate-obligations} records the operational rule-to-obligation correspondence, and Lemma~\ref{lem:calculus-local-soundness} proves local soundness for the six schemas. The checker is not a full SELL proof-search engine. Instead, Definition~\ref{def:local-soundness} specifies the obligations that any implementation of the rules must discharge: graph preservation, permission checking, budget accounting, shared-memory provenance, trace freshness, certification monotonicity, and answer safety. Proposition~\ref{prop:checker-adequacy} proves exact correspondence only for ground runs of the implemented operational schemas. A full sequent-calculus implementation or proof-assistant mechanisation would require an explicit encoding beyond the present resource interpretation.
@@ -1894,17 +2094,21 @@ python3.12 -m venv .venv
 python -m pip install -r requirements.txt
 make all
 \end{verbatim}
-The target runs 56 unit tests, regenerates both result sets, verifies their
+The target runs 57 unit tests, regenerates both result sets, verifies their
 SHA-256 manifests, compiles the paper, creates a flat Elsevier source bundle,
 and compiles that bundle in isolation. No model endpoint, network service, or
 commercial API is used. E1--E3 are deterministic. E4 records new timing
-observations on each machine; the committed JSON and CSV files retain all seven
+observations on each machine; the supplied JSON and CSV files retain all seven
 measurements per size, their quartiles, the timing scope, and the execution
-environment. The exact software snapshot is published as the immutable GitHub
-release identified in Reference~\cite{artifact2026}; the original synthetic
-data are also distributed as a separately checksummed release asset
-\cite{artifactdata2026}. GitHub's release attestation and the supplied SHA-256
-inventory bind those assets to version 1.0.0. No archival DOI is claimed.
+environment.
+% ARRAY-ANON-BEGIN reproducibility-release
+A versioned baseline of the software and original synthetic data is published
+as immutable GitHub release 1.0.0~\cite{artifact2026,artifactdata2026}. The
+revised source, regenerated E4 observations, tables, and integrity manifests
+used in this manuscript are supplied in the accompanying replication archive.
+The release attestation and published SHA-256 inventory bind the earlier 1.0.0
+assets, not later timing measurements. No archival DOI is claimed.
+% ARRAY-ANON-END reproducibility-release
 
 \subsection{Threats to validity and limitations}
 
@@ -1948,17 +2152,34 @@ The interpretation of the results is bounded in the following ways.
   are outside the proved results.
 \end{enumerate}
 
+Two extension boundaries matter especially for deployment. First,
+stochastic tool or LLM outputs, dynamic tool selection, asynchronous event
+arrival, and parallel agents would require an explicit event-order or
+partial-order semantics and corresponding certification rules; the current
+deterministic, sequential checker cannot be cited as a result for those
+settings. A changing interaction graph would likewise have to be represented
+in the state and governed by its own certified update rule. Second, an
+adversarial setting would require an authenticated binding between native
+framework records, canonical events, source contents, audit times, and the
+policy version. Without that binding, a forged but internally consistent
+record can satisfy every structural rule. Evaluation on an independently
+designed attack corpus and a second framework adapter are necessary before
+claiming security or interoperability beyond the present instrumented
+LangGraph workflows.
+
 \section{Discussion}
 
 The contribution is a bounded connection between semantics, certificates, and
 framework evidence. A raw coalgebra describes candidate observable execution
-steps. The certificate calculus consumes or reuses labelled resources while
-selecting the steps that satisfy the finite policy, and the checker implements
-that same ledger transformer. The common event and ledger interface is the
+steps. For each candidate event, the certificate calculus checks its current
+ledger premises and determines the next ledger; local soundness and finite-run
+preservation justify the admitted path. The checker implements that same
+six-schema ledger transformer, and the adapter supplies candidate events from
+the retained framework stream. This event-and-ledger interface is the
 operational interplay between the layers: a tool call, memory write, handoff,
 message, certification, or answer is both an emitted observation and a
-resource-sensitive transition. This is not a distributive law, a new general
-coalgebraic construction, or a completeness result for SELL.
+resource-sensitive transition. The result is neither a distributive law nor a
+completeness theorem for SELL.
 
 The subexponential labels make a useful distinction that a single unrestricted
 context would hide: permissions and recorded evidence are reusable, whereas
@@ -1990,24 +2211,28 @@ detected. They do not establish superiority over those systems.
 
 \section{Conclusion}
 
-This work presents a resource-certification architecture for tool-augmented
-agent swarms. Deterministic coalgebras describe raw observable behaviour; a
-SELL-labelled, side-conditioned calculus distinguishes reusable permissions
-and evidence from consumable budgets and obligations; and a transactional
-checker recognises the resulting finite certificate language. Under the stated
-hypotheses, certified finite paths form a prefix-closed safety sublanguage and
-preserve graph, budget, provenance, certification, and audit invariants.
-Disjoint certified ledger traces can be interleaved without changing their
-component projections.
+The formal result is a connection from raw observable execution to checked
+resource certificates. For the deterministic coalgebra and fixed
+specification, the six locally sound operational rules select a prefix-closed
+safety sublanguage of raw finite paths. Local soundness implies finite-run
+preservation of permissions, budgets, provenance-bearing memory, audit
+freshness, and answer support; the checker recognises precisely the
+JSON-admissible ground instances of those rules. Disjoint certified ledger
+traces may also be interleaved without changing their component projections
+under the stated namespace assumptions.
 
-The executable evaluation matched all 19 fixed conformance expectations,
-accepted three canonical traces derived from actual LangGraph 1.2.11
-\texttt{StateGraph} executions, and strictly detected all 42 controlled
-mutations across fourteen obligations. A communication-only scaling experiment
-covered 10 to 10,000 events with seven measured repetitions per size. These
-results show executable integration and controlled fault detection in the
+The executable evaluation matched all 19 fixed conformance expectations:
+five positive traces were accepted and fourteen targeted controls rejected.
+Three unmodified canonical traces derived from actual LangGraph 1.2.11
+\texttt{StateGraph} executions were accepted, and all 42 controlled mutations
+across fourteen categories were rejected at the expected step with the
+expected code. A communication-only sanity check covered 10 to 10,000 events
+with seven measured repetitions per size; its observed trend is consistent
+with, but does not establish, the expected linear acceptance pass. These
+results support executable integration and seeded obligation detection in the
 studied deterministic setting. They do not establish factual correctness,
-live prevention, information-flow security, or production-scale generality.
+live prevention, information-flow security, adversarial robustness, or
+production-scale performance.
 
 The most valuable next steps are a second independently implemented framework
 adapter, online enforcement before tool effects, proof-assistant mechanisation
@@ -2018,6 +2243,7 @@ the model can support claims about production governance.
 
 %% ---- Back matter required by Array / Elsevier ----
 
+% ARRAY-ANON-BEGIN credit-statement
 \section*{CRediT authorship contribution statement}
 \textbf{Carlos Ram\'irez Ovalle:} Conceptualization, Data curation,
 Formal analysis, Investigation, Methodology, Project administration, Software,
@@ -2025,6 +2251,7 @@ Validation, Visualization, Writing -- original draft, Writing -- review and
 editing.
 
 \printcredits
+% ARRAY-ANON-END credit-statement
 
 \section*{Declaration of competing interests}
 The author declares that there are no competing interests.
@@ -2033,24 +2260,29 @@ The author declares that there are no competing interests.
 This research did not receive any specific grant from funding agencies
 in the public, commercial, or not-for-profit sectors.
 
+% ARRAY-ANON-BEGIN data-availability
 \section*{Data and code availability}
 All research data reported in this article are original synthetic data generated
 for the study. The 19 conformance traces, native and canonical LangGraph records,
 42 mutation cases, scaling inputs, raw timing observations, environment
 metadata, generated tables, source code, and SHA-256 manifests are included in
-the replication package~\cite{artifact2026,artifactdata2026}. No reference or
-third-party dataset was analysed. Version 1.0.0 of the software and data is
-available from the immutable public release
+the replication package accompanying this manuscript. No reference or
+third-party dataset was analysed. An earlier versioned baseline of the
+software and data is available from the immutable public release
 \url{https://github.com/cero1979/coalgebraic-agent-swarms/releases/tag/v1.0.0}.
-The release is identified by a GitHub attestation and published SHA-256
-checksums; no archival DOI has been assigned.
+The baseline release~\cite{artifact2026,artifactdata2026} is identified by a
+GitHub attestation and published SHA-256 checksums; it does not substitute for
+the version-matched supplementary archive containing this revision's timing
+records. No archival DOI has been assigned.
+% ARRAY-ANON-END data-availability
 
 \section*{Declaration of generative AI and AI-assisted technologies in the manuscript preparation process}
 During the preparation of this work, the author used OpenAI Codex to assist with
 repository auditing, software development and testing, literature organisation,
-and language and structural editing. The author reviewed and edited all outputs,
-independently verified the cited sources and reported results, and takes full
-responsibility for the content of the publication.
+and language and structural editing. After using this tool, the author reviewed
+and edited the content as needed, independently verified the cited sources and
+reported results, and takes full responsibility for the content of the
+published article.
 
 
 %% ---- References ----

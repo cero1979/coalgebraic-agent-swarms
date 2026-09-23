@@ -2,10 +2,16 @@ from __future__ import annotations
 
 import tempfile
 import unittest
+import zipfile
 from pathlib import Path
 from unittest.mock import patch
 
-from scripts.build_submission import SubmissionBuildError, _run_latexmk, build_submission
+from scripts.build_submission import (
+    SubmissionBuildError,
+    _run_latexmk,
+    build_editorial_uploads,
+    build_submission,
+)
 
 
 class BuildSubmissionTests(unittest.TestCase):
@@ -23,7 +29,14 @@ class BuildSubmissionTests(unittest.TestCase):
             encoding="utf-8",
         )
         (self.root / "references.bib").write_text(
-            "@article{example, title={Example}}\n", encoding="utf-8"
+            "@article{example, title={Example}}\n"
+            "% ARRAY-ANON-BEGIN artifact-software\n"
+            "@misc{artifact2026, author={Named Author}}\n"
+            "% ARRAY-ANON-END artifact-software\n"
+            "% ARRAY-ANON-BEGIN artifact-data\n"
+            "@misc{artifactdata2026, author={Named Author}}\n"
+            "% ARRAY-ANON-END artifact-data\n",
+            encoding="utf-8",
         )
         (self.root / "unsrtnat.bst").write_text("% bst\n", encoding="utf-8")
         (self.root / "paper" / "generated" / "table.tex").write_text(
@@ -31,11 +44,23 @@ class BuildSubmissionTests(unittest.TestCase):
         )
         (self.root / "paper" / "figures" / "plot.pdf").write_bytes(b"%PDF-fixture")
         (self.root / "main.tex").write_text(
-            "\\documentclass{cas-sc}\n"
+            "\\documentclass[a4paper]{cas-sc}\n"
             "% \\input{missing-commented-file}\n"
+            "% ARRAY-ANON-BEGIN author-metadata\n"
+            "\\author[]{Named Author}\n"
+            "% ARRAY-ANON-END author-metadata\n"
             "\\begin{document}\n"
             "\\input{paper/generated/table}\n"
             "\\includegraphics{paper/figures/plot.pdf}\n"
+            "% ARRAY-ANON-BEGIN reproducibility-release\n"
+            "A public identifying release.\n"
+            "% ARRAY-ANON-END reproducibility-release\n"
+            "% ARRAY-ANON-BEGIN credit-statement\n"
+            "Named credit.\n"
+            "% ARRAY-ANON-END credit-statement\n"
+            "% ARRAY-ANON-BEGIN data-availability\n"
+            "An identifying data URL.\n"
+            "% ARRAY-ANON-END data-availability\n"
             "\\bibliographystyle{unsrtnat}\n"
             "\\bibliography{references}\n"
             "\\end{document}\n",
@@ -43,10 +68,14 @@ class BuildSubmissionTests(unittest.TestCase):
         )
         for name, content in (
             ("cover_letter.tex", "\\documentclass{article}\\begin{document}Cover\\end{document}\n"),
+            ("title_page.tex", "\\documentclass{article}\\begin{document}Title page\\end{document}\n"),
             ("README_SUBMISSION.md", "# Submission\n"),
             ("submission_checklist.md", "# Checklist\n"),
         ):
             (self.output / name).write_text(content, encoding="utf-8")
+        with zipfile.ZipFile(self.root / "title_page.docx", "w") as handle:
+            handle.writestr("[Content_Types].xml", "<Types/>")
+            handle.writestr("word/document.xml", "<document/>")
 
     def tearDown(self) -> None:
         self.temporary.cleanup()
@@ -66,10 +95,34 @@ class BuildSubmissionTests(unittest.TestCase):
         self.assertIn(r"\input{paper__generated__table.tex}", rewritten)
         self.assertIn(r"\includegraphics{paper__figures__plot.pdf}", rewritten)
         self.assertIn(r"\bibliography{references}", rewritten)
+        self.assertIn("doubleblind", rewritten)
+        self.assertIn("Anonymous author(s)", rewritten)
+        self.assertNotIn("Named Author", rewritten)
+        blinded_bib = (self.output / "references.bib").read_text(encoding="utf-8")
+        self.assertIn("Anonymous Software Artifact", blinded_bib)
+        self.assertIn("Supplementary archive supplied", blinded_bib)
+        self.assertIn("separately uploaded anonymous replication archive", rewritten)
+        self.assertNotIn("anonymous.4open.science", blinded_bib)
+        self.assertNotIn("anonymous.4open.science", rewritten)
+        self.assertNotIn("Named Author", blinded_bib)
         self.assertIn("unsrtnat.bst", names)
         self.assertIn(r"% \input{missing-commented-file}", rewritten)
         self.assertTrue((self.output / "BUILD_MANIFEST.json").is_file())
         self.assertFalse((self.output / "stale.abs").exists())
+
+        for name in ("main.pdf", "cover_letter.pdf", "title_page.pdf"):
+            (self.output / name).write_bytes(b"%PDF-fixture")
+        uploads = self.root / "output" / "submission"
+        upload_names = build_editorial_uploads(self.output, uploads)
+        self.assertIn("array-manuscript-source.zip", upload_names)
+        self.assertIn("array-title-page.docx", upload_names)
+        with zipfile.ZipFile(uploads / "array-manuscript-source.zip") as handle:
+            archived = handle.namelist()
+        self.assertTrue(archived)
+        self.assertTrue(all(Path(name).name == name for name in archived))
+        self.assertNotIn("cover_letter.tex", archived)
+        self.assertNotIn("title_page.tex", archived)
+        self.assertNotIn("title_page.docx", archived)
 
     def test_author_files_are_required_and_existing_files_survive_rebuild(self) -> None:
         cover = self.output / "cover_letter.tex"

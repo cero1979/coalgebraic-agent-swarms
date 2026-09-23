@@ -5,12 +5,14 @@ import io
 import json
 import tempfile
 import unittest
+import zipfile
 from contextlib import redirect_stdout
 from pathlib import Path
 from types import SimpleNamespace
 from unittest.mock import patch
 
 from scripts.validate_submission import (
+    UNSAFE_REVIEW_REPOSITORY_URLS,
     compile_in_isolation,
     parse_highlights,
     main as validation_main,
@@ -26,8 +28,9 @@ class ValidateSubmissionTests(unittest.TestCase):
         self.bundle = Path(self.temporary.name) / "array"
         self.bundle.mkdir()
         main = r"""
-\documentclass{cas-sc}
+\documentclass[doubleblind]{cas-sc}
 \begin{document}
+The version-matched software and data are supplied in an anonymous supplementary archive.
 \begin{abstract}
 This concise abstract reports a deterministic executable validation study.
 \end{abstract}
@@ -58,12 +61,17 @@ See Figure~\ref{fig:pipeline} and cite the artifact~\cite{artifact}.
             "cas-common.sty": b"style",
             "cover_letter.tex": b"Array Regular Paper cover letter",
             "cover_letter.pdf": b"pdf",
+            "title_page.tex": b"Author title page",
+            "title_page.pdf": b"pdf",
             "README_SUBMISSION.md": b"readme",
             "submission_checklist.md": b"checklist",
             "unsrtnat.bst": b"bst",
         }
         for name, content in dummy_files.items():
             (self.bundle / name).write_bytes(content)
+        with zipfile.ZipFile(self.bundle / "title_page.docx", "w") as handle:
+            handle.writestr("[Content_Types].xml", "<Types/>")
+            handle.writestr("word/document.xml", "<document/>")
         self._write_manifest()
 
     def tearDown(self) -> None:
@@ -115,6 +123,23 @@ See Figure~\ref{fig:pipeline} and cite the artifact~\cite{artifact}.
         self.assertIn("missing-label", codes)
         self.assertIn("uncited-float", codes)
 
+        main_path.write_text(
+            main_path.read_text(encoding="utf-8").replace(
+                r"\begin{document}",
+                r"\author[]{Carlos Ramirez Ovalle}\begin{document}",
+            ),
+            encoding="utf-8",
+        )
+        codes = {issue.code for issue in validate_content(self.bundle)}
+        self.assertIn("author-surname", codes)
+
+        main_path.write_text(
+            main_path.read_text(encoding="utf-8") + "\n" + UNSAFE_REVIEW_REPOSITORY_URLS[0],
+            encoding="utf-8",
+        )
+        codes = {issue.code for issue in validate_content(self.bundle)}
+        self.assertIn("unsafe-review-repository", codes)
+
     def test_manifest_detects_tampering_and_nested_layout(self) -> None:
         (self.bundle / "main.pdf").write_bytes(b"changed")
         (self.bundle / "main.abs").write_text("generated\n", encoding="utf-8")
@@ -123,6 +148,15 @@ See Figure~\ref{fig:pipeline} and cite the artifact~\cite{artifact}.
         self.assertIn("build-artifact", codes)
         self.assertIn("bundle-manifest", codes)
         self.assertIn("non-flat-layout", codes)
+
+    def test_known_unsafe_mirrors_are_rejected(self) -> None:
+        main_path = self.bundle / "main.tex"
+        original = main_path.read_text(encoding="utf-8")
+        for unsafe_url in UNSAFE_REVIEW_REPOSITORY_URLS:
+            with self.subTest(unsafe_url=unsafe_url):
+                main_path.write_text(original + "\n" + unsafe_url, encoding="utf-8")
+                codes = {issue.code for issue in validate_content(self.bundle)}
+                self.assertIn("unsafe-review-repository", codes)
 
     def test_tex_word_count_ignores_commands_and_math(self) -> None:
         self.assertEqual(4, word_count(r"A \emph{small} test with $x+y$."))

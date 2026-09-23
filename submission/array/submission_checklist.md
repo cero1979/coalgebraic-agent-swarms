@@ -1,16 +1,16 @@
 # Array pre-submission status checklist
 
-Status snapshot: 2026-08-20, after the complete automated build, clean-result
-capture, isolated package validation, full visual inspection, remote
-reconciliation, and publication of release `v1.0.0`. `PASS` records objective
-evidence already present. It does not replace the author's scientific or
-publishing approval.
+Status snapshot: 2026-09-23, after the reviewer-response revision, complete
+automated build, and isolated package validation. `PASS` records objective
+evidence already present. Historical release checks are identified as such.
+It does not replace the author's scientific or publishing approval.
 
 ## Author and article metadata
 
-- **PASS** - The current source and cover letter identify the work as a
-  **Regular Paper** for **Array** and use the same article title.
-- **PASS** - The current abstract has 217 words, within the 250-word limit.
+- **PASS** - The public source, separate title page, and cover letter identify
+  the work as a **Regular Paper** for **Array** and use the same article title;
+  the generated review manuscript intentionally withholds author identifiers.
+- **PASS** - The current abstract has 223 words, within the 250-word limit.
 - **PASS** - The current manuscript has seven keywords, within the 1--7 limit.
 - **PASS** - `HIGHLIGHTS.md` has five highlights; their lengths are 67, 70, 70,
   72, and 73 characters, all within the 85-character limit.
@@ -43,7 +43,7 @@ publishing approval.
 
 ## Final technical freeze
 
-- **PASS** - `make all` compiled the final manuscript to a 34-page PDF with no
+- **PASS** - `make all` compiled the revised manuscript to a 35-page PDF with no
   undefined citation or cross-reference in the final log.
 - **PASS** - The submission validator found no missing, duplicate, or unused
   citation keys and BibTeX completed without warnings or errors.
@@ -51,24 +51,36 @@ publishing approval.
   every figure label is cited in the manuscript.
 - **PASS** - The frozen flat package contains every editable/generated table
   source and every table label is cited in the manuscript.
-- **PASS** - The builder collected an 18-file flat submission package containing
-  the manuscript source, bibliography, Elsevier class/style files, flattened
-  figure/table sources, highlights, cover letter, PDFs, and integrity manifest.
-- **PASS** - The intended source, generated results, manifests, and checklist are
-  frozen on public tag `v1.0.0`; the release tag and assets are protected by
-  GitHub immutable releases and a signed attestation.
-- **PASS** - `make all` passed 56 tests: 26 checker, five LangGraph integration,
-  fourteen experiment, and eleven submission-script tests; it also completed
+- **PASS** - The builder creates a flat anonymous manuscript source archive,
+  keeps the identified title page and cover letter as separate portal items,
+  and records SHA-256 values for every generated upload file.
+- **PASS** - Public tag `v1.0.0` remains an immutable identified research
+  snapshot. The anonymous Editorial Manager packaging is generated locally from
+  the same scientific sources and is intentionally not represented as part of
+  that already-published immutable release.
+- **PASS** - `make all` passed 57 tests: 26 checker, five LangGraph integration,
+  fourteen experiment, and twelve submission-script tests; it also completed
   all builds and the isolated submission check.
-- **PASS** - Final E1--E4 reproduction was recorded from clean release-candidate
-  commit `f4653a379471905cae2697eb35eb99f1d8eb3507`; the environment record
-  reports `repository_worktree_dirty: false` and the pinned dependency versions.
+- **HISTORICAL** - The August 20 E1--E4 release-candidate reproduction was
+  recorded from clean commit `f4653a379471905cae2697eb35eb99f1d8eb3507`.
+  The September 23 reviewer revision regenerated E1--E4 in the current working
+  tree; its environment record correctly reports `repository_worktree_dirty:
+  true`. The deterministic E1--E3 counts remain unchanged; E4 timings are new
+  local measurements.
 - **PASS** - Both result manifests verify all recorded SHA-256 entries, and the
   submission validator verifies every flat-bundle entry against
   `BUILD_MANIFEST.json`.
 - **PASS** - The Array-specific `cover_letter.tex` exists, names the article
   type and destination, reports the evidence and limitations, and contains no
   stale journal correspondence.
+- **PASS** - `title_page.docx` separately records name, affiliation, address,
+  corresponding-author status, email, ORCID, CRediT roles, funding, and
+  competing interests in the editable Word format requested by the portal;
+  `title_page.tex` remains an editable LaTeX alternative.
+- **PASS** - The anonymous manuscript source and bibliography contain no author
+  name, email, ORCID, affiliation, repository username, or public self-release
+  URL; they cite the separately uploaded anonymous supplement instead. The PDF
+  uses the CAS `doubleblind` option and an empty author metadata field.
 - **PASS** - The flat-bundle builder and objective submission validator are
   present in `scripts/`, and their intended commands are documented in
   `README_SUBMISSION.md`.
@@ -105,16 +117,24 @@ publishing approval.
 - **MANUAL AUTHOR ACTION** - Enter the dataset title exactly as:
   **Coalgebraic Agent Swarms: Conformance Traces and LangGraph Validation
   Outputs**.
-- **PASS** - Immutable public GitHub release `v1.0.0` identifies the exact
-  software snapshot and carries a signed release attestation. No archival DOI is
-  claimed or required by the manuscript.
-- **PASS** - `main.tex`, `references.bib`, `CITATION.cff`, and the availability
-  text cite the exact release and separately checksummed dataset-asset URLs.
+- **HISTORICAL** - Immutable public GitHub release `v1.0.0` identifies the
+  earlier baseline and carries a signed release attestation. It does not
+  contain this revision's regenerated E4 timings or revised manuscript. No
+  archival DOI is claimed.
+- **PASS** - The identified manuscript and bibliography cite the historical
+  release accurately; the anonymous manuscript cites the version-matched
+  supplementary archive instead. `CITATION.cff` describes release `v1.0.0`.
 - **PASS** - A clean public release-candidate checkout passed committed-manifest
   verification and the complete documented pipeline without a private file,
   local-only path, LLM key, commercial API, or external research dataset.
 - **PASS** - Repository visibility, release assets, SHA-256 inventory, software
   licence, data licence, and release attestation were verified after publication.
+- **PASS** - The anonymous manuscript and cover letter currently rely on the
+  locally generated, version-matched supplementary ZIP rather than an
+  unavailable or identifying external mirror. Upload this ZIP as a separate
+  supplementary item. The former `0CD6` mirror returned HTTP 401; the `D37C`
+  mirror exposed author-identifying source content. Add a new URL only after
+  signed-out accessibility, identity, and version checks all pass.
 - **PASS** - The author explicitly authorised the remote update and publication
   of the final repository state and constructed artefacts.
 - **MANUAL AUTHOR ACTION** - A future Zenodo deposit is recommended for FAIR
@@ -130,7 +150,8 @@ publishing approval.
   grant supported the research.
 - **MANUAL AUTHOR ACTION** - Reconfirm the funding statement and enter matching
   information in the portal.
-- **PASS** - The manuscript contains a CRediT authorship contribution statement.
+- **PASS** - The identified CRediT statement is in the separate title page; the
+  anonymous manuscript contains only a neutral pointer to that file.
 - **PASS** - The manuscript contains a generative-AI declaration that describes
   Codex assistance beyond grammar-only editing and assigns review and
   responsibility to the author.
@@ -155,11 +176,12 @@ publishing approval.
   reported that the package is flat, complete, and independently compilable.
 - **PASS** - `BUILD_MANIFEST.json` matches every recorded flat-bundle file; no
   nested directory or prohibited auxiliary file is present.
-- **PASS** - Two visual passes covered all 34 physical manuscript pages and both
-  cover-letter pages. After repairing Figure 1, the independent final pass found
-  no clipping, blank page, overlap, broken table, missing figure, unresolved
-  reference, placeholder, or missing glyph; Ghostscript processed both PDFs
-  without a structural error.
+- **PASS** - The revised 35-page anonymous manuscript compiled and representative
+  opening, evaluation, and closing pages were visually inspected without
+  clipping, overlap, broken tables, missing figures, unresolved references,
+  placeholders, or missing glyphs. The ten-page response-to-reviewers PDF was
+  also rendered and inspected. The August 20 full-page inspection applied to
+  the preceding 34-page version, not automatically to this revision.
 - **PASS** - The final PDFs were compiled from the frozen editable sources and
   checked against them for title, author, abstract, keywords, figures, tables,
   declarations, references, and cover-letter statements.

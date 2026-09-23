@@ -61,6 +61,7 @@ clean: ## Remove local build caches and LaTeX auxiliary files; retain results an
 	@if [ -d "$(SUBMISSION_DIR)" ]; then \
 		$(LATEXMK) -c -cd "$(SUBMISSION_DIR)/main.tex" 2>/dev/null || true; \
 		$(LATEXMK) -c -cd "$(SUBMISSION_DIR)/cover_letter.tex" 2>/dev/null || true; \
+		$(LATEXMK) -c -cd "$(SUBMISSION_DIR)/title_page.tex" 2>/dev/null || true; \
 	fi
 	find . -type d -name __pycache__ -prune -exec rm -rf {} +
 	find . -type f \( -name '*.pyc' -o -name '*.pyo' \) -delete

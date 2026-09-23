@@ -1,10 +1,10 @@
 # Reproducibility Guide
 
 This guide reproduces the software tests, four evaluation groups, manuscript,
-and flat *Array* submission package from a clean checkout. The reference
-snapshot is the immutable public GitHub release `v1.0.0`:
-
-<https://github.com/cero1979/coalgebraic-agent-swarms/releases/tag/v1.0.0>
+and flat *Array* submission package from a clean checkout of the revised
+default branch. Record the checked-out commit: the older immutable public
+release `v1.0.0` is a historical baseline, not the source of this revision's
+tables and timing data.
 
 ## 1. Prerequisites
 
@@ -14,13 +14,13 @@ snapshot is the immutable public GitHub release `v1.0.0`:
   for the paper and flat submission package;
 - sufficient local disk space for the pinned Python environment.
 
-Clone the tagged snapshot, create the reference environment, and install the
-exact dependencies:
+Clone the revised default branch, record its commit, create the reference
+environment, and install the pinned dependencies:
 
 ```bash
-git clone --branch v1.0.0 --depth 1 \
-  https://github.com/cero1979/coalgebraic-agent-swarms.git
+git clone https://github.com/cero1979/coalgebraic-agent-swarms.git
 cd coalgebraic-agent-swarms
+git rev-parse HEAD
 python3.12 -m venv .venv
 . .venv/bin/activate
 python -m pip install -r requirements.txt
@@ -32,7 +32,7 @@ commercial service, dataset download, or network call.
 
 The recorded experiment environment is CPython 3.12.10 with LangGraph 1.2.11
 and `langchain-core` 1.5.4. The recorded E4 measurements were collected in an
-x86_64 translated process on an arm64 Apple M3 Pro running macOS 26.5.2. Exact
+x86_64 translated process on an arm64 Apple M3 Pro running macOS 27.0. Exact
 timings are platform-dependent.
 
 ## 2. End-to-End Reproduction
@@ -220,15 +220,33 @@ Run the objective checks and an isolated compilation with:
 make submission-check
 ```
 
-The generated `submission/array/` directory is a local build artefact. Before
-upload, the author must inspect the PDFs, declarations, author metadata,
-highlights, bibliography, and package manifest.
+The generated `submission/array/` directory is a local staging artefact. The
+portal-ready files are under `output/submission/`: a flat anonymous LaTeX source
+ZIP, anonymous manuscript preview, separate identified editable Word title
+page (with LaTeX source and PDF preview), confidential cover letter, highlights,
+anonymous supplementary archive, instructions, and SHA-256 inventory. Do not
+upload the complete staging directory as a single
+manuscript item because it deliberately contains both anonymous and identified
+documents.
+
+The validator rejects nested LaTeX dependency references and direct author
+identifiers in the review manuscript. It compiles the anonymous manuscript,
+title page, and cover letter independently in a fresh directory. The anonymous
+supplement removes repository commit/branch identifiers and refreshes both
+integrity manifests after that transformation.
+
+The local anonymous supplement provides reviewer access to the revised code,
+synthetic inputs, and results without relying on a remote mirror. Before
+inserting any external mirror URL into reviewer-facing files, regenerate that
+mirror from the revised repository and check it in a signed-out browser for
+accessibility, current contents, and direct or indirect author identifiers.
+The older anonymous mirror is not a suitable reference for the revised package.
 
 ## 9. Release Integrity
 
-Release `v1.0.0` is the exact public snapshot cited by the paper. GitHub
-immutable releases prevent its tag and assets from being changed after
-publication and provide a signed release attestation. The attached
+Release `v1.0.0` is a historical public baseline, not the revised manuscript or
+current experiment outputs. GitHub's immutable release retains its original
+tag and assets and provides a signed release attestation. The attached
 `SHA256SUMS-v1.0.0.txt` records the manuscript and dataset-archive hashes.
 
 The release contains:
@@ -238,9 +256,10 @@ The release contains:
 - `SHA256SUMS-v1.0.0.txt`.
 
 GitHub supplies source-code ZIP and TAR archives directly from the tagged
-commit. No Zenodo record or DOI is claimed. If an archival DOI is assigned
-later, it must be added in a new, internally consistent version rather than
-retroactively asserted for `v1.0.0`.
+commit. For the revised work, record the current commit and verify the
+manifests generated from that checkout. No Zenodo record or DOI is claimed. If
+an archival DOI is assigned later, it must be added in a new, internally
+consistent version rather than retroactively asserted for `v1.0.0`.
 
 ## 10. Cleaning Local Build Files
 

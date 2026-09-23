@@ -1,5 +1,5 @@
 {
-  "captured_at_utc": "2026-08-20T15:32:06.875679+00:00",
+  "captured_at_utc": "2026-09-23T15:31:39.034430+00:00",
   "dependencies": {
     "langchain-core": "1.5.4",
     "langgraph": "1.2.11",
@@ -9,17 +9,17 @@
   "host_machine": "arm64",
   "logical_cpu_count": 11,
   "machine": "x86_64",
-  "platform": "macOS-26.5.2-x86_64-i386-64bit",
+  "platform": "macOS-27.0-x86_64-i386-64bit",
   "process_machine": "x86_64",
   "process_translated": true,
   "processor": "Apple M3 Pro",
   "python_implementation": "CPython",
   "python_version": "3.12.10",
   "random_seed": null,
-  "release": "25.5.0",
+  "release": "27.0.0",
   "repository_branch": "array-resubmission-2026-08",
-  "repository_commit": "f4653a379471905cae2697eb35eb99f1d8eb3507",
-  "repository_worktree_dirty": false,
+  "repository_commit": "ba63699f2f036477d63f98918c9ccbe84c79ab86",
+  "repository_worktree_dirty": true,
   "system": "Darwin",
   "timer": "time.perf_counter_ns",
   "timing_scope": "One check_trace call, including rule indexing; trace and rules deep copies are prepared before the timer starts."

@@ -24,7 +24,8 @@ output.
 
 ## Evaluation Snapshot
 
-The committed machine-readable outputs report four distinct evaluation groups:
+The machine-readable outputs in this revised checkout report four distinct
+evaluation groups:
 
 | Group | Evidence | Result |
 |---|---|---:|
@@ -88,12 +89,14 @@ For an Elsevier source-of-data form, the appropriate classification is
 
 ## Reproduce
 
-Python 3.12 is the reference interpreter. Reproduce the exact release with:
+Python 3.12 is the reference interpreter. To reproduce the revised manuscript,
+clone the current default branch and record its commit before running the
+pipeline:
 
 ```bash
-git clone --branch v1.0.0 --depth 1 \
-  https://github.com/cero1979/coalgebraic-agent-swarms.git
+git clone https://github.com/cero1979/coalgebraic-agent-swarms.git
 cd coalgebraic-agent-swarms
+git rev-parse HEAD
 python3.12 -m venv .venv
 . .venv/bin/activate
 python -m pip install -r requirements.txt
@@ -112,21 +115,35 @@ make all
 
 `make experiments` writes JSON/CSV results under `experiments/results/` and
 four LaTeX tables under `paper/generated/`. `make verify` checks both SHA-256
-manifests. `make paper` builds `main.pdf`. `make submission` builds the local
-flat Array package, and `make submission-check` additionally validates and
-compiles that package in isolation. See `REPRODUCIBILITY.md` for prerequisites,
-individual experiment targets, and interpretation limits.
+manifests. `make paper` builds the identified `main.pdf`.
+`make submission` builds an anonymous, flat Array package plus the separated
+Editorial Manager files under `output/submission/`, including an editable Word
+title page; `make submission-check` validates anonymity, dependency paths,
+checksums, and isolated compilation. See
+`REPRODUCIBILITY.md` for prerequisites, individual experiment targets, and
+interpretation limits.
 
 ## Versioned Release
 
-The authoritative submission artefact is the immutable GitHub release
-[`v1.0.0`](https://github.com/cero1979/coalgebraic-agent-swarms/releases/tag/v1.0.0).
-GitHub locks its tag and assets on publication and supplies a signed release
-attestation. The release includes the manuscript PDF, a separately licensed
-data archive, and a SHA-256 inventory; GitHub also supplies source ZIP and TAR
-archives for the tagged commit.
+The immutable GitHub release
+[`v1.0.0`](https://github.com/cero1979/coalgebraic-agent-swarms/releases/tag/v1.0.0)
+is a historical baseline, not the revised submission or its current E1-E4
+result files. Its PDF, data archive, SHA-256 inventory, and source archives
+remain available for comparison. Use the commit recorded from the current
+default branch, together with this checkout's manifests, to identify the
+revised source and results. E4 wall-clock measurements may change when rerun.
 
-No archival DOI has been assigned. The manuscript and metadata therefore cite
-the exact public release and data-asset URLs without inventing a DOI. A future
+Because the live submission portal requests a manuscript without author
+identifiers, the local upload builder produces a separate anonymous review copy
+and an anonymous supplementary archive. These review-only files do not replace
+or alter the identified public repository or its historical release. A new
+anonymous mirror must be generated from the revised state and verified without
+sign-in for both accessibility and author-identity leaks before its URL is
+used in reviewer-facing material; the earlier mirror is not a valid reference
+for this revision. The local anonymous supplement is available independently
+of a remote mirror.
+
+No archival DOI has been assigned. The historical release has no DOI, and the
+revised manuscript identifies its artifact without inventing one. A future
 Zenodo deposit would improve long-term FAIR discovery but is not represented as
 already existing.

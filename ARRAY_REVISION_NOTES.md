@@ -6,18 +6,21 @@ not itself a submission document.
 
 ## Working State
 
-- Release tag: `v1.0.0`
-- Release URL: <https://github.com/cero1979/coalgebraic-agent-swarms/releases/tag/v1.0.0>
+- Historical baseline release: `v1.0.0`
+- Baseline release URL: <https://github.com/cero1979/coalgebraic-agent-swarms/releases/tag/v1.0.0>
 - Article type: Regular Paper
 - Manuscript source: `main.tex`
 - Reproducibility entry point: `make all`
-- Public-release status: immutable GitHub release with signed attestation and
+- Baseline-release status: immutable GitHub release with signed attestation and
   checksummed assets; no archival DOI is claimed
 
 The editable manuscript was preserved on a dedicated branch before the
-revision began. Release `v1.0.0` is the authoritative software/data snapshot
-for the submission. GitHub release immutability prevents its tag and assets
-from being changed after publication.
+revision began. Release `v1.0.0` documents an earlier software/data/manuscript
+snapshot, not the exact source or generated results of this resubmission.
+The current revision is represented by the revised repository files, regenerated
+result manifests, and the submission bundle produced from them. GitHub release
+immutability prevents the historical tag and assets from being changed after
+publication; a new public revision must not be described as that old release.
 
 ## Scientific Audit and Decisions
 
@@ -109,7 +112,9 @@ The revision does not claim:
 - general shared-state compositionality;
 - validation beyond the three included LangGraph workflows;
 - production throughput or platform-independent timing; or
-- an archival DOI or Zenodo record for release `v1.0.0`.
+- an archival DOI or Zenodo record for release `v1.0.0`; or
+- identity-safe or snapshot-exact access through an anonymous mirror until that
+  mirror is rebuilt from the revised repository and checked without login.
 
 ## Reproducibility and Submission Gates
 
@@ -140,10 +145,14 @@ passes, and the flat package compiles in isolation.
 - [x] Visually inspect the final manuscript and cover-letter PDFs.
 - [ ] Complete Editorial Manager metadata and the declaration-of-interest form.
 - [ ] Review APC or institutional-agreement implications.
-- [x] Publish and tag the exact final repository commit as `v1.0.0`.
-- [x] Publish versioned manuscript/data assets and their SHA-256 inventory.
-- [x] Replace provisional repository citations with exact release/asset URLs.
-- [x] Run `make verify` and `make all` from a clean release-candidate checkout.
+- [x] Publish the earlier repository snapshot as `v1.0.0` with versioned
+      manuscript/data assets and their SHA-256 inventory.
+- [ ] Verify that the revised source and regenerated evidence have been pushed
+      to the public repository; do not identify them as `v1.0.0` assets.
+- [ ] Rebuild the anonymous mirror from the revised repository, inspect its
+      manuscript, bibliography, and README without login for author identifiers,
+      and verify that it matches the submitted revision before citing it.
+- [ ] Run `make verify` and `make all` again after the final source freeze.
 - [ ] Optionally archive a future version in Zenodo and add its DOI only after
       the identifier genuinely exists.
 
@@ -159,3 +168,6 @@ passes, and the flat package compiles in isolation.
 - 2026-08-20: published the reconciled repository as immutable release
   `v1.0.0`, attached the manuscript and separately licensed synthetic data,
   and retained the absence of an archival DOI as an explicit limitation.
+- 2026-09-23: distinguished that historical release from the substantially
+  revised manuscript, regenerated evidence, and pending anonymous mirror for
+  the current resubmission.

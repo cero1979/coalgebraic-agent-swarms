@@ -11,6 +11,7 @@ import shutil
 import subprocess
 import sys
 import tempfile
+import zipfile
 from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Iterable, Mapping, Sequence
@@ -18,6 +19,10 @@ from typing import Iterable, Mapping, Sequence
 
 REPOSITORY_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_BUNDLE = REPOSITORY_ROOT / "submission" / "array"
+UNSAFE_REVIEW_REPOSITORY_URLS = (
+    "https://anonymous.4open.science/r/coalgebraic-agent-swarms-0CD6/",
+    "https://anonymous.4open.science/r/coalgebraic-agent-swarms-D37C/",
+)
 REQUIRED_FILES = (
     "main.tex",
     "main.pdf",
@@ -27,6 +32,9 @@ REQUIRED_FILES = (
     "highlights.txt",
     "cover_letter.tex",
     "cover_letter.pdf",
+    "title_page.tex",
+    "title_page.docx",
+    "title_page.pdf",
     "README_SUBMISSION.md",
     "submission_checklist.md",
     "BUILD_MANIFEST.json",
@@ -61,6 +69,14 @@ INPUT_RE = re.compile(r"\\(?:input|include)\s*\{([^{}]+)\}")
 GRAPHIC_RE = re.compile(r"\\includegraphics(?:\s*\[[^]]*\])?\s*\{([^{}]+)\}")
 BIBLIOGRAPHY_RE = re.compile(r"\\bibliography\s*\{([^{}]+)\}")
 BIBSTYLE_RE = re.compile(r"\\bibliographystyle\s*\{([^{}]+)\}")
+AUTHOR_IDENTIFIER_PATTERNS = {
+    "author-name": re.compile(r"(?:Carlos\s+Ram|Ram(?:\\'|í|i)rez\s+Ovalle|C\.R\.\s+Ovalle)", re.IGNORECASE),
+    "author-surname": re.compile(r"\bOvalle\b", re.IGNORECASE),
+    "author-email": re.compile(r"carlosovalle|javerianacali\.edu\.co", re.IGNORECASE),
+    "author-orcid": re.compile(r"0000-0002-4254-5610", re.IGNORECASE),
+    "author-affiliation": re.compile(r"Pontificia\s+Universidad\s+Javeriana", re.IGNORECASE),
+    "author-repository": re.compile(r"cero1979", re.IGNORECASE),
+}
 
 
 @dataclass(frozen=True)
@@ -134,12 +150,56 @@ def validate_content(bundle: Path) -> list[ValidationIssue]:
     if not main_path.is_file():
         return [ValidationIssue("ERROR", "missing-main", f"missing {main_path}")]
     tex_paths = sorted(
-        path for path in bundle.glob("*.tex") if path.name != "cover_letter.tex"
+        path
+        for path in bundle.glob("*.tex")
+        if path.name not in {"cover_letter.tex", "title_page.tex"}
     )
     corpus = "\n".join(
         _without_comments(path.read_text(encoding="utf-8")) for path in tex_paths
     )
     main = _without_comments(main_path.read_text(encoding="utf-8"))
+
+    if not re.search(r"\\documentclass\[[^]]*\bdoubleblind\b[^]]*\]\{cas-sc\}", main):
+        issues.append(
+            ValidationIssue(
+                "ERROR",
+                "anonymous-class",
+                "main.tex must use the cas-sc doubleblind option for the anonymous upload",
+            )
+        )
+    anonymous_corpus = corpus
+    for bib_path in bundle.glob("*.bib"):
+        anonymous_corpus += "\n" + _without_comments(
+            bib_path.read_text(encoding="utf-8")
+        )
+    for code, pattern in AUTHOR_IDENTIFIER_PATTERNS.items():
+        if pattern.search(anonymous_corpus):
+            issues.append(
+                ValidationIssue(
+                    "ERROR",
+                    code,
+                    "anonymous manuscript sources contain an author identifier",
+                )
+            )
+    for command in ("ead", "affiliation", "cormark", "cortext"):
+        if re.search(rf"\\{command}\b", main):
+            issues.append(
+                ValidationIssue(
+                    "ERROR",
+                    "author-metadata-command",
+                    f"anonymous main.tex still contains \\{command}",
+                )
+            )
+
+    for unsafe_url in UNSAFE_REVIEW_REPOSITORY_URLS:
+        if unsafe_url in anonymous_corpus:
+            issues.append(
+                ValidationIssue(
+                    "ERROR",
+                    "unsafe-review-repository",
+                    f"anonymous manuscript sources cite an unavailable or identifying mirror: {unsafe_url}",
+                )
+            )
 
     abstract = _extract_environment(main, "abstract")
     if abstract is None:
@@ -277,6 +337,26 @@ def validate_bundle_layout(bundle: Path) -> list[ValidationIssue]:
             issues.append(ValidationIssue("ERROR", "bundle-symlink", f"submission contains a symlink: {path.name}"))
         if path.is_file() and any(path.name.endswith(suffix) for suffix in PROHIBITED_SUFFIXES):
             issues.append(ValidationIssue("ERROR", "build-artifact", f"temporary build file is present: {path.name}"))
+    title_docx = bundle / "title_page.docx"
+    if title_docx.is_file():
+        try:
+            with zipfile.ZipFile(title_docx) as archive:
+                parts = set(archive.namelist())
+                bad_member = archive.testzip()
+        except (OSError, zipfile.BadZipFile) as error:
+            issues.append(
+                ValidationIssue("ERROR", "title-page-docx", f"invalid title-page DOCX: {error}")
+            )
+        else:
+            required_parts = {"[Content_Types].xml", "word/document.xml"}
+            if bad_member is not None or not required_parts.issubset(parts):
+                issues.append(
+                    ValidationIssue(
+                        "ERROR",
+                        "title-page-docx",
+                        "title-page DOCX is corrupt or missing required OOXML parts",
+                    )
+                )
     manifest_path = bundle / "BUILD_MANIFEST.json"
     if manifest_path.is_file():
         try:
@@ -322,7 +402,7 @@ def compile_in_isolation(bundle: Path, latexmk: str = "latexmk") -> list[Validat
         for source in bundle.iterdir():
             if source.is_file():
                 shutil.copy2(source, isolated / source.name)
-        for tex_name in ("main.tex", "cover_letter.tex"):
+        for tex_name in ("main.tex", "cover_letter.tex", "title_page.tex"):
             if not (isolated / tex_name).is_file():
                 continue
             try:

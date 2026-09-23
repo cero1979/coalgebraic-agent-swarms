@@ -34,6 +34,8 @@ submission/array/BUILD_MANIFEST.json
 submission/array/*.pdf
 submission/array/main.abs
 submission/array/main.tex
+submission/array/title_page.tex
+submission/array/title_page.docx
 submission/array/highlights.txt
 submission/array/cas-common.sty
 submission/array/cas-sc.cls
@@ -53,3 +55,7 @@ submission/array/paper__*.tex
 # Private cover letter (keep local; the public repo is cited in the paper)
 cover_letter_jlamp_resubmission.tex
 cover_letter_jlamp_resubmission.pdf
+
+# Identified editable title page (local Editorial Manager upload only)
+/title_page.tex
+/title_page.docx

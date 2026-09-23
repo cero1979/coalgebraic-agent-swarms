@@ -10,36 +10,62 @@ make submission-check
 ```
 
 The builder follows the dependency graph of `main.tex`, rewrites nested paths,
-copies every required source into this one-level directory, compiles the
-manuscript and cover letter, removes auxiliary build files, and records file
+copies every required source into this one-level directory, removes direct and
+indirect author identifiers from the review manuscript, compiles the manuscript,
+title page, and cover letter, removes auxiliary build files, and records file
 sizes and SHA-256 values in `BUILD_MANIFEST.json`. `make submission-check`
-compiles both TeX documents again in an isolated temporary directory and checks
-the manuscript, references, highlights, declarations, layout, and manifest.
+compiles all three TeX documents again in an isolated temporary directory and
+checks the manuscript, references, highlights, declarations, anonymity, layout,
+and manifest.
 
-The builder preserves the author-maintained versions of this file,
-`cover_letter.tex`, and `submission_checklist.md`. Generated files in this
-directory must not be edited manually because the next build will replace them.
+The builder also creates the exact portal-ready files under
+`output/submission/`. Generated files in either location must not be edited
+manually because the next build will replace them.
 
 ## Suggested portal classifications
 
-| Bundle file or pattern | Suggested classification | Upload note |
+| Portal-ready file | Suggested classification | Upload note |
 |---|---|---|
-| `main.tex` | LaTeX manuscript source | Primary editable manuscript file. |
-| `main.pdf` | Manuscript | Use as the review PDF when the portal requests one. |
-| `references.bib` | Bibliography | Required by `main.tex`. |
-| `cas-sc.cls`, `cas-common.sty`, `unsrtnat.bst` | LaTeX support files | Upload as additional LaTeX source/style files. |
-| `paper__figures__*.tex` | Figure source / additional LaTeX source | TikZ figures flattened by the builder; required for compilation. |
-| `paper__generated__*.tex` | Table source / additional LaTeX source | Reproducibly generated experimental tables; required for compilation. |
-| `highlights.txt` | Highlights | Upload separately in the journal's Highlights category. |
-| `cover_letter.pdf` | Cover letter | Preferred cover-letter upload. |
-| `cover_letter.tex` | Cover-letter source | Retain locally; upload only if editable cover-letter source is requested. |
-| `BUILD_MANIFEST.json` | Local integrity manifest | Do not upload unless the editor or portal requests artifact metadata. |
-| `README_SUBMISSION.md`, `submission_checklist.md` | Local administrative files | Do not upload unless specifically requested. |
+| `array-manuscript-source.zip` | Manuscript / LaTeX source files | Flat editable source archive; use when PDF is not supported. |
+| `array-manuscript-anonymous.pdf` | Manuscript | Review preview; upload only when the portal accepts PDF at the current stage. |
+| `array-title-page.docx` | Title page | Preferred identified editable Word file; upload separately from the manuscript source. |
+| `array-title-page.tex` | Title page / LaTeX source | Editable LaTeX alternative if the portal accepts it for this item. |
+| `array-title-page.pdf` | Title page preview | Visual check only; the live portal says not to use PDF for this item. |
+| `array-cover-letter.pdf` | Cover letter | Identified confidential cover letter. |
+| `array-highlights.txt` | Highlights | Upload separately in the journal's Highlights category. |
 
-The exact flattened figure and table filenames are determined from the current
-dependency graph. Treat every `.tex`, `.bib`, `.cls`, and `.bst` file referenced
-by `main.tex` as part of the compilable source set even when the portal displays
-it as an auxiliary file.
+The manuscript ZIP contains every `.tex`, `.bib`, `.cls`, `.sty`, and `.bst`
+dependency at its root. Its `main.tex` contains no active dependency reference
+with `/`, `\\`, an absolute path, or a subdirectory. Do not upload the complete
+`submission/array/` staging directory as a single manuscript item because it
+also contains the identified title page and cover letter.
+
+Array's published guide describes single-anonymized review, while the live
+Editorial Manager help shown for this submission requests a manuscript without
+author identifiers. The generated review manuscript follows the stricter live
+portal instruction; the title page preserves the complete author metadata in a
+separate file.
+
+The review manuscript cites the version-matched
+`array-anonymous-supplement.zip`, which must be uploaded separately as
+supplementary software/data. No external anonymous mirror is cited at present.
+The earlier `0CD6` mirror returned HTTP 401 on 23 September 2026. A second
+mirror (`D37C`) displayed the author's name and public GitHub URL inside files.
+Before adding a replacement URL, verify signed-out access, inspect the entire
+mirrored tree for author identifiers, and confirm that its source and results
+match this revision. A newly generated URL alone does not anonymise file
+contents.
+
+The point-by-point reviewer response is compiled separately from
+`response_to_reviewers.tex` at the repository root. Upload
+`response_to_reviewers.pdf` as a response/rebuttal item if Editorial Manager
+provides that classification; it is not part of the anonymous manuscript
+source ZIP.
+
+The generative-AI declaration remains in the anonymous manuscript because the
+current Elsevier policy requires disclosure of substantive assistance with
+software, testing, literature organisation, and structural editing. The cover
+letter does not duplicate that declaration.
 
 ## Source-of-data response
 
@@ -66,6 +92,7 @@ workflows. Checker acceptance certifies the stated structural obligations; it
 does not establish factual truth, cryptographic authenticity, adversarial
 security, full SELL proof search, or a mechanised proof.
 
-The local submission builder performs no remote write. The separately executed
-publication workflow produced immutable GitHub release `v1.0.0`; a future
-release or archival deposit remains an explicit author-controlled action.
+The local submission builder performs no remote write. The immutable GitHub
+release `v1.0.0` is an earlier baseline, not the version-matched revised
+supplement. A future release or archival deposit remains an explicit
+author-controlled action.
