@@ -100,16 +100,6 @@ git rev-parse HEAD
 python3.12 -m venv .venv
 . .venv/bin/activate
 python -m pip install -r requirements.txt
-make test
-make experiments
-make verify
-make paper
-make submission
-```
-
-The complete pipeline is:
-
-```bash
 make all
 ```
 
@@ -118,8 +108,10 @@ four LaTeX tables under `paper/generated/`. `make verify` checks both SHA-256
 manifests. `make paper` builds the identified `main.pdf`.
 `make submission` builds an anonymous, flat Array package plus the separated
 Editorial Manager files under `output/submission/`, including an editable Word
-title page; `make submission-check` validates anonymity, dependency paths,
-checksums, and isolated compilation. See
+title page supplied locally by the author; `make submission-check` validates
+anonymity, dependency paths, checksums, and isolated compilation. These
+editorial targets require the local identified title page and cover letter and
+are not part of `make all` on a public clone. See
 `REPRODUCIBILITY.md` for prerequisites, individual experiment targets, and
 interpretation limits.
 

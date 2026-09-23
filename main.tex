@@ -2087,7 +2087,7 @@ are used. Literature-related strings inside fixtures are test values, not
 observations extracted from a published corpus. The software and dataset are
 cited separately~\cite{artifact2026,artifactdata2026}.
 
-With Python 3.12 and the pinned dependencies, the complete local pipeline is:
+With Python 3.12 and the pinned dependencies, the public research pipeline is:
 \begin{verbatim}
 python3.12 -m venv .venv
 . .venv/bin/activate
@@ -2095,9 +2095,12 @@ python -m pip install -r requirements.txt
 make all
 \end{verbatim}
 The target runs 57 unit tests, regenerates both result sets, verifies their
-SHA-256 manifests, compiles the paper, creates a flat Elsevier source bundle,
-and compiles that bundle in isolation. No model endpoint, network service, or
-commercial API is used. E1--E3 are deterministic. E4 records new timing
+SHA-256 manifests, and compiles the paper. The separate
+\texttt{make submission-check} target builds and compiles the flat Elsevier
+source bundle using locally supplied editorial files, including the identified
+title page; these are not needed to reproduce the research evidence. No model
+endpoint, network service, or commercial API is used by the tests or
+experiments. E1--E3 are deterministic. E4 records new timing
 observations on each machine; the supplied JSON and CSV files retain all seven
 measurements per size, their quartiles, the timing scope, and the execution
 environment.

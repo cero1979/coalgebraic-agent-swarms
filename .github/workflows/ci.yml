@@ -43,7 +43,7 @@ jobs:
       - name: Verify committed evidence snapshot
         run: make verify
 
-      - name: Run complete reproducibility and submission pipeline
+      - name: Run public reproducibility pipeline
         run: make all
 
       - name: Upload validation artifacts
@@ -58,4 +58,3 @@ jobs:
             main.log
             prototype/results/
             experiments/results/
-            submission/array/

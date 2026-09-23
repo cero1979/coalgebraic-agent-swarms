@@ -172,8 +172,9 @@ It does not replace the author's scientific or publishing approval.
 
 ## Package and portal approval
 
-- **PASS** - `make all` invoked `make submission-check`; the objective validator
-  reported that the package is flat, complete, and independently compilable.
+- **PASS** - The separate local `make submission-check` target invoked the
+  objective validator, which reported that the package is flat, complete, and
+  independently compilable; public `make all` does not need identified files.
 - **PASS** - `BUILD_MANIFEST.json` matches every recorded flat-bundle file; no
   nested directory or prohibited auxiliary file is present.
 - **PASS** - The revised 35-page anonymous manuscript compiled and representative

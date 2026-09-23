@@ -48,13 +48,13 @@ verify: ## Verify the legacy and E1-E4 SHA-256 manifests.
 paper: ## Compile main.pdf from the editable manuscript source.
 	$(LATEXMK) -pdf -interaction=nonstopmode -halt-on-error main.tex
 
-submission: experiments paper ## Regenerate evidence and build the flat, independently compilable Array package.
+submission: verify paper ## Build the flat Array package from verified evidence and local editorial files.
 	$(PYTHON) scripts/build_submission.py --output $(SUBMISSION_DIR)
 
 submission-check: submission ## Validate objective Array constraints and isolated compilation.
 	$(PYTHON) scripts/validate_submission.py --bundle $(SUBMISSION_DIR)
 
-all: test experiments prototype-results verify paper submission-check ## Run the deterministic end-to-end pipeline.
+all: test experiments prototype-results verify paper ## Run the public deterministic research pipeline.
 
 clean: ## Remove local build caches and LaTeX auxiliary files; retain results and PDFs.
 	-$(LATEXMK) -c main.tex

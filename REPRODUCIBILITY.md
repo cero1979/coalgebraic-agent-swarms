@@ -1,8 +1,9 @@
 # Reproducibility Guide
 
-This guide reproduces the software tests, four evaluation groups, manuscript,
-and flat *Array* submission package from a clean checkout of the revised
-default branch. Record the checked-out commit: the older immutable public
+This guide reproduces the software tests, four evaluation groups, and manuscript
+from a clean checkout of the revised default branch. The separate flat
+*Array* submission package also requires identified editorial files kept
+locally by the author. Record the checked-out commit: the older immutable public
 release `v1.0.0` is a historical baseline, not the source of this revision's
 tables and timing data.
 
@@ -37,16 +38,15 @@ timings are platform-dependent.
 
 ## 2. End-to-End Reproduction
 
-Run the complete pipeline from the repository root:
+Run the complete public research pipeline from the repository root:
 
 ```bash
 make all
 ```
 
 This runs the test suites, regenerates the original prototype outputs,
-regenerates E1-E4 and their manuscript tables, verifies both manifests,
-compiles the manuscript, builds the flat package, validates it, and compiles
-the package in isolation.
+regenerates E1-E4 and their manuscript tables, verifies both manifests, and
+compiles the manuscript. It does not require identified author files.
 
 The same stages can be run explicitly:
 
@@ -55,6 +55,12 @@ make test
 make experiments
 make verify
 make paper
+```
+
+The two editorial targets below are run separately on the author's local
+checkout after supplying the identified title-page and cover-letter files:
+
+```bash
 make submission
 make submission-check
 ```
@@ -220,6 +226,9 @@ Run the objective checks and an isolated compilation with:
 make submission-check
 ```
 
+These editorial targets require local `title_page.tex` and `title_page.docx`
+files, plus the identified `submission/array/cover_letter.tex`. They are not
+required by the public `make all` target or the continuous-integration check.
 The generated `submission/array/` directory is a local staging artefact. The
 portal-ready files are under `output/submission/`: a flat anonymous LaTeX source
 ZIP, anonymous manuscript preview, separate identified editable Word title
