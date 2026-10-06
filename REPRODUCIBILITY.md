@@ -1,11 +1,13 @@
 # Reproducibility Guide
 
-This guide reproduces the software tests, four evaluation groups, and manuscript
-from a clean checkout of the revised default branch. The separate flat
-*Array* submission package also requires identified editorial files kept
-locally by the author. Record the checked-out commit: the older immutable public
-release `v1.0.0` is a historical baseline, not the source of this revision's
-tables and timing data.
+The article has been accepted in *Array* and is awaiting production
+instructions. This guide reproduces its research artefact from a clean checkout
+of the pinned snapshot `2296430bbcc24505f7407d61858c75ec0f1c31f8`.
+The repository manuscript is the research source, not a publisher proof or the
+version of record. The separate flat review-stage package also requires
+identified editorial files kept locally by the author. The older immutable
+public release `v1.0.0` is a historical Array baseline, not the source of the
+accepted revision's tables and timing data.
 
 ## 1. Prerequisites
 
@@ -15,12 +17,13 @@ tables and timing data.
   for the paper and flat submission package;
 - sufficient local disk space for the pinned Python environment.
 
-Clone the revised default branch, record its commit, create the reference
+Clone the repository, select the research snapshot, create the reference
 environment, and install the pinned dependencies:
 
 ```bash
 git clone https://github.com/cero1979/coalgebraic-agent-swarms.git
 cd coalgebraic-agent-swarms
+git checkout --detach 2296430bbcc24505f7407d61858c75ec0f1c31f8
 git rev-parse HEAD
 python3.12 -m venv .venv
 . .venv/bin/activate
@@ -57,8 +60,8 @@ make verify
 make paper
 ```
 
-The two editorial targets below are run separately on the author's local
-checkout after supplying the identified title-page and cover-letter files and
+The two historical review-stage editorial targets below run separately on the
+author's local checkout after supplying the identified title-page and cover-letter files and
 an ignored `.anonymous-review-url` file containing the verified anonymous
 review URL on one line:
 
@@ -207,7 +210,12 @@ make experiments
 make verify
 ```
 
-## 8. Paper and Submission Package
+## 8. Paper and Historical Review Package
+
+The anonymous package below belongs to the completed Array review workflow.
+It is not the post-acceptance production package. Follow the publisher's
+production instructions when they arrive; the identified production files
+remain local and are not distributed by these targets.
 
 Compile the editable manuscript:
 
@@ -272,8 +280,9 @@ The release contains:
 - `SHA256SUMS-v1.0.0.txt`.
 
 GitHub supplies source-code ZIP and TAR archives directly from the tagged
-commit. For the revised work, record the current commit and verify the
-manifests generated from that checkout. No Zenodo record or DOI is claimed. If
+commit. For the accepted revision, use the pinned research snapshot identified
+above and verify its committed manifests before regenerating results.
+No Zenodo record or DOI is claimed. If
 an archival DOI is assigned later, it must be added in a new, internally
 consistent version rather than retroactively asserted for `v1.0.0`.
 

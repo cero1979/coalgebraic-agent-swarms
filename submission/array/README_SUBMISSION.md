@@ -1,5 +1,11 @@
 # Array submission bundle
 
+**Historical review-stage workflow.** The article has been accepted in Array.
+These instructions describe the anonymous package used during review, not the
+post-acceptance production package. Identified production files remain local
+until the publisher requests them. The retained cover letter and checklist
+belong to the completed Array review process.
+
 This directory is the local staging bundle for a **Regular Paper** submission
 to **Array**. Run the repository builder rather than assembling the LaTeX upload
 by hand:

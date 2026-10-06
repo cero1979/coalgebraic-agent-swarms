@@ -3,10 +3,31 @@
 **Repository:** <https://github.com/cero1979/coalgebraic-agent-swarms>
 
 This repository contains the editable manuscript and reproducibility artefact
-for the Regular Paper prepared for *Array*:
+for the Regular Paper accepted in *Array*:
 
 > **Resource-Sensitive Certification of Tool-Augmented Agent Swarms: Coalgebraic
 > Semantics and LangGraph Validation**
+
+## Publication Status
+
+**Accepted in Array.** Publisher production instructions and the final article
+DOI are pending. This repository is the research artefact, not the publisher's
+version of record. The identified production package is being prepared locally
+and has not been published here.
+
+The version-matched research snapshot is
+[`2296430bbcc24505f7407d61858c75ec0f1c31f8`](https://github.com/cero1979/coalgebraic-agent-swarms/tree/2296430bbcc24505f7407d61858c75ec0f1c31f8).
+It preserves the code, original synthetic data, generated tables, and integrity
+manifests accompanying the accepted revision. Later documentation-only commits
+do not regenerate those measurements. Use this snapshot when referring to the
+accepted revision's research evidence.
+
+The current branch contains only Array-oriented manuscript and editorial
+material. Files and tools under `submission/array/` document the completed
+review workflow; they are retained for reproducibility, not as instructions
+to make another submission. Earlier commits remain historical records.
+
+## Research Scope
 
 The artefact separates a framework execution trace from a resource-certified
 trace. A deterministic coalgebra describes observable event/state evolution;
@@ -80,7 +101,7 @@ For an Elsevier source-of-data form, the appropriate classification is
 |-- HIGHLIGHTS.md                     # Separate editable submission highlights
 |-- CLAIM_EVIDENCE_MATRIX.md          # Claims, evidence, and limitations
 |-- REPRODUCIBILITY.md                # End-to-end instructions
-|-- ARRAY_REVISION_NOTES.md           # Revision audit and remaining gates
+|-- ARRAY_REVISION_NOTES.md           # Array revision history and production status
 |-- CITATION.cff                      # Citation metadata
 |-- DATA_LICENSE.md                   # CC BY 4.0 scope for synthetic data
 |-- LICENSE                           # Software licence
@@ -89,13 +110,14 @@ For an Elsevier source-of-data form, the appropriate classification is
 
 ## Reproduce
 
-Python 3.12 is the reference interpreter. To reproduce the revised manuscript,
-clone the current default branch and record its commit before running the
-pipeline:
+Python 3.12 is the reference interpreter. To reproduce the accepted revision's
+research snapshot, check out the pinned commit and record it before running
+the pipeline:
 
 ```bash
 git clone https://github.com/cero1979/coalgebraic-agent-swarms.git
 cd coalgebraic-agent-swarms
+git checkout --detach 2296430bbcc24505f7407d61858c75ec0f1c31f8
 git rev-parse HEAD
 python3.12 -m venv .venv
 . .venv/bin/activate
@@ -106,8 +128,9 @@ make all
 `make experiments` writes JSON/CSV results under `experiments/results/` and
 four LaTeX tables under `paper/generated/`. `make verify` checks both SHA-256
 manifests. `make paper` builds the identified `main.pdf`.
-`make submission` builds an anonymous, flat Array package plus the separated
-Editorial Manager files under `output/submission/`, including an editable Word
+The retained review-stage target `make submission` builds an anonymous, flat
+Array package plus the separated Editorial Manager files under
+`output/submission/`, including an editable Word
 title page supplied locally by the author; `make submission-check` validates
 anonymity, dependency paths, checksums, and isolated compilation. These
 editorial targets require the local identified title page and cover letter,
@@ -116,19 +139,19 @@ mirror URL. They are not part of `make all` on a public clone. See
 `REPRODUCIBILITY.md` for prerequisites, individual experiment targets, and
 interpretation limits.
 
-## Versioned Release
+## Historical Array Release
 
 The immutable GitHub release
 [`v1.0.0`](https://github.com/cero1979/coalgebraic-agent-swarms/releases/tag/v1.0.0)
 is a historical baseline, not the revised submission or its current E1-E4
 result files. Its PDF, data archive, SHA-256 inventory, and source archives
-remain available for comparison. Use the commit recorded from the current
-default branch, together with this checkout's manifests, to identify the
-revised source and results. E4 wall-clock measurements may change when rerun.
+remain available for comparison. Use the pinned research snapshot above,
+together with its manifests, for the accepted revision's source and results.
+E4 wall-clock measurements may change when rerun.
 
-Because the live submission portal requests a manuscript without author
-identifiers, the local upload builder produces a separate anonymous review copy
-and an anonymous supplementary archive. These review-only files do not replace
+During peer review, the submission portal requested a manuscript without author
+identifiers. The retained local upload builder produces a separate anonymous
+review copy and an anonymous supplementary archive. These review-only files do not replace
 or alter the identified public repository or its historical release. The
 author-side builder requires a locally configured, pinned anonymous mirror
 URL; a public clone can reproduce the research pipeline with `make all`, but
@@ -141,6 +164,6 @@ version-match audit. Removing direct identifiers cannot guarantee
 unlinkability from older public versions of related work.
 
 No archival DOI has been assigned. The historical release has no DOI, and the
-revised manuscript identifies its artifact without inventing one. A future
+accepted revision identifies its artefact without inventing one. A future
 Zenodo deposit would improve long-term FAIR discovery but is not represented as
 already existing.
