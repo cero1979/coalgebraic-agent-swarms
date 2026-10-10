@@ -1,8 +1,21 @@
 # Array Revision Notes
 
-This internal log records the scientific audit, revision decisions, completed
-evidence, and remaining submission gates for the *Array* Regular Paper. It is
-not itself a submission document.
+This log records the scientific audit, revision decisions, and completed
+evidence for the Regular Paper accepted in *Array*. It is not itself a
+submission document or a publisher proof.
+
+## Post-Acceptance Status
+
+As of 6 October 2026, the author has confirmed acceptance in Array. Production
+instructions and the article DOI are pending. No acceptance date, publication
+date, volume, issue, or DOI is inferred from that report.
+
+The version-matched public research snapshot is
+`2296430bbcc24505f7407d61858c75ec0f1c31f8`. Its results and measurement-source
+metadata are preserved. Identified production files are prepared locally and
+have not been uploaded to the repository or sent to the publisher. The
+anonymous review snapshot and the Array review records remain historical
+materials, not the production package.
 
 ## Working State
 
@@ -16,7 +29,7 @@ not itself a submission document.
 
 The editable manuscript was preserved on a dedicated branch before the
 revision began. Release `v1.0.0` documents an earlier software/data/manuscript
-snapshot, not the exact source or generated results of this resubmission.
+snapshot, not the exact source or generated results of the accepted revision.
 The current revision is represented by the revised repository files, regenerated
 result manifests, and the submission bundle produced from them. GitHub release
 immutability prevents the historical tag and assets from being changed after
@@ -116,7 +129,7 @@ The revision does not claim:
 - a guarantee that a sanitised review snapshot is unlinkable from older
   public versions of related work.
 
-## Reproducibility and Submission Gates
+## Historical Reproducibility and Submission Gates
 
 Automated gates are exposed through:
 
@@ -133,31 +146,24 @@ make submission-check
 make all
 ```
 
-The final frozen-state run must confirm that tests pass, both manifests verify,
+The review-stage frozen-state checks confirm that tests pass, both manifests
+verify,
 the manuscript has no unresolved citations/references, the Array validator
 passes, and the flat package compiles in isolation.
 
-## Remaining Manual Actions
+## Production Follow-Up
 
-- [ ] Perform the author's final scientific and line-by-line manuscript review.
-- [ ] Confirm author identity, affiliation, correspondence, CRediT, funding,
-      competing-interest, data/software, and generative-AI declarations.
-- [x] Visually inspect the final manuscript and cover-letter PDFs.
-- [ ] Complete Editorial Manager metadata and the declaration-of-interest form.
-- [ ] Review APC or institutional-agreement implications.
-- [x] Publish the earlier repository snapshot as `v1.0.0` with versioned
-      manuscript/data assets and their SHA-256 inventory.
-- [x] Push the revised research source and regenerated evidence to the public
-      repository; do not identify them as `v1.0.0` assets.
-- [x] Build and audit a pinned, sanitised review snapshot without identity,
-      editorial, or repository-history files. Keep its URL out of the
-      identified public repository.
-- [ ] Before changing the pinned snapshot or reviewer-facing URL, repeat the
-      signed-out accessibility, direct/indirect identity, integrity, and
-      version-match audit.
-- [ ] Run `make verify` and `make all` again after the final source freeze.
-- [ ] Optionally archive a future version in Zenodo and add its DOI only after
-      the identifier genuinely exists.
+- Wait for the publisher's production instructions before delivering files.
+- Confirm author identity, affiliation, correspondence, ORCID, CRediT,
+  funding and all required declarations in the requested production materials.
+- Preserve the accepted scientific content and the original timing data;
+  validate the supplied manifests without overwriting them with a new run.
+- Review publisher proofs and any publishing agreement when supplied.
+- Add publication metadata only when the publisher supplies it. An optional
+  future archival deposit must use a real, assigned identifier.
+
+The completed Array review tools, cover letter and checklist are retained as
+historical records. They do not indicate that another resubmission is pending.
 
 ## Change Log
 
@@ -174,3 +180,7 @@ passes, and the flat package compiles in isolation.
 - 2026-09-23: distinguished that historical release from the substantially
   revised manuscript and regenerated evidence for the current resubmission;
   subsequently prepared a pinned, sanitised review snapshot.
+- 2026-10-06: recorded the author's report of acceptance in Array, identified
+  the exact research snapshot, and separated completed review-stage guidance
+  from the pending publisher production workflow. Research results were not
+  regenerated for this documentation update.

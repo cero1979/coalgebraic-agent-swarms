@@ -1,16 +1,15 @@
 cff-version: 1.2.0
-message: "If you use this software or its generated traces, please cite the versioned release."
+message: "If you use this software or its generated traces, cite the pinned research snapshot accompanying the article accepted in Array. Article DOI pending."
 title: "Coalgebraic Agent Swarms: Certification Checker and Validation Artifact"
 type: software
-version: "1.0.0"
-date-released: "2026-08-20"
+commit: "2296430bbcc24505f7407d61858c75ec0f1c31f8"
 authors:
   - family-names: "Ramirez Ovalle"
     given-names: "Carlos"
     orcid: "https://orcid.org/0000-0002-4254-5610"
     affiliation: "Pontificia Universidad Javeriana Cali"
 repository-code: "https://github.com/cero1979/coalgebraic-agent-swarms"
-url: "https://github.com/cero1979/coalgebraic-agent-swarms/releases/tag/v1.0.0"
+url: "https://github.com/cero1979/coalgebraic-agent-swarms/tree/2296430bbcc24505f7407d61858c75ec0f1c31f8"
 license: MIT
 keywords:
   - coalgebra
